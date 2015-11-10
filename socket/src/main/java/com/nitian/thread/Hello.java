@@ -4,10 +4,18 @@ public class Hello extends Thread {
 
 	public volatile static int duck = 100;
 
-	public  void show() {
+	public synchronized void show() {
 		duck = duck - 1;
 		System.out.println(duck);
-//		this.s
+		if (duck == 80 || duck == 70) {
+			try {
+				this.wait();
+				System.out.println("i am sorry");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				System.out.println("this is wait");
+			}
+		}
 	}
 
 	@Override
@@ -18,9 +26,24 @@ public class Hello extends Thread {
 		}
 	}
 
+	public synchronized void toNotify() {
+		this.notify();
+	}
+
 	public static void main(String[] args) {
-		new Hello().start();
-		new Hello().start();
-		new Hello().start();
+		Hello hello = new Hello();
+		hello.start();
+		try {
+			sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hello.toNotify();
+		hello.toNotify();
+		hello.toNotify();
+		System.out.println("end");
+		// new Hello().start();
+		// new Hello().start();
 	}
 }

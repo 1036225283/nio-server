@@ -3,7 +3,7 @@ package com.nitian.thread;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.nitian.tcp.TcpClient;
+import com.nitian.tcp.TcpRead;
 
 public class Test {
 

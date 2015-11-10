@@ -8,7 +8,10 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class TcpSocketClient extends Thread {
+import com.nitian.tcp.TcpRead;
+import com.nitian.tcp.TcpWrite;
+
+public class TcpSocketClient {
 	private int port;
 	private Socket socket;
 	private InetAddress ip;
@@ -21,38 +24,15 @@ public class TcpSocketClient extends Thread {
 			ip = InetAddress.getByName("127.0.0.1");
 			port = 1234;
 			socket = new Socket(ip, port);
+			TcpRead read = new TcpRead(socket);
+			read.start();
+			TcpWrite tcpWrite = new TcpWrite(socket);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		try {
-			BufferedReader bufferedReader = new BufferedReader(
-					new InputStreamReader(socket.getInputStream()));
-			BufferedWriter bufferedWriter = new BufferedWriter(
-					new OutputStreamWriter(socket.getOutputStream()));
-			while (true) {
-				sleep(10000);
-				bufferedWriter.write("客户端"+name);
-				bufferedWriter.newLine();
-				bufferedWriter.flush();
-				String result = bufferedReader.readLine();
-				System.out.println("客户端的值" + result);
-			}
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	
+	// public void
 
 }
