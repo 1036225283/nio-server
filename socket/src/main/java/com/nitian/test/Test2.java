@@ -1,6 +1,5 @@
 package com.nitian.test;
 
-import com.nitian.client.TcpSocketClient;
 
 public class Test2 {
 
