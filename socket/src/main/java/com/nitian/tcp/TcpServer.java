@@ -32,8 +32,9 @@ public class TcpServer {
 				Socket socket = serverSocket.accept();
 				TcpRead tcpRead = new TcpRead(socket);
 				tcpRead.start();
-				TcpWrite tcpWrite = new TcpWrite(socket);
-//				tcpWrite.push("ddd");
+				// TcpWrite tcpWrite = new TcpWrite(socket);
+				// tcpWrite.push("ddd");
+				System.out.println("server is start");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -44,7 +45,6 @@ public class TcpServer {
 
 	public static void main(String[] args) {
 		new TcpServer();
-
 	}
 
 }

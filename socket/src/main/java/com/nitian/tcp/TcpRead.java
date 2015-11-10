@@ -12,6 +12,8 @@ public class TcpRead extends Thread {
 
 	private SocketUser socketUser;
 
+	public static int index = 0;
+
 	public TcpRead(SocketUser socketUser) {
 		this.setSocketUser(socketUser);
 	}
@@ -29,10 +31,14 @@ public class TcpRead extends Thread {
 			BufferedInputStream bufferedInputStream = new BufferedInputStream(
 					socket.getInputStream());
 			while (true) {
-				byte[] bs = new byte[1024 * 8];
-				bufferedInputStream.read(bs);
-				System.out.println("二进制：" + UtilStringHex.bytesHexStr(bs));
-				System.out.println("字符串：" + new String(bs));
+				System.out.println("index:" + index++);
+				int size = bufferedInputStream.available();
+				if (size != 0) {
+					byte[] bs = new byte[size];
+					bufferedInputStream.read(bs);
+					System.out.println("二进制：" + UtilStringHex.bytesHexStr(bs));
+					System.out.println("字符串：" + new String(bs));
+				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

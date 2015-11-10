@@ -41,6 +41,7 @@ public class TcpWrite extends Thread {
 					byte[] bs = list.get(0).getBytes();
 					bufferedOutputStream.write(bs);
 					bufferedOutputStream.flush();
+					// bufferedOutputStream.c
 				}
 			}
 		} catch (IOException e) {
