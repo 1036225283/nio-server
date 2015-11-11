@@ -3,8 +3,12 @@ package com.nitian.tcp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.util.Map;
 
+import com.nitian.util.http.UtilHttp;
 import com.nitian.util.java.UtilByte;
+import com.nitian.util.json.JsonStringToObject;
+import com.nitian.util.json.UtilJson;
 
 public class TcpRead extends Thread {
 
@@ -14,15 +18,7 @@ public class TcpRead extends Thread {
 
 	private byte[] bs = new byte[1024 * 8 + 4];
 
-	public TcpRead(SocketUser socketUser) {
-		this.setSocketUser(socketUser);
-	}
-
-	public TcpRead(Socket socket) {
-		// TODO Auto-generated constructor stub
-		this.socket = socket;
-	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -33,7 +29,28 @@ public class TcpRead extends Thread {
 				inputStream.read(length, 0, 4);
 				int size = UtilByte.bytesToInt(length);
 				inputStream.read(bs, 0, size);
-				System.out.println("字符串：" + new String(bs, 0, size));
+				String value = new String(bs, 0, size);
+				Map<String, Object> map = (Map<String, Object>) UtilJson
+						.stringToObject(value, Map.class);
+				if (socketUser.isAuthState()) {
+
+				} else {
+					String param = "username=" + map.get("username")
+							+ "&password=" + map.get("password");
+					String result = UtilHttp.noSessionPost(
+							"http://localhost:8080/franchisee-web/member/test",
+							param);
+					JsonStringToObject jsonStringToObject = new JsonStringToObject();
+					jsonStringToObject.goString(result);
+					String aa = jsonStringToObject.get("root.result");
+					if (aa.equals("true")) {
+						socketUser.setAuthState(true);
+					} else {
+
+					}
+					socketUser.setAuthTimes(socketUser.getAuthTimes() + 1);
+				}
+
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

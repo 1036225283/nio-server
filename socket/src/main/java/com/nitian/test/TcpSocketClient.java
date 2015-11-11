@@ -7,7 +7,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.nitian.tcp.TcpWrite;
-import com.nitian.util.random.UtilRandom;
 
 public class TcpSocketClient {
 	private int port;
@@ -22,7 +21,8 @@ public class TcpSocketClient {
 			socket = new Socket(ip, port);
 			// TcpRead read = new TcpRead(socket);
 			// read.start();
-			TcpWrite tcpWrite = new TcpWrite(socket);
+			TcpWrite tcpWrite = new TcpWrite();
+			tcpWrite.setSocket(socket);
 			tcpWrite.start();
 			timer(tcpWrite);
 		} catch (IOException e) {

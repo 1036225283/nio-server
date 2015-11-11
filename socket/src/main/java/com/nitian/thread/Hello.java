@@ -2,11 +2,11 @@ package com.nitian.thread;
 
 public class Hello extends Thread {
 
-	public volatile static int duck = 100;
+	public volatile static int duck = 30;
 
 	public synchronized void show() {
 		duck = duck - 1;
-		System.out.println(duck);
+		System.out.println(Thread.currentThread().getId() + " " + duck);
 		if (duck == 80 || duck == 70) {
 			try {
 				this.wait();
@@ -23,6 +23,12 @@ public class Hello extends Thread {
 		// TODO Auto-generated method stub
 		while (duck > 0) {
 			show();
+			try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

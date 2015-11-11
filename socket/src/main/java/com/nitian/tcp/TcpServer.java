@@ -3,15 +3,11 @@ package com.nitian.tcp;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TcpServer {
 
 	private Integer port;
 	private ServerSocket serverSocket;
-
-	public static Map<String, SocketUser> map = new HashMap<String, SocketUser>();
 
 	TcpServer(int port) {
 		this.port = port;
@@ -30,16 +26,16 @@ public class TcpServer {
 			serverSocket = new ServerSocket(port);
 			while (true) {
 				Socket socket = serverSocket.accept();
-				TcpRead tcpRead = new TcpRead(socket);
-				tcpRead.start();
-				// TcpWrite tcpWrite = new TcpWrite(socket);
-				// tcpWrite.push("ddd");
+				SocketUser socketUser = new SocketUser();
+				socketUser.setSocket(socket);
+				socketUser.setTcpRead(new TcpRead());
+				socketUser.setTcpWrite(new TcpWrite());
+				SocketConstant.list.add(socketUser);
 				System.out.println("server is start");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-
 		}
 	}
 

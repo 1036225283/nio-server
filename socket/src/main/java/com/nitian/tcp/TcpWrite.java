@@ -20,11 +20,6 @@ public class TcpWrite extends Thread {
 	private List<String> list = new ArrayList<String>();// 消息队列
 	private byte[] bs = new byte[1024 * 8 + 4];
 
-	public TcpWrite(Socket socket) {
-		// TODO Auto-generated constructor stub
-		this.socket = socket;
-	}
-
 	public synchronized void push(String string) {
 		list.add(string);
 		System.out.println("list size:" + list.size());
