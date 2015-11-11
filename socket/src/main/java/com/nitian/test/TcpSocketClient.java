@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.nitian.tcp.TcpRead;
 import com.nitian.tcp.TcpWrite;
 import com.nitian.util.random.UtilRandom;
 
@@ -36,9 +35,9 @@ public class TcpSocketClient {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
-				String write = UtilRandom.createUUID();
+				String write = "abcdefg123";
+				System.out.println(write.length());
 				tcpWrite.push(write);
-				System.out.println("write:" + write);
 			}
 		}, 10000, 5000);
 	}

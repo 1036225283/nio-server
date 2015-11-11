@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nitian.util.java.UtilByte;
-import com.nitian.util.string.UtilStringHex;
 
 /**
  * 多线程socket写数据
@@ -19,6 +18,7 @@ public class TcpWrite extends Thread {
 
 	private Socket socket;
 	private List<String> list = new ArrayList<String>();// 消息队列
+	private byte[] bs = new byte[1024 * 8 + 4];
 
 	public TcpWrite(Socket socket) {
 		// TODO Auto-generated constructor stub
@@ -40,16 +40,16 @@ public class TcpWrite extends Thread {
 					socket.getOutputStream());
 			while (true) {
 				if (list.size() == 0) {
+					System.out.println("list size" + list.size());
 					wait();
 				} else {
 					byte[] data = list.get(0).getBytes();
 					byte[] length = UtilByte.intToBytes(data.length);
-					byte[] write = new byte[data.length + 4];
-					UtilByte.copy(write, length, 0);
-					UtilByte.copy(write, data, 4);
-					bufferedOutputStream.write(write);
-					System.out.println(UtilStringHex.bytesHexStr(write));
+					UtilByte.copy(bs, length, 0);
+					UtilByte.copy(bs, data, 4);
+					bufferedOutputStream.write(bs, 0, data.length + 4);
 					bufferedOutputStream.flush();
+					list.remove(0);
 				}
 			}
 		} catch (IOException e) {

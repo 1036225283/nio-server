@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.net.Socket;
 
 import com.nitian.util.java.UtilByte;
-import com.nitian.util.string.UtilStringHex;
 
 public class TcpRead extends Thread {
 
@@ -13,7 +12,7 @@ public class TcpRead extends Thread {
 
 	private SocketUser socketUser;
 
-	public static int index = 0;
+	private byte[] bs = new byte[1024 * 8 + 4];
 
 	public TcpRead(SocketUser socketUser) {
 		this.setSocketUser(socketUser);
@@ -30,14 +29,11 @@ public class TcpRead extends Thread {
 		try {
 			InputStream inputStream = socket.getInputStream();
 			while (true) {
-				System.out.println("index:" + index++);
 				byte[] length = new byte[4];
 				inputStream.read(length, 0, 4);
 				int size = UtilByte.bytesToInt(length);
-				byte[] bs = new byte[size + 4];
-				inputStream.read(bs, 4, size);
-				System.out.println("二进制：" + UtilStringHex.bytesHexStr(bs));
-				System.out.println("字符串：" + new String(bs));
+				inputStream.read(bs, 0, size);
+				System.out.println("字符串：" + new String(bs, 0, size));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
