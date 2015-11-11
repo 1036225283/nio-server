@@ -21,9 +21,10 @@ public class TcpSocketClient {
 			ip = InetAddress.getByName("127.0.0.1");
 			port = 1234;
 			socket = new Socket(ip, port);
-			TcpRead read = new TcpRead(socket);
-			read.start();
+			// TcpRead read = new TcpRead(socket);
+			// read.start();
 			TcpWrite tcpWrite = new TcpWrite(socket);
+			tcpWrite.start();
 			timer(tcpWrite);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -35,10 +36,11 @@ public class TcpSocketClient {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
-				tcpWrite.push(UtilRandom.createUUID());
-				System.out.println("this is write");
+				String write = UtilRandom.createUUID();
+				tcpWrite.push(write);
+				System.out.println("write:" + write);
 			}
-		}, 3000, 3000);
+		}, 10000, 5000);
 	}
 
 	public static void main(String[] args) {

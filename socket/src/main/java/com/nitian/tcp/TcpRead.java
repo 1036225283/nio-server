@@ -1,9 +1,10 @@
 package com.nitian.tcp;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 
+import com.nitian.util.java.UtilByte;
 import com.nitian.util.string.UtilStringHex;
 
 public class TcpRead extends Thread {
@@ -27,18 +28,16 @@ public class TcpRead extends Thread {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-
-			BufferedInputStream bufferedInputStream = new BufferedInputStream(
-					socket.getInputStream());
+			InputStream inputStream = socket.getInputStream();
 			while (true) {
 				System.out.println("index:" + index++);
-				int size = bufferedInputStream.available();
-				if (size != 0) {
-					byte[] bs = new byte[size];
-					bufferedInputStream.read(bs);
-					System.out.println("二进制：" + UtilStringHex.bytesHexStr(bs));
-					System.out.println("字符串：" + new String(bs));
-				}
+				byte[] length = new byte[4];
+				inputStream.read(length, 0, 4);
+				int size = UtilByte.bytesToInt(length);
+				byte[] bs = new byte[size + 4];
+				inputStream.read(bs, 4, size);
+				System.out.println("二进制：" + UtilStringHex.bytesHexStr(bs));
+				System.out.println("字符串：" + new String(bs));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

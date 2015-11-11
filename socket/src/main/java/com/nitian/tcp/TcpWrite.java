@@ -6,6 +6,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nitian.util.java.UtilByte;
+import com.nitian.util.string.UtilStringHex;
+
 /**
  * 多线程socket写数据
  * 
@@ -24,11 +27,12 @@ public class TcpWrite extends Thread {
 
 	public synchronized void push(String string) {
 		list.add(string);
+		System.out.println("list size:" + list.size());
 		notify();
 	}
 
 	@Override
-	public void run() {
+	public synchronized void run() {
 		// TODO Auto-generated method stub
 		try {
 
@@ -36,12 +40,16 @@ public class TcpWrite extends Thread {
 					socket.getOutputStream());
 			while (true) {
 				if (list.size() == 0) {
-					this.wait();
+					wait();
 				} else {
-					byte[] bs = list.get(0).getBytes();
-					bufferedOutputStream.write(bs);
+					byte[] data = list.get(0).getBytes();
+					byte[] length = UtilByte.intToBytes(data.length);
+					byte[] write = new byte[data.length + 4];
+					UtilByte.copy(write, length, 0);
+					UtilByte.copy(write, data, 4);
+					bufferedOutputStream.write(write);
+					System.out.println(UtilStringHex.bytesHexStr(write));
 					bufferedOutputStream.flush();
-					// bufferedOutputStream.c
 				}
 			}
 		} catch (IOException e) {
