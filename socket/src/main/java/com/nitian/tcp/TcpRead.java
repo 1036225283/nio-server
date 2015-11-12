@@ -5,10 +5,9 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.util.Map;
 
-import com.nitian.util.http.UtilHttp;
-import com.nitian.util.java.UtilByte;
-import com.nitian.util.json.JsonStringToObject;
 import com.nitian.util.json.UtilJson;
+import com.nitian.util.socket.UtilSocket;
+import com.nitian.util.user.UtilAuthUser;
 
 public class TcpRead extends Thread {
 
@@ -25,30 +24,19 @@ public class TcpRead extends Thread {
 		try {
 			InputStream inputStream = socket.getInputStream();
 			while (true) {
-				byte[] length = new byte[4];
-				inputStream.read(length, 0, 4);
-				int size = UtilByte.bytesToInt(length);
-				inputStream.read(bs, 0, size);
-				String value = new String(bs, 0, size);
+				String value = UtilSocket.readString(inputStream, bs);
 				Map<String, Object> map = (Map<String, Object>) UtilJson
 						.stringToObject(value, Map.class);
 				if (socketUser.isAuthState()) {
 
+				} else if (socketUser.getAuthTimes() > 3) {
+
 				} else {
-					String param = "username=" + map.get("username")
-							+ "&password=" + map.get("password");
-					String result = UtilHttp.noSessionPost(
-							"http://localhost:8080/franchisee-web/member/test",
-							param);
-					JsonStringToObject jsonStringToObject = new JsonStringToObject();
-					jsonStringToObject.goString(result);
-					String aa = jsonStringToObject.get("root.result");
-					if (aa.equals("true")) {
+					if (UtilAuthUser.authUserTest()) {
 						socketUser.setAuthState(true);
 					} else {
-
+						socketUser.setAuthTimes(socketUser.getAuthTimes() + 1);
 					}
-					socketUser.setAuthTimes(socketUser.getAuthTimes() + 1);
 				}
 
 			}
