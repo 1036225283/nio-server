@@ -26,6 +26,14 @@ public class UdpClient extends Thread {
 		init(null, null);
 	}
 
+	public UdpClient(Integer port) {
+		init(port, null);
+	}
+
+	public UdpClient(String ip) {
+		init(null, ip);
+	}
+
 	public UdpClient(Integer port, String ip) {
 		// TODO Auto-generated constructor stub
 		init(port, ip);
@@ -57,7 +65,7 @@ public class UdpClient extends Thread {
 	}
 
 	@Override
-	public void run() {
+	public synchronized void run() {
 		// TODO Auto-generated method stub
 		try {
 			while (true) {
@@ -78,9 +86,5 @@ public class UdpClient extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String[] args) throws IOException {
-
 	}
 }

@@ -36,13 +36,14 @@ public class UdpServer {
 			this.port = port;
 		}
 		try {
-			socket = new DatagramSocket(port);
+			socket = new DatagramSocket(this.port);
 			while (true) {
 				DatagramPacket receivePacket = new DatagramPacket(
 						receiveBuffer, receiveBuffer.length);
 				socket.receive(receivePacket);
 				String result = new String(receivePacket.getData(), 0,
 						receivePacket.getLength());
+				System.out.println("length:" + receivePacket.getLength());
 				System.out.println("result:" + result);
 				System.out.println("port:" + receivePacket.getPort());
 				System.out.println("ip:"
