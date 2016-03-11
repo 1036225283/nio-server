@@ -23,20 +23,13 @@ public class NIOClient {
 	 * @throws IOException
 	 */
 	public void listen(String ip, int port) {
-
-		// 获得一个Socket通道
-
 		try {
 			channel = SocketChannel.open();
-			// 设置通道为非阻塞
 			channel.configureBlocking(false);
-			// 获得一个通道管理器
 			this.selector = Selector.open();
 
-			// 客户端连接服务器,其实方法执行并没有实现连接，需要在listen（）方法中调
 			// 用channel.finishConnect();才能完成连接
 			channel.connect(new InetSocketAddress(ip, port));
-			// 将通道管理器和该通道绑定，并为该通道注册SelectionKey.OP_CONNECT事件。
 			channel.register(selector, SelectionKey.OP_CONNECT);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -55,22 +48,16 @@ public class NIOClient {
 		while (true) {
 			try {
 				selector.select();
-				// 获得selector中选中的项的迭代器
 				Iterator<SelectionKey> ite = this.selector.selectedKeys()
 						.iterator();
 				while (ite.hasNext()) {
 					SelectionKey key = (SelectionKey) ite.next();
-					// 删除已选的key,以防重复处理
 					ite.remove();
-					// 连接事件发生
 					if (key.isConnectable()) {
 						SocketChannel channel = (SocketChannel) key.channel();
-						// 如果正在连接，则完成连接
 						if (channel.isConnectionPending()) {
 							channel.finishConnect();
-
 						}
-						// 设置成非阻塞
 						channel.configureBlocking(false);
 
 						// 在这里可以给服务端发送信息哦
@@ -109,7 +96,7 @@ public class NIOClient {
 	 */
 	public static void main(String[] args) throws IOException {
 		NIOClient client = new NIOClient();
-		client.listen("localhost", 8000);
+		client.listen("localhost", 8080);
 		client.start();
 	}
 

@@ -30,8 +30,10 @@ public class NIOServer {
 	}
 
 	public void start() {
+		int i = 0;
 		try {
-			while (selector.select() > 0) {
+			while ((i = selector.select()) > 0) {
+				System.out.println("the i = " + i);
 				Iterator<SelectionKey> it = selector.selectedKeys().iterator();
 				while (it.hasNext()) {
 					SelectionKey key = it.next();
@@ -65,7 +67,7 @@ public class NIOServer {
 	public void read(SelectionKey key) throws IOException {
 		SocketChannel channel = (SocketChannel) key.channel();
 		// 创建读取的缓冲区
-		ByteBuffer buffer = ByteBuffer.allocate(10);
+		ByteBuffer buffer = ByteBuffer.allocate(1024);
 		channel.read(buffer);
 		byte[] data = buffer.array();
 		String msg = new String(data).trim();

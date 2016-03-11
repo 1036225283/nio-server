@@ -16,6 +16,9 @@
 
 	<dependencies>
 
+		<!-- <dependency> <groupId>io.netty</groupId> <artifactId>netty</artifactId> 
+			<version>4.0</version> <scope>compile</scope> </dependency> -->
+
 		<dependency>
 			<groupId>com.nitian</groupId>
 			<artifactId>util</artifactId>
