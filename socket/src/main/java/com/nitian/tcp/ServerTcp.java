@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.nitian.util.UtilApplication;
+import com.nitian.ApplicationContext;
 
 public class ServerTcp {
 
+	private ApplicationContext applicationContext = ApplicationContext
+			.getInstance();
 	private Integer port;
 	private ServerSocket serverSocket;
 
@@ -23,17 +25,14 @@ public class ServerTcp {
 	public void init() {
 		try {
 			if (port == null) {
-				port = 1234;
+				port = 8080;
 			}
 			serverSocket = new ServerSocket(port);
+			System.out.println("server is start ... ...");
 			while (true) {
 				Socket socket = serverSocket.accept();
-				SocketUser socketUser = new SocketUser();
-				socketUser.setSocket(socket);
-				socketUser.setTcpRead(new TcpRead());
-				socketUser.setTcpWrite(new TcpWrite());
-				SocketConstant.list.add(socketUser);
-				System.out.println("server is start");
+				applicationContext.getPoolThread().execute(
+						new ThreadRead(socket));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -42,7 +41,7 @@ public class ServerTcp {
 	}
 
 	public static void main(String[] args) {
-		new ServerTcp(8080);
+		new ServerTcp();
 	}
 
 }
