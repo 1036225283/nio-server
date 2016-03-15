@@ -10,10 +10,16 @@ import java.util.Map;
 
 public class Test {
 	public static void main(String[] args) throws IOException {
-
+		testPoolMap();
+		
+	}
+	
+	public static void testStringIndexOf(){
+		String test = "aabc32234";
+		System.out.println(test.indexOf("abc"));
 	}
 
-	public void testInputStream() throws IOException {
+	public static void testInputStream() throws IOException {
 		File file = new File("C:/Users/1036225283/Desktop/test/test.txt");
 		// file.get
 		InputStream inputStream = new FileInputStream(file);
@@ -37,9 +43,14 @@ public class Test {
 	}
 
 	public static void testPoolMap() {
-		UtilPoolMap map = new UtilPoolMap(100, null);
-		map.getTotal();
-		Map<String, Object> m = map.lend();
+		UtilPoolMap poolMap = new UtilPoolMap(100, 1);
+		
+		for (int i = 0; i < 10; i++) {
+			System.out.println("poolSize : "+poolMap.getTotal());
+			poolMap.lend();
+		}
+		
+		Map<String, Object> m = poolMap.lend();
 		System.out.println(m);
 		m.put("hello", "world");
 		System.out.println(m.get("hello"));

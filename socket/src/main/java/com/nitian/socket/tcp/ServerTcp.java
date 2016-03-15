@@ -41,7 +41,7 @@ public class ServerTcp {
 	}
 
 	public static void main(String[] args) {
-		new ServerTcp();
+		new ServerTcp(88);
 	}
 
 }

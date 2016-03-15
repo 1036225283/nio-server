@@ -32,8 +32,7 @@ public class ThreadRead extends Thread {
 			int size = socket.getInputStream().read(bs);
 			System.out.println("size: " + size);
 			UtilParseHttpRead httpRead =new UtilParseHttpRead(new String(bs));
-			System.out.println("type : "+httpRead.getType());
-			System.out.println("url : "+httpRead.getUrl());
+			System.out.println(httpRead.getMap());
 			socket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
