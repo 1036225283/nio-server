@@ -2,17 +2,18 @@ package com.nitian.socket.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.nitian.util.string.UtilStringHex;
-
 public class Test {
 	public static void main(String[] args) throws IOException {
+
+	}
+
+	public void testInputStream() throws IOException {
 		File file = new File("C:/Users/1036225283/Desktop/test/test.txt");
 		// file.get
 		InputStream inputStream = new FileInputStream(file);
@@ -27,7 +28,6 @@ public class Test {
 		byte[] bs2 = new byte[19];
 		int index = inputStream.read(bs2);
 		System.out.println(index);
-
 	}
 
 	public static void testPoolByte() {

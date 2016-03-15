@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import com.nitian.socket.ApplicationContext;
-import com.nitian.socket.util.UtilPoolByte;
+import com.nitian.socket.util.UtilParseHttpRead;
 
 /**
  * 线程读数据
@@ -31,7 +31,9 @@ public class ThreadRead extends Thread {
 		try {
 			int size = socket.getInputStream().read(bs);
 			System.out.println("size: " + size);
-			System.out.println(new String(bs));
+			UtilParseHttpRead httpRead =new UtilParseHttpRead(new String(bs));
+			System.out.println("type : "+httpRead.getType());
+			System.out.println("url : "+httpRead.getUrl());
 			socket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
