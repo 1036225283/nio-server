@@ -30,9 +30,10 @@ public class ThreadRead extends Thread {
 		byte[] bs = applicationContext.getPoolByte().lend();
 		try {
 			int size = socket.getInputStream().read(bs);
-			System.out.println("size: " + size);
-			UtilParseHttpRead httpRead =new UtilParseHttpRead(new String(bs));
-			System.out.println(httpRead.getMap());
+			System.out.println("------size: " + size);
+			UtilParseHttpRead httpRead = new UtilParseHttpRead(new String(bs,
+					0, size));
+			System.out.println("------map:" + httpRead.getMap());
 			socket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

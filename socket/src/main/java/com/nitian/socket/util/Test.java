@@ -10,11 +10,15 @@ import java.util.Map;
 
 public class Test {
 	public static void main(String[] args) throws IOException {
-		testPoolMap();
-		
+		String test = "abc ddd 23   1";
+		String[] strings = test.split(" ");
+		for (int i = 0; i < strings.length; i++) {
+			System.out.println(strings[i].equals(""));
+		}
+		System.out.println(strings.length);
 	}
-	
-	public static void testStringIndexOf(){
+
+	public static void testStringIndexOf() {
 		String test = "aabc32234";
 		System.out.println(test.indexOf("abc"));
 	}
@@ -44,12 +48,12 @@ public class Test {
 
 	public static void testPoolMap() {
 		UtilPoolMap poolMap = new UtilPoolMap(100, 1);
-		
+
 		for (int i = 0; i < 10; i++) {
-			System.out.println("poolSize : "+poolMap.getTotal());
+			System.out.println("poolSize : " + poolMap.getTotal());
 			poolMap.lend();
 		}
-		
+
 		Map<String, Object> m = poolMap.lend();
 		System.out.println(m);
 		m.put("hello", "world");
