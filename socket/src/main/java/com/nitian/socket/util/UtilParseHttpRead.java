@@ -22,6 +22,7 @@ public class UtilParseHttpRead {
 
 	public UtilParseHttpRead(String request) {
 		// TODO Auto-generated constructor stub
+		map.put("protocol", "HTTP");
 		parse(request);
 		getTypeAndUrlAndParam();
 		getIpAndPort();

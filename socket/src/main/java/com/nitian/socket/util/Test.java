@@ -2,20 +2,29 @@ package com.nitian.socket.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class Test {
 	public static void main(String[] args) throws IOException {
-		String test = "abc ddd 23   1";
-		String[] strings = test.split(" ");
-		for (int i = 0; i < strings.length; i++) {
-			System.out.println(strings[i].equals(""));
+		UtilQueueRead<String> queueRead = new UtilQueueRead<String>();
+		queueRead.start();
+		for (int i = 0; i < 10000; i++) {
+			queueRead.push(String.valueOf(i));
 		}
-		System.out.println(strings.length);
+	}
+
+	public static void testFileOutPutStream() throws IOException {
+		String test = Test.class.getResource("/").getFile().substring(1);
+		OutputStream outputStream = new FileOutputStream(
+				"C:\\Users\\1036225283\\Desktop\\test\\dd.json");
+		outputStream.write("sjkjlkjk".getBytes());
+		System.out.println(test);
 	}
 
 	public static void testStringIndexOf() {
