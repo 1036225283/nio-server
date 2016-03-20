@@ -1,4 +1,4 @@
-package com.nitian.socket.util;
+package com.nitian.socket.test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,16 +6,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.nitian.socket.util.UtilPoolByte;
+import com.nitian.socket.util.UtilPoolMap;
+import com.nitian.socket.util.UtilQueueRead;
+
 public class Test {
 	public static void main(String[] args) throws IOException {
-		UtilQueueRead<String> queueRead = new UtilQueueRead<String>();
+		UtilQueueRead queueRead = new UtilQueueRead();
 		queueRead.start();
 		for (int i = 0; i < 10000; i++) {
-			queueRead.push(String.valueOf(i));
+			queueRead.push(new HashMap<String, String>());
 		}
 	}
 
@@ -63,7 +68,7 @@ public class Test {
 			poolMap.lend();
 		}
 
-		Map<String, Object> m = poolMap.lend();
+		Map<String, String> m = poolMap.lend();
 		System.out.println(m);
 		m.put("hello", "world");
 		System.out.println(m.get("hello"));

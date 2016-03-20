@@ -35,14 +35,9 @@ public class ThreadRead extends Thread {
 			System.out.println("------size: " + size);
 			UtilParseHttpRead httpRead = new UtilParseHttpRead(new String(bs,
 					0, size));
+			applicationContext.getPoolByte().repay(bs);// 偿还bytes给对象池
+			applicationContext.getQueueRead().push(httpRead.getMap());
 			System.out.println("------map:" + httpRead.getMap());
-			HandlerContext handlerContext = applicationContext
-					.getPoolHandlerContext().lend();
-			Handler handler = applicationContext.getUtilHandler().get("");
-			if (handler != null) {
-				handler.setHandlerContext(handlerContext);
-				applicationContext.getPoolHandlerThread().execute(handler);
-			}
 			socket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

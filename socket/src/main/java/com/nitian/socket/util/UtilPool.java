@@ -51,6 +51,7 @@ public abstract class UtilPool<T> {
 	 * @return
 	 */
 	public T lend() {
+		System.out.println("------action:lend,poolSize:" + (list.size() - 1));
 		T result = null;
 		if (list.size() > 0) {
 			result = list.remove(0);
@@ -73,6 +74,7 @@ public abstract class UtilPool<T> {
 	public void repay(T t) {
 		initValue(t);
 		list.add(t);
+		System.out.println("------action:repay,poolSize:" + list.size());
 	}
 
 	public int getTotal() {

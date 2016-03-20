@@ -7,7 +7,7 @@ import java.util.Map;
 import com.nitian.socket.ApplicationContext;
 
 /**
- * 解析http请求头部
+ * 解析http请求头部,解析成Map<String,String>
  * 
  * @author 1036225283
  *
@@ -17,7 +17,7 @@ public class UtilParseHttpRead {
 	private ApplicationContext applicationContext = ApplicationContext
 			.getInstance();
 
-	private Map<String, Object> map = applicationContext.getPoolMap().lend();
+	private Map<String, String> map = applicationContext.getPoolMap().lend();
 	private String[] strings;
 
 	public UtilParseHttpRead(String request) {
@@ -97,7 +97,7 @@ public class UtilParseHttpRead {
 		return null;
 	}
 
-	public Map<String, Object> getMap() {
+	public Map<String, String> getMap() {
 		return map;
 	}
 

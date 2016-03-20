@@ -1,34 +1,30 @@
 package com.nitian.socket.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
-public class UtilQueueRead<T> extends Thread {
+import com.nitian.socket.ApplicationContext;
+import com.nitian.socket.core.Handler;
+import com.nitian.socket.core.HandlerContext;
 
-	private List<T> list = new ArrayList<T>();// 消息队列
+public class UtilQueueRead extends UtilQueue<Map<String, String>> {
 
-	public synchronized void push(T t) {
-		list.add(t);
-		notify();
+	private ApplicationContext applicationContext = ApplicationContext
+			.getInstance();
+
+	public UtilQueueRead() {
+		// TODO Auto-generated constructor stub
+		start();
 	}
 
 	@Override
-	public synchronized void run() {
+	public void handle(Map<String, String> t) {
 		// TODO Auto-generated method stub
-		try {
-			while (true) {
-				if (list.size() == 0) {
-					System.out.println("list size" + list.size());
-					wait();
-				} else {
-					T t = list.remove(0);
-					System.out.println("------" + t);
-				}
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		System.out.println("------action:queueRead->handle");
+		HandlerContext handlerContext = applicationContext
+				.getPoolHandlerContext().lend();
+		Handler handler = applicationContext.getUtilHandler().get(t.get("url"));
+		handler.setHandlerContext(handlerContext);
+		applicationContext.getPoolHandlerThread().execute(handler);
 	}
+
 }

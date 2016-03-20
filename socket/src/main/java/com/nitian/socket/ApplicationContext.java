@@ -5,6 +5,7 @@ import com.nitian.socket.util.UtilPoolByte;
 import com.nitian.socket.util.UtilPoolHandlerContext;
 import com.nitian.socket.util.UtilPoolMap;
 import com.nitian.socket.util.UtilPoolThread;
+import com.nitian.socket.util.UtilQueueRead;
 
 public class ApplicationContext {
 
@@ -18,15 +19,25 @@ public class ApplicationContext {
 	private UtilPoolMap poolMap;
 	private UtilPoolHandlerContext poolHandlerContext;
 	private UtilHandler utilHandler;
+	private UtilQueueRead queueRead;
 
 	public ApplicationContext() {
 		// TODO Auto-generated constructor stub
-		poolByte = new UtilPoolByte(poolMax, poolTotal, null);
+		// 线程池不需要追踪
 		poolSocketThread = new UtilPoolThread(10);
 		poolHandlerThread = new UtilPoolThread(10);
-		poolMap = new UtilPoolMap(poolMax, poolTotal);
-		poolHandlerContext = new UtilPoolHandlerContext(poolMax, poolTotal);
+
+		// 对象池需要追踪
+		poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
+		poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
+		poolHandlerContext = new UtilPoolHandlerContext(poolMax, poolTotal);// 业务处理器上下文缓冲区(lend:)
+
+		// {url:handler}业务处理器，不需要追踪
 		utilHandler = new UtilHandler();
+
+		// 读，写消息队列
+		queueRead = new UtilQueueRead();
+
 	}
 
 	public static ApplicationContext getInstance() {
@@ -63,6 +74,10 @@ public class ApplicationContext {
 
 	public UtilPoolThread getPoolHandlerThread() {
 		return poolHandlerThread;
+	}
+
+	public UtilQueueRead getQueueRead() {
+		return queueRead;
 	}
 
 }

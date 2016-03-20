@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.core.HandlerContext;
+import com.nitian.socket.util.UtilHandler;
 
 public class HandlerTest extends Handler {
 
@@ -16,6 +17,9 @@ public class HandlerTest extends Handler {
 		HandlerTest handlerTest = new HandlerTest();
 		handlerTest.handle();
 
+		UtilHandler utilHandler = new UtilHandler();
+		utilHandler.regist("/user", handlerTest);
+		System.out.println("handler:" + utilHandler.get("/users"));
 	}
 
 	@Override
