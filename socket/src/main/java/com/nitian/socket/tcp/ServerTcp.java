@@ -10,19 +10,18 @@ public class ServerTcp {
 
 	private ApplicationContext applicationContext = ApplicationContext
 			.getInstance();
+
 	private Integer port;
 	private ServerSocket serverSocket;
 
-	ServerTcp(int port) {
+	public ServerTcp(int port) {
 		this.port = port;
-		init();
 	}
 
-	ServerTcp() {
-		init();
+	public ServerTcp() {
 	}
 
-	public void init() {
+	public void start() {
 		try {
 			if (port == null) {
 				port = 8080;
@@ -31,7 +30,7 @@ public class ServerTcp {
 			System.out.println("server is start ... ...");
 			while (true) {
 				Socket socket = serverSocket.accept();
-				applicationContext.getPoolThread().execute(
+				applicationContext.getPoolSocketThread().execute(
 						new ThreadRead(socket));
 			}
 		} catch (IOException e) {
@@ -40,8 +39,8 @@ public class ServerTcp {
 		}
 	}
 
-	public static void main(String[] args) {
-		new ServerTcp(88);
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
 	}
 
 }

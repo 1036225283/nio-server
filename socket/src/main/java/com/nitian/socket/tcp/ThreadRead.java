@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 
 import com.nitian.socket.ApplicationContext;
+import com.nitian.socket.core.Handler;
+import com.nitian.socket.core.HandlerContext;
 import com.nitian.socket.util.UtilParseHttpRead;
 
 /**
@@ -34,6 +36,13 @@ public class ThreadRead extends Thread {
 			UtilParseHttpRead httpRead = new UtilParseHttpRead(new String(bs,
 					0, size));
 			System.out.println("------map:" + httpRead.getMap());
+			HandlerContext handlerContext = applicationContext
+					.getPoolHandlerContext().lend();
+			Handler handler = applicationContext.getUtilHandler().get("");
+			if (handler != null) {
+				handler.setHandlerContext(handlerContext);
+				applicationContext.getPoolHandlerThread().execute(handler);
+			}
 			socket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
