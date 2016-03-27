@@ -1,12 +1,15 @@
 package com.nitian.socket.udp;
 
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class UdpClientTest {
 
-	public UdpClientTest(String value) {
-		UdpClient client = new UdpClient("182.254.131.51");
+	public UdpClientTest(String value) throws SocketException,
+			UnknownHostException {
+		UdpClient client = new UdpClient(8888, "127.0.0.1");
 		client.start();
 		timer(client, value);
 	}
@@ -18,15 +21,16 @@ public class UdpClientTest {
 			int i = 0;
 
 			public void run() {
-				client.push("i=" + i + value);
-				i++;
+				for (int j = 0; j < 10000; j++) {
+					client.push("i=" + i + value);
+					i++;
+				}
 			}
-		}, 1000, 3000);
+		}, 1000, 50);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SocketException,
+			UnknownHostException {
 		new UdpClientTest("我是客户端1");
-		new UdpClientTest("我是客户端2");
-		new UdpClientTest("我是客户端3");
 	}
 }

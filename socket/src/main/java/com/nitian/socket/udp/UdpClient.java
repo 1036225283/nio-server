@@ -21,20 +21,21 @@ public class UdpClient extends Thread {
 
 	private List<String> list = new ArrayList<String>();
 
-	public UdpClient() {
+	public UdpClient() throws SocketException, UnknownHostException {
 		// TODO Auto-generated constructor stub
 		init(null, null);
 	}
 
-	public UdpClient(Integer port) {
+	public UdpClient(Integer port) throws SocketException, UnknownHostException {
 		init(port, null);
 	}
 
-	public UdpClient(String ip) {
+	public UdpClient(String ip) throws SocketException, UnknownHostException {
 		init(null, ip);
 	}
 
-	public UdpClient(Integer port, String ip) {
+	public UdpClient(Integer port, String ip) throws SocketException,
+			UnknownHostException {
 		// TODO Auto-generated constructor stub
 		init(port, ip);
 	}
@@ -45,23 +46,16 @@ public class UdpClient extends Thread {
 		notify();
 	}
 
-	public void init(Integer port, String ip) {
-		try {
-			if (port != null) {
-				this.port = port;
-			}
-			if (ip != null) {
-				this.ip = ip;
-			}
-			socket = new DatagramSocket();
-			inetAddress = InetAddress.getByName(this.ip);
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void init(Integer port, String ip) throws SocketException,
+			UnknownHostException {
+		if (port != null) {
+			this.port = port;
 		}
+		if (ip != null) {
+			this.ip = ip;
+		}
+		socket = new DatagramSocket();
+		inetAddress = InetAddress.getByName(this.ip);
 	}
 
 	@Override
