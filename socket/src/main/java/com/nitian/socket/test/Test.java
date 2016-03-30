@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +18,12 @@ import com.nitian.socket.util.queue.UtilQueueRead;
 
 public class Test {
 	public static void main(String[] args) throws IOException {
+
+		System.out.println(new Date().toString());
+
+	}
+
+	public static void testQueueRead() {
 		UtilQueueRead queueRead = new UtilQueueRead();
 		queueRead.start();
 		for (int i = 0; i < 10000; i++) {

@@ -3,8 +3,7 @@ package com.nitian.socket.util.queue;
 import java.util.Map;
 
 import com.nitian.socket.ApplicationContext;
-import com.nitian.socket.core.Handler;
-import com.nitian.socket.core.Message;
+import com.nitian.socket.util.thread.ThreadWrite;
 
 /**
  * 读消息队列：处理map数据
@@ -26,7 +25,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 	public void handle(Map<String, String> t) {
 		// TODO Auto-generated method stub
 		System.out.println("------action:queueRead->handle");
-		
+		applicationContext.getPoolSocketThread().execute(new ThreadWrite(t));
 		// // 构造handler环境
 		// Message handlerContext = new Message(t);
 		// Handler handler =

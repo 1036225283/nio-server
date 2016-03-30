@@ -1,4 +1,4 @@
-package com.nitian.socket.util;
+package com.nitian.socket.util.parse;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -20,7 +20,7 @@ public class UtilParseHttpRead {
 	private Map<String, String> map = applicationContext.getPoolMap().lend();
 	private String[] strings;
 
-	public UtilParseHttpRead(String request) {
+	public UtilParseHttpRead(String request, Map<String, String> map) {
 		// TODO Auto-generated constructor stub
 		map.put("protocol", "HTTP");
 		parse(request);

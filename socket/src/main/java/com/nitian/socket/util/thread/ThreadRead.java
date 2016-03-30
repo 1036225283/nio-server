@@ -2,11 +2,11 @@ package com.nitian.socket.util.thread;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Map;
 
 import com.nitian.socket.ApplicationContext;
-import com.nitian.socket.core.Handler;
-import com.nitian.socket.core.HandlerContext;
-import com.nitian.socket.util.UtilParseHttpRead;
+import com.nitian.socket.core.CoreType;
+import com.nitian.socket.util.parse.UtilParseHttpRead;
 
 /**
  * 线程读数据
@@ -29,16 +29,24 @@ public class ThreadRead extends Thread {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		byte[] bs = applicationContext.getPoolByte().lend();
+
 		try {
+			byte[] bs = applicationContext.getPoolByte().lend();
+
+			long applicationId = applicationContext.getApplicationSocket().put(
+					socket);
 			int size = socket.getInputStream().read(bs);
-			System.out.println("------size: " + size);
+
+			Map<String, String> map = applicationContext.getPoolMap().lend();
+			map.put(CoreType.applicationId.toString(),
+					String.valueOf(applicationId));
+			map.put(CoreType.size.toString(), String.valueOf(size));
+
 			UtilParseHttpRead httpRead = new UtilParseHttpRead(new String(bs,
-					0, size));
+					0, size), map);
 			applicationContext.getPoolByte().repay(bs);// 偿还bytes给对象池
 			applicationContext.getQueueRead().push(httpRead.getMap());
-			System.out.println("------map:" + httpRead.getMap());
-			socket.close();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

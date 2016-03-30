@@ -5,12 +5,20 @@ import java.net.*;
 
 public class MyHttpClient {
 	public static void main(String[] args) throws Exception {
+		String result = get();
+		System.out.println(result);
+		String[] strings = result.split("\r\n\r\n");
+		System.out.println(strings[0].length());
+		System.out.println(strings[1].length());
+		System.out.println(result.length());
+	}
+
+	public static String get() throws IOException {
+
 		InetAddress inet = InetAddress.getByName("localhost");
-		System.out.println(inet.getHostAddress());
 		Socket socket = new Socket(inet.getHostAddress(), 8080);
-		InputStream in = socket.getInputStream();
 		OutputStream out = socket.getOutputStream();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
 		PrintWriter writer = new PrintWriter(out);
 		writer.println("GET /examples/servlets/servlet/HelloWorldExample HTTP/1.1");// home.html是关于百度的页面
 		writer.println("Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, */*");
@@ -21,12 +29,14 @@ public class MyHttpClient {
 		writer.println("Connection: keep-alive");
 		writer.println();
 		writer.flush();
-		String line = reader.readLine();
-		while (line != null) {
-			System.out.println(line);
-			line = reader.readLine();
-		}
-		reader.close();
+
+		InputStream in = socket.getInputStream();
+		byte[] bs = new byte[1024 * 512];
+		int length = in.read(bs);
+		String result = new String(bs, 0, length);
+
 		writer.close();
+		socket.close();
+		return result;
 	}
 }

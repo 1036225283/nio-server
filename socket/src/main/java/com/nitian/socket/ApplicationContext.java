@@ -1,5 +1,6 @@
 package com.nitian.socket;
 
+import com.nitian.socket.core.ApplicationSocket;
 import com.nitian.socket.util.UtilHandler;
 import com.nitian.socket.util.UtilPoolThread;
 import com.nitian.socket.util.pool.UtilPoolByte;
@@ -20,6 +21,7 @@ public class ApplicationContext {
 	private UtilPoolHandlerContext poolHandlerContext;
 	private UtilHandler utilHandler;
 	private UtilQueueRead queueRead;
+	private ApplicationSocket applicationSocket;
 
 	public ApplicationContext() {
 		// TODO Auto-generated constructor stub
@@ -37,6 +39,8 @@ public class ApplicationContext {
 
 		// 读，写消息队列
 		queueRead = new UtilQueueRead();
+
+		applicationSocket = new ApplicationSocket();
 
 	}
 
@@ -78,6 +82,14 @@ public class ApplicationContext {
 
 	public UtilQueueRead getQueueRead() {
 		return queueRead;
+	}
+
+	public ApplicationSocket getApplicationSocket() {
+		return applicationSocket;
+	}
+
+	public void setApplicationSocket(ApplicationSocket applicationSocket) {
+		this.applicationSocket = applicationSocket;
 	}
 
 }
