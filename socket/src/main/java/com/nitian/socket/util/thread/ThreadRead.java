@@ -1,4 +1,4 @@
-package com.nitian.socket.tcp;
+package com.nitian.socket.util.thread;
 
 import java.io.IOException;
 import java.net.Socket;

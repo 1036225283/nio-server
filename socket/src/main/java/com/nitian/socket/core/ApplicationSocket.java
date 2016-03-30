@@ -1,10 +1,10 @@
-package com.nitian.socket.util;
+package com.nitian.socket.core;
 
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UtilApplication {
+public class ApplicationSocket {
 
 	/**
 	 * <applicationId,socket>队列

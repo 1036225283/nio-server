@@ -1,4 +1,4 @@
-package com.nitian.socket.util;
+package com.nitian.socket.util.queue;
 
 import java.util.Map;
 
@@ -26,14 +26,16 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 	public void handle(Map<String, String> t) {
 		// TODO Auto-generated method stub
 		System.out.println("------action:queueRead->handle");
-		// 构造handler环境
-		Message handlerContext = new Message(t);
-		Handler handler = applicationContext.getUtilHandler().get(t.get("url"));
-		// 如果没有url对应的handler，就使用默认的handler
-		if (handler == null) {
-			handler = applicationContext.getUtilHandler().get("default");
-		}
-		applicationContext.getPoolHandlerThread().execute(null);
+		
+		// // 构造handler环境
+		// Message handlerContext = new Message(t);
+		// Handler handler =
+		// applicationContext.getUtilHandler().get(t.get("url"));
+		// // 如果没有url对应的handler，就使用默认的handler
+		// if (handler == null) {
+		// handler = applicationContext.getUtilHandler().get("default");
+		// }
+		// applicationContext.getPoolHandlerThread().execute(null);
 	}
 
 }

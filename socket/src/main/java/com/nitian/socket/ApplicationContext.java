@@ -1,11 +1,11 @@
 package com.nitian.socket;
 
 import com.nitian.socket.util.UtilHandler;
-import com.nitian.socket.util.UtilPoolByte;
-import com.nitian.socket.util.UtilPoolHandlerContext;
-import com.nitian.socket.util.UtilPoolMap;
 import com.nitian.socket.util.UtilPoolThread;
-import com.nitian.socket.util.UtilQueueRead;
+import com.nitian.socket.util.pool.UtilPoolByte;
+import com.nitian.socket.util.pool.UtilPoolHandlerContext;
+import com.nitian.socket.util.pool.UtilPoolMap;
+import com.nitian.socket.util.queue.UtilQueueRead;
 
 public class ApplicationContext {
 

@@ -1,4 +1,4 @@
-package com.nitian.socket.util;
+package com.nitian.socket.util.pool;
 
 import com.nitian.socket.core.HandlerContext;
 

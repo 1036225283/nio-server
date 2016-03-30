@@ -11,9 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.nitian.socket.util.UtilPoolByte;
-import com.nitian.socket.util.UtilPoolMap;
-import com.nitian.socket.util.UtilQueueRead;
+import com.nitian.socket.util.pool.UtilPoolByte;
+import com.nitian.socket.util.pool.UtilPoolMap;
+import com.nitian.socket.util.queue.UtilQueueRead;
 
 public class Test {
 	public static void main(String[] args) throws IOException {

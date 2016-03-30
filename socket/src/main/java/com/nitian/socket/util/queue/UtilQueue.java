@@ -1,4 +1,4 @@
-package com.nitian.socket.util;
+package com.nitian.socket.util.queue;
 
 import java.util.ArrayList;
 import java.util.List;

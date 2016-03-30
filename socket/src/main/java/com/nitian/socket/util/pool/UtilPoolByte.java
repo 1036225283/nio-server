@@ -1,4 +1,5 @@
-package com.nitian.socket.util;
+package com.nitian.socket.util.pool;
+
 
 public class UtilPoolByte extends UtilPool<byte[]> {
 

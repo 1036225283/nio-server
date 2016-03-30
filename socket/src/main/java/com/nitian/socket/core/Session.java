@@ -1,11 +1,11 @@
-package com.nitian.socket.util;
+package com.nitian.socket.core;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.nitian.util.random.UtilRandom;
 
-public class UtilSession {
+public class Session {
 
 	private static Map<String, Map<String, Object>> sessionMap = new HashMap<String, Map<String, Object>>();
 

@@ -1,4 +1,4 @@
-package com.nitian.socket.util;
+package com.nitian.socket.util.pool;
 
 import java.util.LinkedList;
 import java.util.List;
