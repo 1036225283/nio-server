@@ -3,7 +3,12 @@ package com.nitian.socket.util.pool;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
+
 public abstract class UtilPool<T> {
+
+	private LogManager log = LogManager.getInstance();
 
 	private List<T> list = new LinkedList<T>();
 	private int total = 100;// 缓存池总大小
@@ -51,10 +56,11 @@ public abstract class UtilPool<T> {
 	 * @return
 	 */
 	public T lend() {
-		System.out.println("------action:lend,poolSize:" + (list.size() - 1));
+		log.info(LogType.pool, this, "action:lend,poolSize="
+				+ (list.size() - 1));
 		T result = null;
 		if (list.size() > 0) {
-			result = list.remove(0);
+			result = list.remove(list.size() - 1);
 			return result;
 		} else if (max > total) {
 			total = total + 1;
@@ -74,7 +80,8 @@ public abstract class UtilPool<T> {
 	public void repay(T t) {
 		initValue(t);
 		list.add(t);
-		System.out.println("------action:repay,poolSize:" + list.size());
+		log.info(LogType.pool, this, "action:repay,poolSize="
+				+ (list.size() - 1));
 	}
 
 	public int getTotal() {

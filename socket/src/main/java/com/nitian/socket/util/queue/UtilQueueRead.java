@@ -18,7 +18,6 @@ public class UtilQueueRead extends UtilQueue<Map<String, String>> {
 	public void handle(Map<String, String> t) {
 		// TODO Auto-generated method stub
 
-		System.out.println("------action:queueRead->handle");
 		applicationContext.getQueueWrite().push(t);
 		// HandlerContext handlerContext = applicationContext
 		// .getPoolHandlerContext().lend();

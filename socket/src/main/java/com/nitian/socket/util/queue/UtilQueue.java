@@ -25,11 +25,11 @@ public abstract class UtilQueue<T> implements Runnable {
 				log.info(LogType.thread, this, Thread.currentThread()
 						.toString());
 				if (list.size() == 0) {
-					System.out.println("list size" + list.size());
 					wait();
 				} else {
-					T t = list.remove(0);
+					T t = list.remove(list.size() - 1);
 					handle(t);
+					log.info(LogType.queue, this, "queueSize+" + list.size());
 				}
 			}
 		} catch (InterruptedException e) {

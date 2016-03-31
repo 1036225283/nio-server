@@ -24,7 +24,6 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 	@Override
 	public void handle(Map<String, String> t) {
 		// TODO Auto-generated method stub
-		System.out.println("------action:queueRead->handle");
 		applicationContext.getPoolSocketThread().execute(new ThreadWrite(t));
 		// // 构造handler环境
 		// Message handlerContext = new Message(t);
