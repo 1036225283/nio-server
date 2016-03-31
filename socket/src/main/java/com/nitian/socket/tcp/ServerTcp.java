@@ -6,11 +6,15 @@ import java.net.Socket;
 
 import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.util.thread.ThreadRead;
+import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
 
 public class ServerTcp {
 
 	private ApplicationContext applicationContext = ApplicationContext
 			.getInstance();
+
+	private LogManager log = LogManager.getInstance();
 
 	private Integer port;
 	private ServerSocket serverSocket;
@@ -28,9 +32,9 @@ public class ServerTcp {
 				port = 8080;
 			}
 			Thread.currentThread().setName("线程：服务主线程");
-			System.out.println(Thread.currentThread());
+			log.info(LogType.thread, this, Thread.currentThread().toString());
 			serverSocket = new ServerSocket(port);
-			System.out.println("server is start ... ...");
+			log.info(LogType.debug, this, "server is start");
 			while (true) {
 				Socket socket = serverSocket.accept();
 				applicationContext.getPoolSocketThread().execute(

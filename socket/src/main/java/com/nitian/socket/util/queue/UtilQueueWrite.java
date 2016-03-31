@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.util.thread.ThreadWrite;
+import com.nitian.util.log.LogType;
 
 /**
  * 读消息队列：处理map数据
@@ -34,7 +35,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 		// handler = applicationContext.getUtilHandler().get("default");
 		// }
 		// applicationContext.getPoolHandlerThread().execute(null);
-		System.out.println("UtilQueuWriteThreadId" + Thread.currentThread());
+		log.info(LogType.thread, this, Thread.currentThread().toString());
 	}
 
 }

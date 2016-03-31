@@ -8,6 +8,8 @@ import com.nitian.socket.util.pool.UtilPoolHandlerContext;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.queue.UtilQueueRead;
 import com.nitian.socket.util.queue.UtilQueueWrite;
+import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
 
 public class ApplicationContext {
 
@@ -25,8 +27,12 @@ public class ApplicationContext {
 	private UtilQueueWrite queueWrite;
 	private ApplicationSocket applicationSocket;
 
+	private LogManager log = LogManager.getInstance();
+
 	public ApplicationContext() {
 		// TODO Auto-generated constructor stub
+
+		log.putType(LogType.thread.toString());
 		// 线程池不需要追踪
 		poolSocketThread = new UtilPoolThread(10);
 		poolHandlerThread = new UtilPoolThread(10);

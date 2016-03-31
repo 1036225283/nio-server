@@ -7,6 +7,8 @@ import java.util.Map;
 import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseHttpRead;
+import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
 
 /**
  * 线程读数据
@@ -18,6 +20,8 @@ public class ThreadRead extends Thread {
 
 	private ApplicationContext applicationContext = ApplicationContext
 			.getInstance();
+
+	protected LogManager log = LogManager.getInstance();
 
 	private Socket socket;
 
@@ -35,7 +39,9 @@ public class ThreadRead extends Thread {
 
 			long applicationId = applicationContext.getApplicationSocket().put(
 					socket);
+
 			int size = socket.getInputStream().read(bs);
+			log.info(LogType.debug, this, "size=" + size);
 
 			Map<String, String> map = applicationContext.getPoolMap().lend();
 			map.put(CoreType.applicationId.toString(),

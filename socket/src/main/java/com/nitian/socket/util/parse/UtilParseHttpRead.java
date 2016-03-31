@@ -4,6 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Map;
 
+import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
+
 /**
  * 解析http请求头部,解析成Map<String,String>
  * 
@@ -11,6 +14,8 @@ import java.util.Map;
  *
  */
 public class UtilParseHttpRead {
+
+	protected LogManager log = LogManager.getInstance();
 
 	private Map<String, String> map;
 	private String[] strings;
@@ -23,16 +28,16 @@ public class UtilParseHttpRead {
 		getTypeAndUrlAndParam();
 		getIpAndPort();
 
-		System.out.println("------原始数据：" + request);
-		System.out.println("headers.size : " + strings.length);
+		log.info(LogType.debug, this, "----原生数据=" + request);
+		log.info(LogType.debug, this, "----headers=" + strings.length);
 		for (int i = 0; i < strings.length; i++) {
-			System.out.println("------分离数据--index:" + i + "--" + strings[i]);
+			log.info(LogType.debug, this, "----http>index>" + i + strings[i]);
 		}
 
-		System.out.println("length := " + strings.length);
-		System.out.println("string[lastIndex-1]" + strings[strings.length - 2]);
-		System.out
-				.println("string[lastIndex] : " + strings[strings.length - 1]);
+		log.info(LogType.debug, this, "----http>length-2>"
+				+ strings[strings.length - 2]);
+		log.info(LogType.debug, this, "----http>length-1>"
+				+ strings[strings.length - 1]);
 	}
 
 	public void parse(String request) {
