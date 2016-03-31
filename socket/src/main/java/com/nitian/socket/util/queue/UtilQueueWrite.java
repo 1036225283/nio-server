@@ -13,12 +13,11 @@ import com.nitian.socket.util.thread.ThreadWrite;
  */
 public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 
-	private ApplicationContext applicationContext = ApplicationContext
-			.getInstance();
+	private ApplicationContext applicationContext;
 
-	public UtilQueueWrite() {
+	public UtilQueueWrite(ApplicationContext applicationContext) {
 		// TODO Auto-generated constructor stub
-		start();
+		this.applicationContext = applicationContext;
 	}
 
 	@Override
@@ -35,6 +34,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 		// handler = applicationContext.getUtilHandler().get("default");
 		// }
 		// applicationContext.getPoolHandlerThread().execute(null);
+		System.out.println("UtilQueuWriteThreadId" + Thread.currentThread());
 	}
 
 }

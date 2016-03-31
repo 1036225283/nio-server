@@ -42,6 +42,12 @@ public class ThreadWrite extends Thread {
 			e.printStackTrace();
 		} finally {
 			applicationContext.getPoolMap().repay(map);
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

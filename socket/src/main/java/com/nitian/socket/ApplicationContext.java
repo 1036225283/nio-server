@@ -7,6 +7,7 @@ import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolHandlerContext;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.queue.UtilQueueRead;
+import com.nitian.socket.util.queue.UtilQueueWrite;
 
 public class ApplicationContext {
 
@@ -21,6 +22,7 @@ public class ApplicationContext {
 	private UtilPoolHandlerContext poolHandlerContext;
 	private UtilHandler utilHandler;
 	private UtilQueueRead queueRead;
+	private UtilQueueWrite queueWrite;
 	private ApplicationSocket applicationSocket;
 
 	public ApplicationContext() {
@@ -38,7 +40,10 @@ public class ApplicationContext {
 		utilHandler = new UtilHandler();
 
 		// 读，写消息队列
-		queueRead = new UtilQueueRead();
+		queueRead = new UtilQueueRead(this);
+		queueWrite = new UtilQueueWrite(this);
+		new Thread(queueRead, "线程：读队列线程").start();
+		new Thread(queueWrite, "线程：写队列线程").start();
 
 		applicationSocket = new ApplicationSocket();
 
@@ -90,6 +95,10 @@ public class ApplicationContext {
 
 	public void setApplicationSocket(ApplicationSocket applicationSocket) {
 		this.applicationSocket = applicationSocket;
+	}
+
+	public UtilQueueWrite getQueueWrite() {
+		return queueWrite;
 	}
 
 }

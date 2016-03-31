@@ -3,7 +3,7 @@ package com.nitian.socket.util.queue;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UtilQueue<T> extends Thread {
+public abstract class UtilQueue<T> implements Runnable {
 
 	private List<T> list = new ArrayList<T>();// 消息队列
 
@@ -17,6 +17,7 @@ public abstract class UtilQueue<T> extends Thread {
 		// TODO Auto-generated method stub
 		try {
 			while (true) {
+				System.out.println("UtilQueuThreadId" + Thread.currentThread());
 				if (list.size() == 0) {
 					System.out.println("list size" + list.size());
 					wait();

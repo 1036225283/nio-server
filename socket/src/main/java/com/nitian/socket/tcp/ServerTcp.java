@@ -27,6 +27,8 @@ public class ServerTcp {
 			if (port == null) {
 				port = 8080;
 			}
+			Thread.currentThread().setName("线程：服务主线程");
+			System.out.println(Thread.currentThread());
 			serverSocket = new ServerSocket(port);
 			System.out.println("server is start ... ...");
 			while (true) {

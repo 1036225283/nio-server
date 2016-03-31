@@ -4,8 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Map;
 
-import com.nitian.socket.ApplicationContext;
-
 /**
  * 解析http请求头部,解析成Map<String,String>
  * 
@@ -14,15 +12,13 @@ import com.nitian.socket.ApplicationContext;
  */
 public class UtilParseHttpRead {
 
-	private ApplicationContext applicationContext = ApplicationContext
-			.getInstance();
-
-	private Map<String, String> map = applicationContext.getPoolMap().lend();
+	private Map<String, String> map;
 	private String[] strings;
 
 	public UtilParseHttpRead(String request, Map<String, String> map) {
 		// TODO Auto-generated constructor stub
-		map.put("protocol", "HTTP");
+		this.map = map;
+		this.map.put("protocol", "HTTP");
 		parse(request);
 		getTypeAndUrlAndParam();
 		getIpAndPort();
@@ -43,6 +39,9 @@ public class UtilParseHttpRead {
 		strings = request.split("\r\n");
 	}
 
+	/**
+	 * 解析get/post请求，解析传递参数
+	 */
 	public void getTypeAndUrlAndParam() {
 		String[] type = strings[0].split(" ");
 		if (type[0].equals("GET")) {
@@ -95,10 +94,6 @@ public class UtilParseHttpRead {
 			}
 		}
 		return null;
-	}
-
-	public Map<String, String> getMap() {
-		return map;
 	}
 
 }

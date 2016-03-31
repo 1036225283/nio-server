@@ -24,8 +24,7 @@ public class Test {
 	}
 
 	public static void testQueueRead() {
-		UtilQueueRead queueRead = new UtilQueueRead();
-		queueRead.start();
+		UtilQueueRead queueRead = new UtilQueueRead(null);
 		for (int i = 0; i < 10000; i++) {
 			queueRead.push(new HashMap<String, String>());
 		}

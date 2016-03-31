@@ -42,10 +42,9 @@ public class ThreadRead extends Thread {
 					String.valueOf(applicationId));
 			map.put(CoreType.size.toString(), String.valueOf(size));
 
-			UtilParseHttpRead httpRead = new UtilParseHttpRead(new String(bs,
-					0, size), map);
+			new UtilParseHttpRead(new String(bs, 0, size), map);
 			applicationContext.getPoolByte().repay(bs);// 偿还bytes给对象池
-			applicationContext.getQueueRead().push(httpRead.getMap());
+			applicationContext.getQueueRead().push(map);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
