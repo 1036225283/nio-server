@@ -22,8 +22,6 @@ public abstract class UtilQueue<T> implements Runnable {
 		// TODO Auto-generated method stub
 		try {
 			while (true) {
-				log.info(LogType.thread, this, Thread.currentThread()
-						.toString());
 				if (list.size() == 0) {
 					wait();
 				} else {
