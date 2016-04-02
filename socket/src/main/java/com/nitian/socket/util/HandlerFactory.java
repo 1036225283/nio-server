@@ -10,12 +10,13 @@ import com.nitian.socket.core.Handler;
  */
 public class HandlerFactory extends UtilRegister<Class<?>> {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Class<Handler> get(String key) {
 		// TODO Auto-generated method stub
-		Class<Handler> handlerClass = (Class<Handler>) get(key);
+		Class<Handler> handlerClass = (Class<Handler>) super.get(key);
 		if (handlerClass == null) {
-			return get("default");
+			return (Class<Handler>) super.get("default");
 		} else {
 			return handlerClass;
 		}
