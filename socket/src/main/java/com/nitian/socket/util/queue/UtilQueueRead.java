@@ -3,6 +3,8 @@ package com.nitian.socket.util.queue;
 import java.util.Map;
 
 import com.nitian.socket.ApplicationContext;
+import com.nitian.socket.core.CoreType;
+import com.nitian.socket.core.Handler;
 import com.nitian.util.log.LogType;
 
 public class UtilQueueRead extends UtilQueue<Map<String, String>> {
@@ -18,13 +20,26 @@ public class UtilQueueRead extends UtilQueue<Map<String, String>> {
 	public void handle(Map<String, String> t) {
 		// TODO Auto-generated method stub
 
-		applicationContext.getQueueWrite().push(t);
-		// HandlerContext handlerContext = applicationContext
-		// .getPoolHandlerContext().lend();
-		// Handler handler =
-		// applicationContext.getUtilHandler().get(t.get("url"));
-		// handler.setHandlerContext(handlerContext);
-		// applicationContext.getPoolHandlerThread().execute(handler);
+		String url = t.get(CoreType.url.toString());
+
+		Class<Handler> handlerClass = applicationContext.getHandlerFactory()
+				.get(url);
+		if (handlerClass != null) {
+			Handler handler;
+			try {
+				handler = handlerClass.newInstance();
+				handler.setApplicationContext(applicationContext);
+				handler.setMap(t);
+				applicationContext.getPoolHandlerThread().execute(handler);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 		log.info(LogType.thread, this, Thread.currentThread().toString());
 	}
 

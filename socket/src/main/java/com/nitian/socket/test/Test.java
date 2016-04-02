@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,9 +16,17 @@ import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.queue.UtilQueueRead;
 
 public class Test {
-	public static void main(String[] args) throws IOException {
 
-		System.out.println(new Date().toString());
+	public void show() {
+		System.out.println("this is show");
+	}
+
+	public static void main(String[] args) throws IOException,
+			InstantiationException, IllegalAccessException {
+
+		Class<?> c = new Test().getClass();
+		Test t = (Test) c.newInstance();
+		t.show();
 
 	}
 
