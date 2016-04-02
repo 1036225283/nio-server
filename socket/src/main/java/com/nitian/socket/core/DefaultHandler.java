@@ -1,9 +1,11 @@
 package com.nitian.socket.core;
 
+import java.util.Map;
+
 public class DefaultHandler extends Handler {
 
 	@Override
-	public void handle() {
+	public void handle(Map<String, String> map) {
 		// TODO Auto-generated method stub
 
 	}

@@ -16,7 +16,7 @@ import com.nitian.util.log.LogType;
  * @author 1036225283
  *
  */
-public class ThreadRead extends Thread {
+public class ThreadRead implements Runnable {
 
 	private ApplicationContext applicationContext = ApplicationContext
 			.getInstance();
@@ -35,6 +35,8 @@ public class ThreadRead extends Thread {
 		// TODO Auto-generated method stub
 
 		try {
+			log.info(LogType.thread, this, "线程：读socket："
+					+ Thread.currentThread().toString());
 			byte[] bs = applicationContext.getPoolByte().lend();
 
 			long applicationId = applicationContext.getApplicationSocket().put(

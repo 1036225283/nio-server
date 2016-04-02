@@ -15,7 +15,7 @@ public class HandlerTest extends Handler {
 		HandlerContext handlerContext = new HandlerContext();
 		handlerContext.setMap(map);
 		HandlerTest handlerTest = new HandlerTest();
-		handlerTest.handle();
+		handlerTest.handle(null);
 
 		UtilHandler utilHandler = new UtilHandler();
 		utilHandler.regist("/user", handlerTest);
@@ -23,7 +23,7 @@ public class HandlerTest extends Handler {
 	}
 
 	@Override
-	public void handle() {
+	public void handle(Map<String, String> map) {
 		// TODO Auto-generated method stub
 		System.out.println("this is handle");
 	}

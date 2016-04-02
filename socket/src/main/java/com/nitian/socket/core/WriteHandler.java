@@ -1,16 +1,13 @@
 package com.nitian.socket.core;
 
+import java.util.Map;
+
 public class WriteHandler extends Handler {
 
-	public void handle(Message message) {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
-	public void handle() {
+	public void handle(Map<String, String> map) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

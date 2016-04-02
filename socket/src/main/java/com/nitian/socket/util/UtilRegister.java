@@ -3,6 +3,13 @@ package com.nitian.socket.util;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 注册器
+ * 
+ * @author 1036225283
+ *
+ * @param <T>
+ */
 public class UtilRegister<T> {
 
 	private Map<String, Object> map = new HashMap<String, Object>();

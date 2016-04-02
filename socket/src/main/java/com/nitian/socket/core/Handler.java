@@ -1,28 +1,9 @@
 package com.nitian.socket.core;
 
-public abstract class Handler extends Thread {
+import java.util.Map;
 
-	private HandlerContext handlerContext;
+public abstract class Handler {
 
-	public Object get(String key) {
-		return handlerContext.get(key);
-	}
-
-	public abstract void handle();
-
-	/**
-	 * 注入HandlerContext
-	 * 
-	 * @param handlerContext
-	 */
-	public void setHandlerContext(HandlerContext handlerContext) {
-		this.handlerContext = handlerContext;
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		handle();
-	}
+	public abstract void handle(Map<String, String> map);
 
 }

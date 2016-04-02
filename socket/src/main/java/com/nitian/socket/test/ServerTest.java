@@ -1,5 +1,7 @@
 package com.nitian.socket.test;
 
+import java.util.Map;
+
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.tcp.ServerTcp;
 
@@ -11,10 +13,11 @@ public class ServerTest {
 				.regist("/user/login", new Handler() {
 
 					@Override
-					public void handle() {
+					public void handle(Map<String, String> map) {
 						// TODO Auto-generated method stub
-						System.out.println("this is handler");
+						
 					}
+
 				});
 		serverTcp.start();
 	}
