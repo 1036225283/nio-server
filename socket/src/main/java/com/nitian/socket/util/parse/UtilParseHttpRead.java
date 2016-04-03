@@ -4,8 +4,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Map;
 
+import com.nitian.socket.core.CoreType;
+import com.nitian.socket.util.websocket.UtilWebSocket;
+import com.nitian.util.encrypt.UtilMd5;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
+import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 /**
  * 解析http请求头部,解析成Map<String,String>
@@ -25,7 +29,15 @@ public class UtilParseHttpRead {
 		this.map = map;
 		this.map.put("protocol", "HTTP");
 		parse(request);
-		getTypeAndUrlAndParam();
+		String protocol = judgeProtocol();
+		if (protocol.equals("HTTP")) {
+			getTypeAndUrlAndParam();
+		} else if (protocol.equals("WEBSOCKET")) {
+			String secWebSocketKey = find("Sec-WebSocket-Key");
+			String webSocketAccept = UtilWebSocket
+					.getSecWebSocketAccept(secWebSocketKey);
+			map.put(CoreType.web_socket_accept.toString(), webSocketAccept);
+		}
 		getIpAndPort();
 
 		log.info(LogType.debug, this, "----原生数据=" + request);
@@ -42,6 +54,20 @@ public class UtilParseHttpRead {
 
 	public void parse(String request) {
 		strings = request.split("\r\n");
+	}
+
+	/**
+	 * 判断协议
+	 * 
+	 * @return
+	 */
+	public String judgeProtocol() {
+		String result = find("Sec-WebSocket-Key");
+		if (result == null) {
+			return "HTTP";
+		} else {
+			return "WEBSOCKET";
+		}
 	}
 
 	/**

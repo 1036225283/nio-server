@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +17,10 @@ import java.util.Map;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.queue.UtilQueueRead;
+import com.nitian.util.encrypt.UtilBase64;
+import com.nitian.util.encrypt.UtilMd5;
+import com.nitian.util.string.UtilStringHex;
+import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 public class Test {
 
@@ -21,13 +28,60 @@ public class Test {
 		System.out.println("this is show");
 	}
 
-	public static void main(String[] args) throws IOException,
-			InstantiationException, IllegalAccessException {
+	private static String bytes2Hex(byte[] bts) {
+		String des = "";
+		String tmp = null;
+		for (int i = 0; i < bts.length; i++) {
+			tmp = (Integer.toHexString(bts[i] & 0xFF));
+			if (tmp.length() == 1) {
+				des += "0";
+			}
+			des += tmp;
+		}
+		return des;
+	}
 
+	public static void main(String[] args) throws IOException,
+			InstantiationException, IllegalAccessException,
+			NoSuchAlgorithmException {
+		testSHA();
+		// testBase64();
+
+		String key = "Sec-WebSocket-Key: ibAzXMSXFwTYt6lZeKh7Zw==))";
+		key = key.substring(0, key.indexOf("==") + 2);
+		key = key.substring(key.indexOf("Key") + 4, key.length()).trim();
+		key = key + "258EAFA5-E914-47DA- 95CA-C5AB0DC85B11";
+		MessageDigest md = MessageDigest.getInstance("SHA-1");
+		md.update(key.getBytes("utf-8"), 0, key.length());
+		byte[] sha1Hash = md.digest();
+		Base64Encoder encoder = new Base64Encoder();
+		key = encoder.encode(sha1Hash);
+		System.out.println(key);
+		// System.out.println();
+
+	}
+
+	public static void testBase64() throws UnsupportedEncodingException {
+		UtilBase64 base64 = new UtilBase64();
+		String tingting = "1111";
+		System.out.println(tingting.length());
+		String decode = base64.decode("NTY4MjRiZDY0YWQwZjQ0NDA1MDZmNTBk");
+		System.out.println(decode);
+	}
+
+	public static void testSHA() {
+		String string = "ibAzXMSXFwTYt6lZeKh7Zw==";
+		string = string + "258EAFA5-E914-47DA- 95CA-C5AB0DC85B11";
+		byte[] bs = UtilMd5.stringToSHA1_(string);
+		String result = new Base64Encoder().encode(bs);
+		System.out.println(result);
+	}
+
+	public void testClass() throws InstantiationException,
+			IllegalAccessException {
 		Class<?> c = new Test().getClass();
 		Test t = (Test) c.newInstance();
 		t.show();
-
 	}
 
 	public static void testQueueRead() {
