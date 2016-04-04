@@ -52,6 +52,19 @@ public class ThreadRead implements Runnable {
 
 			new UtilParseProtocol(new String(bs, 0, size), map);
 			applicationContext.getPoolByte().repay(bs);// 偿还bytes给对象池
+			String protocol = map.get(CoreType.protocol.toString());
+			if (protocol.equals("WEBSOCKET")) {
+				ThreadReadWebSocket webSocket = new ThreadReadWebSocket(socket);
+				boolean result = applicationContext.getListWebSocketThread()
+						.put(webSocket);
+				if (result == false) {
+					map.put(CoreType.sec_websocket_accept.toString(),
+							"i am sorry");
+				} else {
+					applicationContext.getPoolWebSocketThread().execute(
+							webSocket);
+				}
+			}
 			applicationContext.getQueueRead().push(map);
 
 		} catch (IOException e) {

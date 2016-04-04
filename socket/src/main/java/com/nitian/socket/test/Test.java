@@ -30,24 +30,13 @@ public class Test {
 	public static void main(String[] args) throws IOException,
 			InstantiationException, IllegalAccessException,
 			NoSuchAlgorithmException {
-		// testSHA();
-		// UtilBase64 base64 = new UtilBase64();
-		// String ss =
-		// base64.encode("966758c8ce2a8722fceda41ab258a207647483ca");
-		// System.out.println("----"+ss);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("a", "a");
+	}
+
+	public static void testWebSocketAccept() {
 		System.out.println(UtilWebSocket
 				.getSecWebSocketAccept("ch3uUUC+Yu05yCNTw0sBBQ=="));
-		// String key = "Sec-WebSocket-Key: ibAzXMSXFwTYt6lZeKh7Zw==))";
-		// key = key.substring(0, key.indexOf("==") + 2);
-		// key = key.substring(key.indexOf("Key") + 4, key.length()).trim();
-		// key = key + "258EAFA5-E914-47DA- 95CA-C5AB0DC85B11";
-		// MessageDigest md = MessageDigest.getInstance("SHA-1");
-		// md.update(key.getBytes("utf-8"), 0, key.length());
-		// byte[] sha1Hash = md.digest();
-		// Base64Encoder encoder = new Base64Encoder();
-		// key = encoder.encode(sha1Hash);
-		// System.out.println(key);
-		// System.out.println();
 
 	}
 

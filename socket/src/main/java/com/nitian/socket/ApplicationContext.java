@@ -4,6 +4,7 @@ import com.nitian.socket.core.ApplicationSocket;
 import com.nitian.socket.core.DefaultHandler;
 import com.nitian.socket.util.HandlerFactory;
 import com.nitian.socket.util.UtilPoolThread;
+import com.nitian.socket.util.list.UtilListWebSocketThread;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.queue.UtilQueueRead;
@@ -20,11 +21,13 @@ public class ApplicationContext {
 	private UtilPoolByte poolByte;
 	private UtilPoolThread poolSocketThread;
 	private UtilPoolThread poolHandlerThread;
+	private UtilPoolThread poolWebSocketThread;
 	private UtilPoolMap poolMap;
 	private HandlerFactory handlerFactory;
 	private UtilQueueRead queueRead;
 	private UtilQueueWrite queueWrite;
 	private ApplicationSocket applicationSocket;
+	private UtilListWebSocketThread listWebSocketThread;
 
 	private LogManager log = LogManager.getInstance();
 
@@ -36,6 +39,7 @@ public class ApplicationContext {
 		// 线程池不需要追踪
 		poolSocketThread = new UtilPoolThread(10);
 		poolHandlerThread = new UtilPoolThread(10);
+		poolWebSocketThread = new UtilPoolThread(10);
 
 		// 对象池需要追踪
 		poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
@@ -55,6 +59,7 @@ public class ApplicationContext {
 
 		// 全局socket
 		applicationSocket = new ApplicationSocket();
+		listWebSocketThread = new UtilListWebSocketThread();
 
 	}
 
@@ -108,6 +113,14 @@ public class ApplicationContext {
 
 	public void setHandlerFactory(HandlerFactory handlerFactory) {
 		this.handlerFactory = handlerFactory;
+	}
+
+	public UtilListWebSocketThread getListWebSocketThread() {
+		return listWebSocketThread;
+	}
+
+	public UtilPoolThread getPoolWebSocketThread() {
+		return poolWebSocketThread;
 	}
 
 }
