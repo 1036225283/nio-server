@@ -30,7 +30,7 @@ public class MyHttpClient {
 		writer.println("Sec-WebSocket-Version: 13");
 
 		writer.println("Sec-WebSocket-Extensions: permessage-deflate");
-		writer.println("Sec-WebSocket-Key: MTExMTExMTExMTExMTExMTEx");
+		writer.println("Sec-WebSocket-Key: 0rG2wtoMWy9IWZKQ4VLrEA==");
 		writer.println("Connection: keep-alive, Upgrade");
 
 		writer.println("Pragma: no-cache");

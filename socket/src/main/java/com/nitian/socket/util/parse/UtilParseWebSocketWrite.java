@@ -21,7 +21,7 @@ public class UtilParseWebSocketWrite {
 		sb.append("Server: Apache-Coyote/1.1").append("\r\n");
 		sb.append("Upgrade: websocket").append("\r\n");
 		sb.append("Connection: upgrade").append("\r\n");
-		String secWebSocketAccept = map.get(CoreType.web_socket_accept
+		String secWebSocketAccept = map.get(CoreType.sec_websocket_accept
 				.toString());
 		sb.append("Sec-WebSocket-Accept: ").append(secWebSocketAccept)
 				.append("\r\n");

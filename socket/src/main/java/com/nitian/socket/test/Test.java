@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,7 +19,6 @@ import com.nitian.socket.util.queue.UtilQueueRead;
 import com.nitian.socket.util.websocket.UtilWebSocket;
 import com.nitian.util.encrypt.UtilBase64;
 import com.nitian.util.encrypt.UtilMd5;
-import com.nitian.util.string.UtilStringHex;
 import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 public class Test {
@@ -29,28 +27,16 @@ public class Test {
 		System.out.println("this is show");
 	}
 
-	private static String bytes2Hex(byte[] bts) {
-		String des = "";
-		String tmp = null;
-		for (int i = 0; i < bts.length; i++) {
-			tmp = (Integer.toHexString(bts[i] & 0xFF));
-			if (tmp.length() == 1) {
-				des += "0";
-			}
-			des += tmp;
-		}
-		return des;
-	}
-
 	public static void main(String[] args) throws IOException,
 			InstantiationException, IllegalAccessException,
 			NoSuchAlgorithmException {
 		// testSHA();
-		testBase64("111111111111111111");
-		UtilBase64 base64 = new UtilBase64();
-		String ss = base64.decode("mII4okcFBWc3JWL6EA2U5vLDOus=");
-		System.out.println("----"+ss);
-		System.out.println(UtilWebSocket.getSecWebSocketAccept("MTExMTExMTExMTExMTExMTEx"));
+		// UtilBase64 base64 = new UtilBase64();
+		// String ss =
+		// base64.encode("966758c8ce2a8722fceda41ab258a207647483ca");
+		// System.out.println("----"+ss);
+		System.out.println(UtilWebSocket
+				.getSecWebSocketAccept("ch3uUUC+Yu05yCNTw0sBBQ=="));
 		// String key = "Sec-WebSocket-Key: ibAzXMSXFwTYt6lZeKh7Zw==))";
 		// key = key.substring(0, key.indexOf("==") + 2);
 		// key = key.substring(key.indexOf("Key") + 4, key.length()).trim();

@@ -1,8 +1,5 @@
 package com.nitian.socket.test;
 
-import java.util.Map;
-
-import com.nitian.socket.core.Handler;
 import com.nitian.socket.tcp.ServerTcp;
 import com.nitian.socket.test.action.LoginHandler;
 
