@@ -6,10 +6,8 @@ import java.util.Map;
 
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.websocket.UtilWebSocket;
-import com.nitian.util.encrypt.UtilMd5;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
-import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 /**
  * 解析http请求头部,解析成Map<String,String>
@@ -27,12 +25,13 @@ public class UtilParseHttpRead {
 	public UtilParseHttpRead(String request, Map<String, String> map) {
 		// TODO Auto-generated constructor stub
 		this.map = map;
-		this.map.put("protocol", "HTTP");
 		parse(request);
 		String protocol = judgeProtocol();
 		if (protocol.equals("HTTP")) {
+			this.map.put(CoreType.protocol.toString(), "HTTP");
 			getTypeAndUrlAndParam();
 		} else if (protocol.equals("WEBSOCKET")) {
+			this.map.put(CoreType.protocol.toString(), "WEBSOCKET");
 			String secWebSocketKey = find("Sec-WebSocket-Key");
 			String webSocketAccept = UtilWebSocket
 					.getSecWebSocketAccept(secWebSocketKey);

@@ -5,12 +5,48 @@ import java.net.*;
 
 public class MyHttpClient {
 	public static void main(String[] args) throws Exception {
-		String result = get();
-		System.out.println(result);
-		String[] strings = result.split("\r\n\r\n");
-		System.out.println(strings[0].length());
-		System.out.println(strings[1].length());
+		String result = getWebSocket();
+//		System.out.println(result);
+		String[] strings = result.split("\r\n");
+		for (int i = 0; i < strings.length; i++) {
+			System.out.println(strings[i]);
+		}
 		System.out.println(result.length());
+	}
+
+	public static String getWebSocket() throws IOException {
+
+		InetAddress inet = InetAddress.getByName("localhost");
+		Socket socket = new Socket(inet.getHostAddress(), 8080);
+		OutputStream out = socket.getOutputStream();
+
+		PrintWriter writer = new PrintWriter(out);
+		writer.println("GET /examples/websocket/echoAnnotation HTTP/1.1");// home.html是关于百度的页面
+		writer.println("Host: localhost:88");
+		writer.println("User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0");
+		writer.println("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		writer.println("Accept-Language: en-us,zh-cn;q=0.5");
+		writer.println("Accept-Encoding: gzip, deflate");
+		writer.println("Sec-WebSocket-Version: 13");
+
+		writer.println("Sec-WebSocket-Extensions: permessage-deflate");
+		writer.println("Sec-WebSocket-Key: MTExMTExMTExMTExMTExMTEx");
+		writer.println("Connection: keep-alive, Upgrade");
+
+		writer.println("Pragma: no-cache");
+		writer.println("Cache-Control: no-cache");
+		writer.println("Upgrade: websocket");
+		writer.println();
+		writer.flush();
+
+		InputStream in = socket.getInputStream();
+		byte[] bs = new byte[1024 * 512];
+		int length = in.read(bs);
+		String result = new String(bs, 0, length);
+
+		writer.close();
+		socket.close();
+		return result;
 	}
 
 	public static String get() throws IOException {

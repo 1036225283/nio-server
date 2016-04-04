@@ -17,6 +17,7 @@ import java.util.Map;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.queue.UtilQueueRead;
+import com.nitian.socket.util.websocket.UtilWebSocket;
 import com.nitian.util.encrypt.UtilBase64;
 import com.nitian.util.encrypt.UtilMd5;
 import com.nitian.util.string.UtilStringHex;
@@ -44,29 +45,32 @@ public class Test {
 	public static void main(String[] args) throws IOException,
 			InstantiationException, IllegalAccessException,
 			NoSuchAlgorithmException {
-		testSHA();
-		// testBase64();
-
-		String key = "Sec-WebSocket-Key: ibAzXMSXFwTYt6lZeKh7Zw==))";
-		key = key.substring(0, key.indexOf("==") + 2);
-		key = key.substring(key.indexOf("Key") + 4, key.length()).trim();
-		key = key + "258EAFA5-E914-47DA- 95CA-C5AB0DC85B11";
-		MessageDigest md = MessageDigest.getInstance("SHA-1");
-		md.update(key.getBytes("utf-8"), 0, key.length());
-		byte[] sha1Hash = md.digest();
-		Base64Encoder encoder = new Base64Encoder();
-		key = encoder.encode(sha1Hash);
-		System.out.println(key);
+		// testSHA();
+		testBase64("111111111111111111");
+		UtilBase64 base64 = new UtilBase64();
+		String ss = base64.decode("mII4okcFBWc3JWL6EA2U5vLDOus=");
+		System.out.println("----"+ss);
+		System.out.println(UtilWebSocket.getSecWebSocketAccept("MTExMTExMTExMTExMTExMTEx"));
+		// String key = "Sec-WebSocket-Key: ibAzXMSXFwTYt6lZeKh7Zw==))";
+		// key = key.substring(0, key.indexOf("==") + 2);
+		// key = key.substring(key.indexOf("Key") + 4, key.length()).trim();
+		// key = key + "258EAFA5-E914-47DA- 95CA-C5AB0DC85B11";
+		// MessageDigest md = MessageDigest.getInstance("SHA-1");
+		// md.update(key.getBytes("utf-8"), 0, key.length());
+		// byte[] sha1Hash = md.digest();
+		// Base64Encoder encoder = new Base64Encoder();
+		// key = encoder.encode(sha1Hash);
+		// System.out.println(key);
 		// System.out.println();
 
 	}
 
-	public static void testBase64() throws UnsupportedEncodingException {
+	public static void testBase64(String tingting)
+			throws UnsupportedEncodingException {
 		UtilBase64 base64 = new UtilBase64();
-		String tingting = "1111";
 		System.out.println(tingting.length());
-		String decode = base64.decode("NTY4MjRiZDY0YWQwZjQ0NDA1MDZmNTBk");
-		System.out.println(decode);
+		String encode = base64.encode(tingting);
+		System.out.println(encode);
 	}
 
 	public static void testSHA() {
