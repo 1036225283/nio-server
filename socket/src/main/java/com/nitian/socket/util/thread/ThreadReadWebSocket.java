@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.parse.UtilParseProtocol;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -40,6 +39,14 @@ public class ThreadReadWebSocket implements Runnable {
 						+ Thread.currentThread().toString());
 				byte[] bs = applicationContext.getPoolByte().lend();
 
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+				System.out.println("isClosed:" + socket.isClosed());
+				System.out.println("isBound:" + socket.isBound());
+				System.out.println("isConnected:" + socket.isConnected());
+				System.out.println("isInputShutdown:"
+						+ socket.isInputShutdown());
+				System.out.println("isOutputShutdown:"
+						+ socket.isOutputShutdown());
 				long applicationId = applicationContext.getApplicationSocket()
 						.put(socket);
 
@@ -50,9 +57,10 @@ public class ThreadReadWebSocket implements Runnable {
 						.lend();
 				map.put(CoreType.applicationId.toString(),
 						String.valueOf(applicationId));
+				map.put(CoreType.protocol.toString(), "WEBSOCKET");
 				map.put(CoreType.size.toString(), String.valueOf(size));
-
-				new UtilParseProtocol(new String(bs, 0, size), map);
+				System.out.println("接受：" + new String(bs, 0, size));
+				// new UtilParseProtocol(new String(bs, 0, size), map);
 				applicationContext.getPoolByte().repay(bs);// 偿还bytes给对象池
 				applicationContext.getQueueRead().push(map);
 
