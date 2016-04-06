@@ -6,6 +6,8 @@ import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.write.UtilHttpWrite;
 import com.nitian.socket.util.write.UtilWebSocketWrite;
+import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
 
 /**
  * 线程写数据

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.core.CoreType;
+import com.nitian.util.java.UtilByte;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -40,17 +41,27 @@ public class ThreadReadWebSocket implements Runnable {
 				byte[] bs = applicationContext.getPoolByte().lend();
 
 				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-				System.out.println("isClosed:" + socket.isClosed());
-				System.out.println("isBound:" + socket.isBound());
-				System.out.println("isConnected:" + socket.isConnected());
-				System.out.println("isInputShutdown:"
-						+ socket.isInputShutdown());
-				System.out.println("isOutputShutdown:"
+				System.out.println(" isClosed:" + socket.isClosed());
+				System.out.print(" isBound:" + socket.isBound());
+				System.out.print(" isConnected:" + socket.isConnected());
+				System.out
+						.print(" isInputShutdown:" + socket.isInputShutdown());
+				System.out.print(" isOutputShutdown:"
 						+ socket.isOutputShutdown());
 				long applicationId = applicationContext.getApplicationSocket()
 						.put(socket);
 
 				int size = socket.getInputStream().read(bs);
+				if (size != -1) {
+					byte[] bs2 = new byte[size];
+					UtilByte byte1 = new UtilByte();
+					byte1.setValue(bs2);
+					byte1.copy(bs);
+					System.out.println(byte1.toBin());
+					System.out.println(byte1.toHex());
+					System.out.println(byte1.toDec());
+				}
+
 				log.info(LogType.debug, this, "size=" + size);
 
 				Map<String, String> map = applicationContext.getPoolMap()
@@ -58,6 +69,7 @@ public class ThreadReadWebSocket implements Runnable {
 				map.put(CoreType.applicationId.toString(),
 						String.valueOf(applicationId));
 				map.put(CoreType.protocol.toString(), "WEBSOCKET");
+				map.put("result", "this is web socket");
 				map.put(CoreType.size.toString(), String.valueOf(size));
 				System.out.println("接受：" + new String(bs, 0, size));
 				// new UtilParseProtocol(new String(bs, 0, size), map);

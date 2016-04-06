@@ -4,6 +4,9 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
+
 public class ApplicationSocket {
 
 	/**
@@ -11,6 +14,7 @@ public class ApplicationSocket {
 	 */
 	private Map<Long, Socket> applicationMap = new HashMap<Long, Socket>();
 	private long currendId = 0;
+	protected LogManager log = LogManager.getInstance();
 
 	/**
 	 * 创建aplicationId
@@ -29,6 +33,7 @@ public class ApplicationSocket {
 	}
 
 	public Socket remove(long id) {
+		log.info(LogType.socket, this, "map 中socket：" + applicationMap);
 		return applicationMap.remove(id);
 	}
 }
