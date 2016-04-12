@@ -79,11 +79,11 @@ public class MyHttpClient {
 	public static String post() throws IOException {
 
 		InetAddress inet = InetAddress.getByName("localhost");
-		Socket socket = new Socket(inet.getHostAddress(), 88);
+		Socket socket = new Socket(inet.getHostAddress(), 99);
 		OutputStream out = socket.getOutputStream();
 
 		PrintWriter writer = new PrintWriter(out);
-		writer.println("POST /user/login HTTP/1.1");// home.html是关于百度的页面
+		writer.println("POST /spring-mvc/test/test HTTP/1.1");// home.html是关于百度的页面
 		writer.println("Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, */*");
 		writer.println("Accept-Language: en-us,zh-cn;q=0.5");
 		writer.println("Accept-Encoding: gzip, deflate");
