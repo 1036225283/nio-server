@@ -7,6 +7,7 @@ import com.nitian.socket.util.UtilPoolThread;
 import com.nitian.socket.util.list.UtilListWebSocketThread;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
+import com.nitian.socket.util.queue.UtilQueueParse;
 import com.nitian.socket.util.queue.UtilQueueRead;
 import com.nitian.socket.util.queue.UtilQueueWrite;
 import com.nitian.util.log.LogManager;
@@ -16,7 +17,7 @@ public class ApplicationContext {
 
 	private static ApplicationContext context = new ApplicationContext();
 	private int poolMax = 800;
-	private int poolTotal = 2;
+	private int poolTotal = 200;
 
 	private UtilPoolByte poolByte;
 	private UtilPoolThread poolSocketThread;
@@ -24,8 +25,10 @@ public class ApplicationContext {
 	private UtilPoolThread poolWebSocketThread;
 	private UtilPoolMap poolMap;
 	private HandlerFactory handlerFactory;
+	// 消息队列
 	private UtilQueueRead queueRead;
 	private UtilQueueWrite queueWrite;
+	private UtilQueueParse queueParse;
 	private ApplicationSocket applicationSocket;
 	private UtilListWebSocketThread listWebSocketThread;
 
@@ -34,7 +37,7 @@ public class ApplicationContext {
 	public ApplicationContext() {
 		// TODO Auto-generated constructor stub
 
-		log.putType(LogType.debug.toString());
+		log.putType(LogType.time.toString());
 		log.putType(LogType.socket.toString());
 		// 线程池不需要追踪
 		poolSocketThread = new UtilPoolThread(200);
@@ -51,8 +54,10 @@ public class ApplicationContext {
 		// 读，写消息队列
 		queueRead = new UtilQueueRead(this);
 		queueWrite = new UtilQueueWrite(this);
+		queueParse = new UtilQueueParse(this);
 		new Thread(queueRead, "线程：读队列线程").start();
 		new Thread(queueWrite, "线程：写队列线程").start();
+		new Thread(queueParse, "线程：解析列线程").start();
 
 		// 默认handler
 		handlerFactory.regist("default", DefaultHandler.class);
@@ -121,6 +126,14 @@ public class ApplicationContext {
 
 	public UtilPoolThread getPoolWebSocketThread() {
 		return poolWebSocketThread;
+	}
+
+	public UtilQueueParse getQueueParse() {
+		return queueParse;
+	}
+
+	public void setQueueParse(UtilQueueParse queueParse) {
+		this.queueParse = queueParse;
 	}
 
 }

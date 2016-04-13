@@ -25,9 +25,9 @@ public class UtilPoolByte extends UtilPool<byte[]> {
 	@Override
 	protected void initValue(byte[] t) {
 		// TODO Auto-generated method stub
-		for (int i = 0; i < t.length; i++) {
-			t[i] = 0;
-		}
+		// for (int i = 0; i < t.length; i++) {
+		// t[i] = 0;
+		// }
 	}
 
 }

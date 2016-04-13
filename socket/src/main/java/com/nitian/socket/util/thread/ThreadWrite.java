@@ -20,6 +20,8 @@ public class ThreadWrite extends Thread {
 	private ApplicationContext applicationContext = ApplicationContext
 			.getInstance();
 
+	protected LogManager log = LogManager.getInstance();
+
 	private Map<String, String> map;
 
 	public ThreadWrite(Map<String, String> map) {
@@ -30,12 +32,14 @@ public class ThreadWrite extends Thread {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		log.dateInfo(LogType.time, this, "第五步：开始包装发送消息");
 		String protocol = map.get(CoreType.protocol.toString());
 		if (protocol.equals("HTTP")) {
 			UtilHttpWrite.write(map, applicationContext);
 		} else if (protocol.equals("WEBSOCKET")) {
 			UtilWebSocketWrite.write(map, applicationContext);
 		}
+		log.dateInfo(LogType.time, this, "第五步：结束包装发送消息");
 	}
 
 	public Map<String, String> getMap() {

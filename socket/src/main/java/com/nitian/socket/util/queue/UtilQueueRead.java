@@ -19,7 +19,7 @@ public class UtilQueueRead extends UtilQueue<Map<String, String>> {
 	@Override
 	public void handle(Map<String, String> t) {
 		// TODO Auto-generated method stub
-
+		log.dateInfo(LogType.time, this, "第三步：开始处理消息");
 		String url = t.get(CoreType.url.toString());
 
 		Class<Handler> handlerClass = applicationContext.getHandlerFactory()
@@ -30,7 +30,8 @@ public class UtilQueueRead extends UtilQueue<Map<String, String>> {
 				handler = handlerClass.newInstance();
 				handler.setApplicationContext(applicationContext);
 				handler.setMap(t);
-				applicationContext.getPoolHandlerThread().execute(handler);
+				handler.handle(t);
+				handler.afterHandle();
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -41,6 +42,7 @@ public class UtilQueueRead extends UtilQueue<Map<String, String>> {
 
 		}
 		log.info(LogType.thread, this, Thread.currentThread().toString());
+		log.dateInfo(LogType.time, this, "第三步：结束处理消息");
 	}
 
 }

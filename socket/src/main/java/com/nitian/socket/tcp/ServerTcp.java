@@ -5,7 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.nitian.socket.ApplicationContext;
-import com.nitian.socket.util.thread.ThreadRead;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -37,8 +36,8 @@ public class ServerTcp {
 			log.info(LogType.debug, this, "server is start");
 			while (true) {
 				Socket socket = serverSocket.accept();
-				applicationContext.getPoolSocketThread().execute(
-						new ThreadRead(socket));
+				log.dateInfo(LogType.time, this, "第一步：接收socket");
+				applicationContext.getQueueParse().push(socket);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

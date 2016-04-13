@@ -4,21 +4,14 @@ import java.util.Map;
 
 import com.nitian.socket.ApplicationContext;
 
-public abstract class Handler implements Runnable {
+public abstract class Handler {
 
 	public abstract void handle(Map<String, String> map);
 
 	private ApplicationContext applicationContext;
 	private Map<String, String> map;
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		handle(map);
-		afterHandle();
-	}
-
-	private void afterHandle() {
+	public void afterHandle() {
 		applicationContext.getQueueWrite().push(map);
 	}
 

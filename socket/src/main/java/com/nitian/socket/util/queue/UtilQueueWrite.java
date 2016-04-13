@@ -24,8 +24,10 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 	@Override
 	public void handle(Map<String, String> t) {
 		// TODO Auto-generated method stub
+		log.dateInfo(LogType.time, this, "第四步：开始发送消息");
 		applicationContext.getPoolSocketThread().execute(new ThreadWrite(t));
 		log.info(LogType.thread, this, Thread.currentThread().toString());
+		log.dateInfo(LogType.time, this, "第四步：结束发送消息");
 	}
 
 }

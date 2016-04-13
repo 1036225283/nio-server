@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,9 +17,12 @@ import java.util.Map;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.queue.UtilQueueRead;
+import com.nitian.socket.util.queue.UtilQueueParse;
 import com.nitian.socket.util.websocket.UtilWebSocket;
 import com.nitian.util.encrypt.UtilBase64;
 import com.nitian.util.encrypt.UtilMd5;
+import com.nitian.util.log.LogManager;
+import com.nitian.util.time.UtilTime;
 import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 public class Test {
@@ -30,8 +34,8 @@ public class Test {
 	public static void main(String[] args) throws IOException,
 			InstantiationException, IllegalAccessException,
 			NoSuchAlgorithmException {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("a", "a");
+		String s = UtilTime.dateToyyyyMMddHHmmss(new Date());
+		System.out.println(s);
 	}
 
 	public static void testWebSocketAccept() {
