@@ -37,8 +37,8 @@ public class ApplicationContext {
 		log.putType(LogType.debug.toString());
 		log.putType(LogType.socket.toString());
 		// 线程池不需要追踪
-		poolSocketThread = new UtilPoolThread(10);
-		poolHandlerThread = new UtilPoolThread(10);
+		poolSocketThread = new UtilPoolThread(200);
+		poolHandlerThread = new UtilPoolThread(200);
 		poolWebSocketThread = new UtilPoolThread(10);
 
 		// 对象池需要追踪
