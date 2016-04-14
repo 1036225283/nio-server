@@ -55,7 +55,7 @@ public abstract class UtilPool<T> {
 	 * 
 	 * @return
 	 */
-	public T lend() {
+	public synchronized T lend() {
 		log.info(LogType.pool, this, "action:lend,poolSize="
 				+ (list.size() - 1));
 		T result = null;
@@ -77,7 +77,7 @@ public abstract class UtilPool<T> {
 	 * 
 	 * @param t
 	 */
-	public void repay(T t) {
+	public synchronized void repay(T t) {
 		initValue(t);
 		list.add(t);
 		log.info(LogType.pool, this, "action:repay,poolSize="

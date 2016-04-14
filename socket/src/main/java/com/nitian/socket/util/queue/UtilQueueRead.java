@@ -17,7 +17,7 @@ public class UtilQueueRead extends UtilQueue<Map<String, String>> {
 	}
 
 	@Override
-	public void handle(Map<String, String> t) {
+	public synchronized void handle(Map<String, String> t) {
 		// TODO Auto-generated method stub
 		log.dateInfo(LogType.time, this, "第三步：开始处理消息");
 		String url = t.get(CoreType.url.toString());

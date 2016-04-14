@@ -37,5 +37,5 @@ public abstract class UtilQueue<T> implements Runnable {
 
 	}
 
-	public abstract void handle(T t);
+	public  abstract  void handle(T t);
 }

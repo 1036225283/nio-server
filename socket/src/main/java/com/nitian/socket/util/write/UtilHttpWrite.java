@@ -10,7 +10,7 @@ import com.nitian.socket.util.parse.UtilParseHttpWrite;
 
 public class UtilHttpWrite {
 
-	public static void write(Map<String, String> map,
+	public synchronized static void write(Map<String, String> map,
 			ApplicationContext applicationContext) {
 		long applicationId = Long.valueOf(map.get(CoreType.applicationId
 				.toString()));

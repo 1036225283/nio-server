@@ -3,7 +3,9 @@ package com.nitian.socket.util.queue;
 import java.util.Map;
 
 import com.nitian.socket.ApplicationContext;
-import com.nitian.socket.util.thread.ThreadWrite;
+import com.nitian.socket.core.CoreType;
+import com.nitian.socket.util.write.UtilHttpWrite;
+import com.nitian.socket.util.write.UtilWebSocketWrite;
 import com.nitian.util.log.LogType;
 
 /**
@@ -22,10 +24,17 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 	}
 
 	@Override
-	public void handle(Map<String, String> t) {
+	public synchronized void handle(Map<String, String> map) {
 		// TODO Auto-generated method stub
 		log.dateInfo(LogType.time, this, "第四步：开始发送消息");
-		applicationContext.getPoolSocketThread().execute(new ThreadWrite(t));
+		log.dateInfo(LogType.time, this, "第五步：开始包装发送消息");
+		String protocol = map.get(CoreType.protocol.toString());
+		if (protocol.equals("HTTP")) {
+			UtilHttpWrite.write(map, applicationContext);
+		} else if (protocol.equals("WEBSOCKET")) {
+			UtilWebSocketWrite.write(map, applicationContext);
+		}
+		log.dateInfo(LogType.time, this, "第五步：结束包装发送消息");
 		log.info(LogType.thread, this, Thread.currentThread().toString());
 		log.dateInfo(LogType.time, this, "第四步：结束发送消息");
 	}

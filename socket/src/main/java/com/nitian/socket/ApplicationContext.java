@@ -37,8 +37,8 @@ public class ApplicationContext {
 	public ApplicationContext() {
 		// TODO Auto-generated constructor stub
 
-		log.putType(LogType.time.toString());
-		log.putType(LogType.socket.toString());
+		// log.putType(LogType.time.toString());
+		log.putType(LogType.pool.toString());
 		// 线程池不需要追踪
 		poolSocketThread = new UtilPoolThread(200);
 		poolHandlerThread = new UtilPoolThread(200);

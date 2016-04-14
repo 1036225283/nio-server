@@ -26,13 +26,13 @@ public class ApplicationSocket {
 		return currendId;
 	}
 
-	public long put(Socket socket) {
+	public synchronized long put(Socket socket) {
 		long id = createApplicationId();
 		applicationMap.put(id, socket);
 		return id;
 	}
 
-	public Socket remove(long id) {
+	public synchronized Socket remove(long id) {
 		log.info(LogType.socket, this, "map 中socket：" + applicationMap);
 		return applicationMap.remove(id);
 	}

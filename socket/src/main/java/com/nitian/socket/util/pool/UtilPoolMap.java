@@ -18,13 +18,13 @@ public class UtilPoolMap extends UtilPool<Map<String, String>> {
 	}
 
 	@Override
-	protected Map<String, String> factory() {
+	protected synchronized Map<String, String> factory() {
 		// TODO Auto-generated method stub
 		return new HashMap<String, String>();
 	}
 
 	@Override
-	protected void initValue(Map<String, String> t) {
+	protected synchronized void initValue(Map<String, String> t) {
 		// TODO Auto-generated method stub
 		t.clear();
 	}

@@ -29,7 +29,7 @@ public class UtilQueueParse extends UtilQueue<Socket> {
 	}
 
 	@Override
-	public void handle(Socket socket) {
+	public synchronized void handle(Socket socket) {
 		// TODO Auto-generated method stub
 
 		try {
@@ -49,6 +49,9 @@ public class UtilQueueParse extends UtilQueue<Socket> {
 					socket);
 
 			Map<String, String> map = applicationContext.getPoolMap().lend();
+			if (map == null) {
+				System.out.println("草你么，空指针了");
+			}
 			map.put(CoreType.applicationId.toString(),
 					String.valueOf(applicationId));
 			map.put(CoreType.size.toString(), String.valueOf(size));
