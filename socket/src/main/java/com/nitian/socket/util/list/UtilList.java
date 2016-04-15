@@ -14,7 +14,7 @@ public class UtilList<T> {
 	private List<T> list = new LinkedList<T>();
 	private int max = 1000;// 缓存容量极值
 
-	public void remove(T t) {
+	public synchronized void remove(T t) {
 		list.remove(t);
 	}
 
@@ -24,7 +24,7 @@ public class UtilList<T> {
 	 * @param t
 	 * @return
 	 */
-	public boolean put(T t) {
+	public synchronized boolean put(T t) {
 		if (list.size() < max) {
 			list.add(t);
 			return true;
@@ -33,7 +33,7 @@ public class UtilList<T> {
 		}
 	}
 
-	public List<T> getList() {
+	public synchronized List<T> getList() {
 		return list;
 	}
 

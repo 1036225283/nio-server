@@ -7,7 +7,7 @@ import java.util.Map;
 import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseProtocol;
-import com.nitian.socket.util.thread.ThreadReadWebSocket;
+import com.nitian.socket.util.thread.ThreadWebSocket;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -60,7 +60,7 @@ public class UtilQueueParse extends UtilQueue<Socket> {
 			applicationContext.getPoolByte().repay(bs);// 偿还bytes给对象池
 			String protocol = map.get(CoreType.protocol.toString());
 			if (protocol.equals("WEBSOCKET")) {
-				ThreadReadWebSocket webSocket = new ThreadReadWebSocket(socket);
+				ThreadWebSocket webSocket = new ThreadWebSocket(socket);
 				boolean result = applicationContext.getListWebSocketThread()
 						.put(webSocket);
 				if (result == false) {

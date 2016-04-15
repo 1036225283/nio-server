@@ -1,6 +1,6 @@
 package com.nitian.socket.util.list;
 
-import com.nitian.socket.util.thread.ThreadReadWebSocket;
+import com.nitian.socket.util.thread.ThreadWebSocket;
 
 /**
  * webSocket有限集合
@@ -8,11 +8,11 @@ import com.nitian.socket.util.thread.ThreadReadWebSocket;
  * @author 1036225283
  *
  */
-public class UtilListWebSocketThread extends UtilList<ThreadReadWebSocket> {
+public class UtilListWebSocketThread extends UtilList<ThreadWebSocket> {
 
 	public UtilListWebSocketThread() {
 		// TODO Auto-generated constructor stub
-		setMax(1000);
+		setMax(10000);
 	}
 
 }
