@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.core.CoreType;
-import com.nitian.util.java.UtilByte;
+import com.nitian.socket.util.parse.UtilParseWebSocketData;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -42,15 +42,7 @@ public class ThreadWebSocket implements Runnable {
 				byte[] bs = applicationContext.getPoolByte().lend();
 				int size = socket.getInputStream().read(bs);
 				if (size != -1) {
-					byte[] bs2 = new byte[size];
-					UtilByte byte1 = new UtilByte();
-					byte1.setValue(bs2);
-					byte1.copy(bs);
-					System.out.println(byte1.toBin());
-					System.out.println(byte1.toHex());
-					System.out.println(byte1.toDec());
-					System.out.println("接受：" + new String(bs, 0, size));
-
+					UtilParseWebSocketData.parse(bs, size);
 					long applicationId = applicationContext
 							.getApplicationSocket().put(socket);
 					log.info(LogType.debug, this, "size=" + size);

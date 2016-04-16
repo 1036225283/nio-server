@@ -21,6 +21,7 @@ import com.nitian.socket.util.queue.UtilQueueParse;
 import com.nitian.socket.util.websocket.UtilWebSocket;
 import com.nitian.util.encrypt.UtilBase64;
 import com.nitian.util.encrypt.UtilMd5;
+import com.nitian.util.java.UtilByte;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.time.UtilTime;
 import com.thoughtworks.xstream.core.util.Base64Encoder;
@@ -34,8 +35,16 @@ public class Test {
 	public static void main(String[] args) throws IOException,
 			InstantiationException, IllegalAccessException,
 			NoSuchAlgorithmException {
-		String s = UtilTime.dateToyyyyMMddHHmmss(new Date());
-		System.out.println(s);
+		testGetBit();
+	}
+
+	public static void testGetBit() {
+		byte height = (byte) 255;
+		for (int i = 8; i > 0; i--) {
+			System.out.print(UtilByte.getBit(height, i));
+		}
+		System.out.println();
+		System.out.println(UtilByte.toBin(height));
 	}
 
 	public static void testWebSocketAccept() {
