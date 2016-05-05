@@ -2,7 +2,7 @@ package xws;
 
 import java.util.Date;
 
-public class Test {
+public class FoldLong {
 
 	public static void main(String[] args) throws InterruptedException {
 		long dates = new Date().getTime();

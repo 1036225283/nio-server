@@ -19,6 +19,8 @@ public class UtilParseWebSocketData {
 		if (fin == 0) {// 暂不处理连续帧
 			log.info("websocket_frame", "这是连续帧fin");
 			return "";
+		} else {
+			log.info("websocket_frame", "这是唯一帧fin");
 		}
 
 		byte opcode = getOpCode(bs[0]);
@@ -37,6 +39,16 @@ public class UtilParseWebSocketData {
 			log.info("websocket_frame", "这是pong帧");
 		}
 
+		byte mask = UtilByte.getBit(bs[1], 8);
+		if (mask == 1) {
+			log.info("websocket_frame", "这是掩码");
+		} else {
+			log.info("websocket_frame", "没有掩码");
+		}
+
+		long payLoadLength = getPayloadLength(bs);
+		log.info("websocket_frame", "payLoadLength=" + payLoadLength);
+
 		return "";
 	}
 
@@ -45,14 +57,30 @@ public class UtilParseWebSocketData {
 		return (byte) (b & low);
 	}
 
+	public static long getPayloadLength(byte[] bs) {
+		byte b = bs[1];
+		b = (byte) (b & 127);// 0111 1111
+		if (b < 126) {
+			log.info("websocket_frame", "数据长度：" + b);
+		} else if (b == 126) {
+			System.out.println(UtilByte.toBin(bs[2]));
+			System.out.println(UtilByte.toBin(bs[3]));
+			log.info("websocket_frame", "数据长度中等");
+			if (bs[2] != 0) {
+				return bs[2] * 256 + bs[3];
+			} else {
+				return (long) bs[3];
+			}
+		} else if (b == 127) {
+			log.info("websocket_frame", "数据长度较大");
+		}
+		return b;
+	}
+
 	public static void print(byte[] bs, int size) {
-		byte[] bs2 = new byte[size];
-		UtilByte byte1 = new UtilByte();
-		byte1.setValue(bs2);
-		byte1.copy(bs);
-		log.info("websocket_frame", byte1.toBin());
-		log.info("websocket_frame", byte1.toHex());
-		log.info("websocket_frame", byte1.toDec());
+		log.info("websocket_frame", UtilByte.toBin(bs));
+		log.info("websocket_frame", UtilByte.toHex(bs));
+		log.info("websocket_frame", UtilByte.toDec(bs));
 		log.info("websocket_frame", new String(bs, 0, size));
 	}
 

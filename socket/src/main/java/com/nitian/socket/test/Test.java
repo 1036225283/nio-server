@@ -35,7 +35,13 @@ public class Test {
 	public static void main(String[] args) throws IOException,
 			InstantiationException, IllegalAccessException,
 			NoSuchAlgorithmException {
-		testGetBit();
+
+		byte height = (byte) 127;
+//		 height = (byte) ( 1<< 5);
+		System.out.println((int) height);
+		System.out.println(UtilByte.toBin(height));
+		// System.out.print(UtilByte.getBit(height, 4));
+		// testGetBit();
 	}
 
 	public static void testGetBit() {
