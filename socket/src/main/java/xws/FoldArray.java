@@ -14,9 +14,9 @@ public class FoldArray {
 			ints[i] = i;
 		}
 		// find(ints, 5003);
-		int[] intsb = new int[] { 1, 3, 5, 14, 66, 88 };
-		int index = findIndex(intsb, 16, intsb.length);
-		System.out.println(index);
+		int[] intsb = new int[] { 1, 3, 5, 9, 10, 11, 13, 13, 13 };
+		int index = findIndex(intsb, 14, intsb.length);
+		System.out.println("插入位置：" + index);
 		long datee = new Date().getTime();
 		System.out.println("时间：" + (datee - dates));
 	}
@@ -60,22 +60,13 @@ public class FoldArray {
 	 *            :数据长度
 	 */
 	public static int findIndex(int[] ints, int value, int length) {
-		// 前置判断
-		if (value < ints[0]) {
-			return 0;
-		}
-
-		if (value > ints[length - 1]) {
-			return length;
-		}
-
 		int min = 0;// 区间左边界
-		int max = length-1;// 区间右边界
+		int max = length - 1;// 区间右边界
 		int index = 0;
 		int foldIndex = 0;// 二分值索引(坐标)
 		int interval = 0;// 区间
 		int foldValue = 0;// 二分值
-		while (max - min > 0) {
+		while (max - min > 1) {
 			System.out.println("查找次数：" + index++);
 			interval = max - min;
 			foldIndex = min + interval / 2;
@@ -85,14 +76,23 @@ public class FoldArray {
 				System.out.println(foldIndex);
 				return foldIndex;
 			} else if (value > foldValue) {
-				min = foldValue;// 重新设置左边界
+				min = foldIndex;// 重新设置左边界
 			} else if (value < foldValue) {
-				max = foldValue;// 重新设置右边界
+				max = foldIndex;// 重新设置右边界
 			}
 		}
-
-		System.out.println("插入位置：" + foldIndex);
-		return foldIndex;
+		System.out.println("-----------");
+		System.out.println(max);
+		System.out.println(min);
+		if (value <= ints[max] && value >= ints[min]) {
+			return min + 1;
+		} else if (value > ints[max]) {
+			return max + 1;
+		} else if (value < ints[min]) {
+			return min;
+		} else {
+			return -1;
+		}
 	}
 
 	/**
