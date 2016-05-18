@@ -54,4 +54,54 @@ public class Bubbling {
 			}
 		}
 	}
+
+	/**
+	 * 打算模仿大话数据结构中的算法，非常狗屎
+	 * 
+	 * @param array
+	 */
+	public static void sort2(int[] array) {
+		int tmp = 0;
+		for (int i = 0; i < array.length - 1; i++) {
+			for (int j = 0; j < array.length - 1 - i; j++) {
+				if (array[j] > array[j + 1]) {
+					tmp = array[j];
+					array[j] = array[j + 1];
+					array[j + 1] = tmp;
+				}
+			}
+			// show(array);
+		}
+	}
+
+	/**
+	 * 简单选择排序
+	 * 
+	 * @param array
+	 */
+	public static void simpleChoose(int[] array) {
+		int min = 0;
+		int tmp = 0;
+		for (int i = 0; i < array.length; i++) {
+			min = i;
+			for (int j = i + 1; j < array.length; j++) {
+				if (array[min] > array[j]) {
+					min = j;
+				}
+			}
+			if (i != min) {
+				tmp = array[i];
+				array[i] = array[min];
+				array[min] = tmp;
+			}
+		}
+	}
+
+	public static void show(int[] array) {
+		for (int i = 0; i < array.length; i++) {
+			System.out.print(array[i] + " ");
+		}
+		System.out.println("");
+	}
+
 }
