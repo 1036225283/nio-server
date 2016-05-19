@@ -1,8 +1,14 @@
-package xws;
+package com.nitian.find;
 
 import java.util.Date;
 
-public class FoldArray {
+/**
+ * 二分查找
+ * 
+ * @author 1036225283
+ *
+ */
+public class BinaryFind {
 
 	public static void main(String[] args) throws InterruptedException {
 		long dates = new Date().getTime();

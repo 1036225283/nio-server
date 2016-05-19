@@ -6,7 +6,7 @@ package com.nitian.sort;
  * @author 1036225283
  *
  */
-public class Bubbling {
+public class SortBubbling {
 
 	/**
 	 * 原始冒泡排序
