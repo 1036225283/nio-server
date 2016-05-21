@@ -13,20 +13,17 @@ public class Test {
 		int[] array4 = copy(array);
 		Second.getSecond("create array");
 		SortBubbling.sort(array);
-		Second.getSecond("bubbling sort");
+		Second.getSecond("原始冒泡排序");
 		SortBubbling.sort1(array2);
-		Second.getSecond("bubbling sort1");
+		Second.getSecond("改进冒泡排序");
 		SortBubbling.simpleChoose(array3);
-		Second.getSecond("bubbling sort2");
+		Second.getSecond("简单选择排序");
 		SortInsertion insertion = new SortInsertion(array4.length);
 		for (int i = 0; i < array4.length; i++) {
 			insertion.insert(array4[i]);
 		}
-		Second.getSecond("insert sort");
+		Second.getSecond("插入排序");
 		System.out.println(array3.length);
-		// for (int i = 0; i < array2.length; i++) {
-		// System.out.println(array[i]);
-		// }
 	}
 
 	public static int[] copy(int[] array) {
