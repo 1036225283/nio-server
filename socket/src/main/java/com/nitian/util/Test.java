@@ -1,5 +1,6 @@
 package com.nitian.util;
 
+import com.nitian.linked.LinkSingleList;
 import com.nitian.sort.SortBubbling;
 import com.nitian.sort.SortInsertion;
 
@@ -7,10 +8,11 @@ public class Test {
 
 	public static void main(String[] args) {
 		Second.getSecond("初始化");
-		int[] array = Random.create(10000);
+		int[] array = Random.create(100000);
 		int[] array2 = copy(array);
 		int[] array3 = copy(array);
 		int[] array4 = copy(array);
+		int[] array5 = copy(array);
 		Second.getSecond("create array");
 		SortBubbling.sort(array);
 		Second.getSecond("原始冒泡排序");
@@ -23,7 +25,14 @@ public class Test {
 			insertion.insert(array4[i]);
 		}
 		Second.getSecond("插入排序");
-		System.out.println(array3.length);
+		LinkSingleList linkedList = new LinkSingleList();
+		for (int i = 0; i < array5.length; i++) {
+			linkedList.insert(array5[i]);
+		}
+		Second.getSecond("单链表排序");
+		// linkedList.show();
+		// System.out.println();
+		System.out.println(array5.length);
 	}
 
 	public static int[] copy(int[] array) {
