@@ -11,6 +11,7 @@ public class NodeLinked {
 	private int value;
 
 	private NodeLinked next;
+	private NodeLinked prev;
 
 	public int getValue() {
 		return value;
@@ -26,6 +27,14 @@ public class NodeLinked {
 
 	public void setNext(NodeLinked next) {
 		this.next = next;
+	}
+
+	public NodeLinked getPrev() {
+		return prev;
+	}
+
+	public void setPrev(NodeLinked prev) {
+		this.prev = prev;
 	}
 
 }

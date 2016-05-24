@@ -1,6 +1,5 @@
 package com.nitian.linked;
 
-
 /**
  * 有序双向链表
  * 
@@ -33,21 +32,27 @@ public class LinkDoubleList {
 			size = 1;
 			return;
 		}
-		NodeLinked tmpNode = null;
 		// 如果小于firstNode，直接插入第一个
 		if (value <= firstNode.getValue()) {
-			tmpNode = firstNode;
+			// 节点操作
 			NodeLinked newNode = new NodeLinked();
 			newNode.setValue(value);
+			newNode.setNext(firstNode);
+			firstNode.setPrev(newNode);
+			// 更新操作
+			firstNode.setPrev(newNode);
+			lastNode = firstNode;
 			firstNode = newNode;
-			firstNode.setNext(tmpNode);
 			size = size + 1;
 			return;
 		}
 
 		if (value >= lastNode.getValue()) {
+			// 节点操作
 			NodeLinked newNode = new NodeLinked();
 			newNode.setValue(value);
+			newNode.setPrev(lastNode);
+			// 更新操作
 			lastNode.setNext(newNode);
 			lastNode = newNode;
 			size = size + 1;
@@ -56,16 +61,18 @@ public class LinkDoubleList {
 		// 如果大于lastNode，直接插入最后一个
 		// 开始查找
 		NodeLinked thisNode = firstNode;// 当前节点
-		NodeLinked prevNode = firstNode;// 上一个节点
+		NodeLinked prevNode = null;// 上一个节点
 		NodeLinked newNode = new NodeLinked();
 		newNode.setValue(value);
 		while (value < lastNode.getValue()) {
 			if (value < thisNode.getValue()) {
-				prevNode.setNext(newNode);
-				newNode.setNext(thisNode);
+				prevNode = thisNode.getPrev();// 取得上一个节点
+				prevNode.setNext(newNode);// 上一个节点指向新建节点
+				newNode.setPrev(thisNode.getPrev());// 新建节点指向上一个节点
+				newNode.setNext(thisNode);// 新建节点指向下一个节点
+				thisNode.setPrev(newNode);// 原节点prev指向newNode
 				return;
 			} else {
-				prevNode = thisNode;
 				thisNode = thisNode.getNext();
 			}
 		}
