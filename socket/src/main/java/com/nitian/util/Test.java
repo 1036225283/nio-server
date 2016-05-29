@@ -9,7 +9,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		Second.getSecond("初始化");
-		int[] array = Random.create(10000);
+		int[] array = Random.create(100000);
 		int[] array2 = copy(array);
 		int[] array3 = copy(array);
 		int[] array4 = copy(array);
