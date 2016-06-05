@@ -1,4 +1,4 @@
-package com.nitian.socket.test.action;
+package com.nitian.socket.test.handler;
 
 import java.util.Map;
 

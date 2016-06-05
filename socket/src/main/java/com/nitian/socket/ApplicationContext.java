@@ -37,8 +37,8 @@ public class ApplicationContext {
 	public ApplicationContext() {
 		// TODO Auto-generated constructor stub
 
-		// log.putType(LogType.time.toString());
-		log.putType("websocket_frame");
+		log.putType(LogType.time.toString());
+		// log.putType("websocket_frame");
 		// 线程池不需要追踪
 		poolSocketThread = new UtilPoolThread(200);
 		poolHandlerThread = new UtilPoolThread(200);

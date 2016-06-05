@@ -18,20 +18,23 @@ public class UtilRegister<T> {
 
 	private String password = "admin123";
 
-	public void regist(String key, T t) {
+	public UtilRegister<T> regist(String key, T t) {
 		if (map.containsKey(key)) {
 			throw new RuntimeException(t.toString() + " the key is registered");
 		}
 		map.put(key, t);
+		return this;
 	}
 
-	public void regist(String key, T t, String username, String password) {
+	public UtilRegister<T> regist(String key, T t, String username,
+			String password) {
 		if (this.username.equals(username) && this.password.equals(password)) {
 			map.put(key, t);
 		} else {
 			throw new RuntimeException(t.toString()
 					+ " username or password is error");
 		}
+		return this;
 	}
 
 	@SuppressWarnings("unchecked")
