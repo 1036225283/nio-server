@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,14 +16,10 @@ import java.util.Map;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.queue.UtilQueueRead;
-import com.nitian.socket.util.queue.UtilQueueParse;
 import com.nitian.socket.util.websocket.UtilWebSocket;
 import com.nitian.util.encrypt.UtilBase64;
 import com.nitian.util.encrypt.UtilMd5;
 import com.nitian.util.java.UtilByte;
-import com.nitian.util.log.LogManager;
-import com.nitian.util.time.UtilTime;
-import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 public class Test {
 
@@ -37,7 +32,7 @@ public class Test {
 			NoSuchAlgorithmException {
 
 		byte height = (byte) 127;
-//		 height = (byte) ( 1<< 5);
+		// height = (byte) ( 1<< 5);
 		System.out.println((int) height);
 		System.out.println(UtilByte.toBin(height));
 		// System.out.print(UtilByte.getBit(height, 4));
@@ -61,9 +56,8 @@ public class Test {
 
 	public static void testBase64(String tingting)
 			throws UnsupportedEncodingException {
-		UtilBase64 base64 = new UtilBase64();
 		System.out.println(tingting.length());
-		String encode = base64.encode(tingting);
+		String encode = null;// UtilBase64.encode(tingting);
 		System.out.println(encode);
 	}
 
@@ -71,7 +65,7 @@ public class Test {
 		String string = "ibAzXMSXFwTYt6lZeKh7Zw==";
 		string = string + "258EAFA5-E914-47DA- 95CA-C5AB0DC85B11";
 		byte[] bs = UtilMd5.stringToSHA1_(string);
-		String result = new Base64Encoder().encode(bs);
+		String result = UtilBase64.encode(bs);
 		System.out.println(result);
 	}
 
