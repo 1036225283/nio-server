@@ -7,17 +7,18 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Iterator;
 
-public class NIOServer {
+public class CopyOfNIOServer {
 
-	// private Selector selector;
+	private Selector selector = null;
 	private ServerSocketChannel serverSocketChannel = null;
 
-	public NIOServer listen(int port) {
+	public CopyOfNIOServer listen(int port) {
 		try {
-			// selector = Selector.open();// 创建Selector实例
+			selector = Selector.open();// 创建Selector实例
 			serverSocketChannel = ServerSocketChannel.open();
-			// serverSocketChannel.configureBlocking(false);
+			serverSocketChannel.configureBlocking(false);
 			// serverSocketChannel.socket().setReuseAddress(true);
 			serverSocketChannel.socket().bind(new InetSocketAddress(port));
 			// serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
@@ -29,15 +30,32 @@ public class NIOServer {
 	}
 
 	public void start() {
+		int i = 0;
 		try {
-			while (true) {
-				SocketChannel socketChannel = serverSocketChannel.accept();
-				System.out.println("this is accept" + socketChannel);
+			while ((i = selector.select()) > 0) {
+				System.out.println("the i = " + i);
+				Iterator<SelectionKey> it = selector.selectedKeys().iterator();
+				while (it.hasNext()) {
+					SelectionKey key = it.next();
+					it.remove();
+					if (key.isAcceptable()) {
+						ServerSocketChannel server = (ServerSocketChannel) key
+								.channel();
+						SocketChannel channel = server.accept();
+						channel.configureBlocking(false);
+						channel.write(ByteBuffer.wrap(new String("向客户端发送了一条信息")
+								.getBytes()));
+						channel.register(selector, SelectionKey.OP_READ);
+					} else if (key.isReadable()) {
+						read(key);
+					}
+				}
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -59,8 +77,8 @@ public class NIOServer {
 	}
 
 	public static void main(String[] args) {
-		NIOServer server = new NIOServer();
-		server.listen(99).start();
+		CopyOfNIOServer server = new CopyOfNIOServer();
+		server.listen(8080).start();
 	}
 
 }

@@ -6,12 +6,12 @@ import java.net.*;
 public class MyHttpClient {
 	public static void main(String[] args) throws Exception {
 		String result = post();
-		// System.out.println(result);
-		String[] strings = result.split("\r\n");
-		for (int i = 0; i < strings.length; i++) {
-			System.out.println(strings[i]);
-		}
-		System.out.println(result.length());
+		System.out.println(result);
+		// String[] strings = result.split("\r\n");
+		// for (int i = 0; i < strings.length; i++) {
+		// System.out.println(strings[i]);
+		// }
+		// System.out.println(result.length());
 	}
 
 	public static String getWebSocket() throws IOException {
@@ -79,7 +79,7 @@ public class MyHttpClient {
 	public static String post() throws IOException {
 
 		InetAddress inet = InetAddress.getByName("localhost");
-		Socket socket = new Socket(inet.getHostAddress(), 99);
+		Socket socket = new Socket(inet.getHostAddress(), 8000);
 		OutputStream out = socket.getOutputStream();
 
 		PrintWriter writer = new PrintWriter(out);

@@ -20,6 +20,7 @@ import com.nitian.socket.util.websocket.UtilWebSocket;
 import com.nitian.util.encrypt.UtilBase64;
 import com.nitian.util.encrypt.UtilMd5;
 import com.nitian.util.java.UtilByte;
+import com.nitian.util.log.Log;
 
 public class Test {
 
@@ -31,12 +32,23 @@ public class Test {
 			InstantiationException, IllegalAccessException,
 			NoSuchAlgorithmException {
 
+		Log log = new Log("test");
+		log.info("this is test");
+
 		byte height = (byte) 127;
 		// height = (byte) ( 1<< 5);
 		System.out.println((int) height);
 		System.out.println(UtilByte.toBin(height));
 		// System.out.print(UtilByte.getBit(height, 4));
 		// testGetBit();
+	}
+
+	public static void testRunTimePath() throws IOException {
+		String path = Test.class.getProtectionDomain().getCodeSource()
+				.getLocation().getPath().trim();
+		File file = new File(path + "test.jav");
+		file.createNewFile();
+		System.out.println("this is test:" + path);
 	}
 
 	public static void testGetBit() {

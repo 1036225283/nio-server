@@ -10,7 +10,6 @@ public class ExitHandler extends Handler {
 	public void handle(Map<String, String> map) {
 		// TODO Auto-generated method stub
 		System.exit(0);
-		;
 	}
 
 }

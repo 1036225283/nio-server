@@ -1,10 +1,7 @@
 package com.nitian.socket.thread;
 
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import com.nitian.socket.tcp.TcpRead;
 
 public class Test {
 
