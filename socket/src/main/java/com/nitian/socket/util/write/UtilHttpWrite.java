@@ -7,8 +7,12 @@ import java.util.Map;
 import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseHttpWrite;
+import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
 
 public class UtilHttpWrite {
+
+	protected static LogManager log = LogManager.getInstance();
 
 	public synchronized static void write(Map<String, String> map,
 			ApplicationContext applicationContext) {
@@ -30,6 +34,7 @@ public class UtilHttpWrite {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				log.dateInfo(LogType.error, null, "第三步：结束处理消息");
 			}
 		}
 	}

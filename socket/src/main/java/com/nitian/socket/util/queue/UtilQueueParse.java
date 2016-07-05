@@ -75,7 +75,7 @@ public class UtilQueueParse extends UtilQueue<Socket> {
 			applicationContext.getQueueRead().push(map);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.info(LogType.error, this, "error=" + e.getMessage());
 		}
 	}
 

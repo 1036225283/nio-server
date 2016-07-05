@@ -1,5 +1,6 @@
 package com.nitian.socket.util.parse;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import com.nitian.socket.core.CoreType;
@@ -13,7 +14,8 @@ public class UtilParseProtocol {
 	private Map<String, String> map;
 	private String[] strings;
 
-	public UtilParseProtocol(String request, Map<String, String> map) {
+	public UtilParseProtocol(String request, Map<String, String> map)
+			throws UnsupportedEncodingException {
 		// TODO Auto-generated constructor stub
 		this.map = map;
 

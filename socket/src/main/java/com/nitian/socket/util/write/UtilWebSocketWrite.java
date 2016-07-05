@@ -7,8 +7,12 @@ import java.util.Map;
 import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseWebSocketWrite;
+import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
 
 public class UtilWebSocketWrite {
+
+	protected static LogManager log = LogManager.getInstance();
 
 	public static void write(Map<String, String> map,
 			ApplicationContext applicationContext) {
@@ -22,8 +26,7 @@ public class UtilWebSocketWrite {
 		try {
 			socket.getOutputStream().write(bs);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.info(LogType.error, null, "error+" + e.getMessage());
 		} finally {
 			applicationContext.getPoolMap().repay(map);
 		}

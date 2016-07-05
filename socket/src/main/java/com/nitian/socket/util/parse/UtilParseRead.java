@@ -82,8 +82,10 @@ public class UtilParseRead {
 	 * 
 	 * @param strings
 	 * @return
+	 * @throws UnsupportedEncodingException
 	 */
-	public static String getParam(String[] strings) {
+	public static String getParam(String[] strings)
+			throws UnsupportedEncodingException {
 		String param = "";
 		String[] gets = strings[0].split(" ")[1].split("[?]");
 		if (gets.length == 2) {
@@ -121,8 +123,10 @@ public class UtilParseRead {
 	 * 
 	 * @param strings
 	 * @return
+	 * @throws UnsupportedEncodingException
 	 */
-	private static String getPostParam(String[] strings) {
+	private static String getPostParam(String[] strings)
+			throws UnsupportedEncodingException {
 		String result = "";
 		int length = strings.length;
 		if (strings[length - 2].equals("")) {
@@ -137,15 +141,12 @@ public class UtilParseRead {
 	 * 
 	 * @param param
 	 * @return
+	 * @throws UnsupportedEncodingException
 	 */
-	private static String decode(String param) {
+	private static String decode(String param)
+			throws UnsupportedEncodingException {
 		String result = "";
-		try {
-			result = URLDecoder.decode(param, "UTF8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		result = URLDecoder.decode(param, "UTF8");
 		return result;
 	}
 }

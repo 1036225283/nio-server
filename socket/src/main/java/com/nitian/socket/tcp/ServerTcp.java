@@ -25,23 +25,18 @@ public class ServerTcp {
 	public ServerTcp() {
 	}
 
-	public void start() {
-		try {
-			if (port == null) {
-				port = 8080;
-			}
-			Thread.currentThread().setName("线程：服务主线程");
-			log.info(LogType.thread, this, Thread.currentThread().toString());
-			serverSocket = new ServerSocket(port);
-			log.info(LogType.debug, this, "server is start");
-			while (true) {
-				Socket socket = serverSocket.accept();
-				log.dateInfo(LogType.time, this, "第一步：接收socket");
-				applicationContext.getQueueParse().push(socket);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
+	public void start() throws IOException {
+		if (port == null) {
+			port = 8080;
+		}
+		Thread.currentThread().setName("线程：服务主线程");
+		log.info(LogType.thread, this, Thread.currentThread().toString());
+		serverSocket = new ServerSocket(port);
+		log.info(LogType.debug, this, "server is start");
+		while (true) {
+			Socket socket = serverSocket.accept();
+			log.dateInfo(LogType.time, this, "第一步：接收socket");
+			applicationContext.getQueueParse().push(socket);
 		}
 	}
 

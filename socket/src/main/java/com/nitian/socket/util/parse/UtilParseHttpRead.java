@@ -1,5 +1,6 @@
 package com.nitian.socket.util.parse;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import com.nitian.socket.core.CoreType;
@@ -12,7 +13,8 @@ import com.nitian.socket.core.CoreType;
  */
 public class UtilParseHttpRead {
 
-	public static void parse(Map<String, String> map, String[] strings) {
+	public static void parse(Map<String, String> map, String[] strings)
+			throws UnsupportedEncodingException {
 		String ip = UtilParseRead.getIp(strings);
 		String port = UtilParseRead.getPort(strings);
 		String url = UtilParseRead.getUrl(strings);

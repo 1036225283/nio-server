@@ -20,22 +20,23 @@ public abstract class UtilQueue<T> implements Runnable {
 	@Override
 	public synchronized void run() {
 		// TODO Auto-generated method stub
-		try {
-			while (true) {
-				if (list.size() == 0) {
+		while (true) {
+			if (list.size() == 0) {
+				try {
 					wait();
-				} else {
-					T t = list.remove(list.size() - 1);
-					handle(t);
-					log.info(LogType.queue, this, "queueSize+" + list.size());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					log.info(LogType.error, this, "error+" + e.getMessage());
 				}
+			} else {
+				T t = list.remove(list.size() - 1);
+				handle(t);
+				log.info(LogType.queue, this, "queueSize+" + list.size());
 			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 	}
 
-	public  abstract  void handle(T t);
+	public abstract void handle(T t);
 }
