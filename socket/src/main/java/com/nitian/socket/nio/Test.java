@@ -1,28 +1,42 @@
 package com.nitian.socket.nio;
 
-import com.nitian.util.java.UtilByte;
-import com.nitian.util.random.UtilRandom;
-import com.nitian.util.string.UtilStringHex;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 public class Test {
 
-	public static void main(String[] args) {
-		byte[] data = UtilRandom.createUUID().getBytes();
-		byte[] length = UtilByte.intToBytes(data.length);
-		byte[] write = new byte[data.length + 4];
-		UtilByte.copy(write, length, 0);
-		UtilByte.copy(write, data, 4);
-		System.out.println(UtilStringHex.bytesHexStr(write));
-		
-		String write1 = UtilRandom.createHexString(512*8);
-		System.out.println(write1.length());
+	private ByteBuffer buffer = ByteBuffer.allocate(10);
+	private IntBuffer intBuffer = IntBuffer.allocate(10);
+
+	public void show() {
+		System.out.println("position:" + buffer.position());
+		System.out.println("limit:" + buffer.limit());
+		System.out.println("capacity:" + buffer.capacity());
+		System.out.println("show is end");
 	}
 
-	public static void test() {
-		int a = 165536;
-		byte[] bs = UtilByte.intToBytes(a);
-		System.out.println(UtilStringHex.bytesHexStr(bs));
-		a = UtilByte.bytesToInt(bs);
-		System.out.println(a);
+	public void show(Buffer buffer) {
+		System.out.println("position:" + buffer.position());
+		System.out.println("limit:" + buffer.limit());
+		System.out.println("capacity:" + buffer.capacity());
+		System.out.println("show is end");
+	}
+
+	public static void main(String[] args) {
+
+		Test test = new Test();
+		test.show(test.intBuffer);
+		test.intBuffer.put(12);
+		test.show(test.intBuffer);
+		test.intBuffer.put(13);
+		test.show(test.intBuffer);
+		System.out.println("[0]=" + test.intBuffer.get(0));
+		System.out.println("[1]=" + test.intBuffer.get(1));
+		test.show(test.intBuffer);
+		test.intBuffer.flip();
+		test.show(test.intBuffer);
+		test.intBuffer.get(0);
+		test.show(test.intBuffer);
 	}
 }
