@@ -1,8 +1,20 @@
 package com.nitian.list;
 
-
 /**
- * 有序单向链表
+ * 有序单向链表， 
+ * 主要有一下功能：
+ * 1.pub(value)
+ * 2.get(index)
+ * 3.callback(function())
+ * 4.size()
+ * 5.remove()#index/object#
+ * 6.indexOf(value)
+ * 7.lastIndexOf(value)
+ * 8.map(callback());
+ * 9.each();
+ * 10.first()
+ * 11.last();
+ * 12.filter();
  * 
  * @author 1036225283
  *
@@ -24,7 +36,11 @@ public class List_Linked {
 	 */
 	private int size = 0;
 
-	public void insert(int value) {
+	/**
+	 * 向单向列表添加值
+	 * @param value
+	 */
+	public void add(int value) {
 		// 初始化工作
 		if (firstNode == null) {
 			firstNode = new List_LinkedNode();
@@ -95,8 +111,48 @@ public class List_Linked {
 	// return null;
 	// }
 
-	public String get(String key) {
-		return null;
+	/**
+	 * 根据索引获取值
+	 * @param index
+	 * @return
+	 */
+	public String get(int index) {
+		if (index >= size) {
+			throw new RuntimeException("index is error,because size : " + size + "must > index : " + index);
+		}
+		int tmpIndex = 0;
+		List_LinkedNode node = firstNode;
+		while (tmpIndex < index) {
+			node = node.getNext();
+			tmpIndex = tmpIndex + 1;
+		}
+		return node.getValue() + "";
+	}
+
+	/**
+	 * 返回第一个元素
+	 * @return
+	 */
+	public Object first() {
+		return firstNode.getValue();
+	}
+
+	/**
+	 * 获取最后一个值
+	 * @return
+	 */
+	public Object last() {
+		return lastNode.getValue();
+	}
+
+	public void each(Callback_Each callback_Each) {
+		int index = 0;
+		List_LinkedNode node = firstNode;
+		while (index < size) {
+			callback_Each.callback(index, node.getValue());
+			node = node.getNext();
+			index = index + 1;
+		}
 	}
 
 	public void show() {
@@ -112,7 +168,7 @@ public class List_Linked {
 		}
 	}
 
-	public int getSize() {
+	public int size() {
 		return size;
 	}
 
@@ -138,11 +194,23 @@ public class List_Linked {
 
 	public static void main(String[] args) {
 		List_Linked linkedList = new List_Linked();
-		linkedList.insert(5);
-		linkedList.insert(1);
-		linkedList.insert(6);
-		linkedList.insert(7);
-		linkedList.insert(8);
+		linkedList.add(5);
+		linkedList.add(1);
+		linkedList.add(6);
+		linkedList.add(7);
+		linkedList.add(8);
 		linkedList.show();
+		System.out.println("index : " + linkedList.get(0));
+		System.out.println("last:" + linkedList.last());
+		System.out.println("first:" + linkedList.first());
+		linkedList.each(new Callback_Each() {
+
+			@Override
+			public void callback(int index, Object value) {
+				// TODO Auto-generated method stub
+				System.out.println("index = " + index + " and value = " + value);
+			}
+		});
+
 	}
 }
