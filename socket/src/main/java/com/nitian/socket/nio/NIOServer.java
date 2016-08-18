@@ -2,6 +2,7 @@ package com.nitian.socket.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -17,6 +18,9 @@ import java.util.Iterator;
 public class NIOServer {
 	// 通道管理器
 	private Selector selector;
+
+	// 比对多次通信的socket是否为同一个socket
+	private Socket socket = null;
 
 	/**
 	 * 获得一个ServerSocket通道，并对该通道做一些初始化的工作
@@ -93,6 +97,11 @@ public class NIOServer {
 	public void read(SelectionKey key) throws IOException {
 		// 服务器可读取消息:得到事件发生的Socket通道
 		SocketChannel channel = (SocketChannel) key.channel();
+		if (socket == null) {
+			socket = channel.socket();
+		} else {
+			System.out.println(socket.equals(channel.socket()));
+		}
 
 		if (channel.finishConnect()) {
 			System.out.println("this is connect");
@@ -100,7 +109,7 @@ public class NIOServer {
 			System.out.println("this is not connect");
 		}
 		// 创建读取的缓冲区
-		ByteBuffer buffer = ByteBuffer.allocate(1024);
+		ByteBuffer buffer = ByteBuffer.allocate(10);
 		channel.read(buffer);
 		System.out.println("position:" + buffer.position());
 		if (buffer.position() == 0) {

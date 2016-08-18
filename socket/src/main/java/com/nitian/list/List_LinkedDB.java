@@ -1,4 +1,5 @@
-package com.nitian.linked;
+package com.nitian.list;
+
 
 /**
  * 有序双向链表
@@ -6,17 +7,17 @@ package com.nitian.linked;
  * @author 1036225283
  *
  */
-public class LinkDoubleList {
+public class List_LinkedDB {
 
 	/**
 	 * 第一个节点
 	 */
-	private NodeLinked firstNode = null;
+	private List_LinkedNode firstNode = null;
 
 	/**
 	 * 最后一个节点
 	 */
-	private NodeLinked lastNode = null;
+	private List_LinkedNode lastNode = null;
 
 	/**
 	 * 节点的数量
@@ -26,7 +27,7 @@ public class LinkDoubleList {
 	public void insert(int value) {
 		// 初始化工作
 		if (firstNode == null) {
-			firstNode = new NodeLinked();
+			firstNode = new List_LinkedNode();
 			firstNode.setValue(value);
 			lastNode = firstNode;
 			size = 1;
@@ -35,7 +36,7 @@ public class LinkDoubleList {
 		// 如果小于firstNode，直接插入第一个
 		if (value <= firstNode.getValue()) {
 			// 节点操作
-			NodeLinked newNode = new NodeLinked();
+			List_LinkedNode newNode = new List_LinkedNode();
 			newNode.setValue(value);
 			newNode.setNext(firstNode);
 			firstNode.setPrev(newNode);
@@ -49,7 +50,7 @@ public class LinkDoubleList {
 
 		if (value >= lastNode.getValue()) {
 			// 节点操作
-			NodeLinked newNode = new NodeLinked();
+			List_LinkedNode newNode = new List_LinkedNode();
 			newNode.setValue(value);
 			newNode.setPrev(lastNode);
 			// 更新操作
@@ -60,9 +61,9 @@ public class LinkDoubleList {
 		}
 		// 如果大于lastNode，直接插入最后一个
 		// 开始查找
-		NodeLinked thisNode = firstNode;// 当前节点
-		NodeLinked prevNode = null;// 上一个节点
-		NodeLinked newNode = new NodeLinked();
+		List_LinkedNode thisNode = firstNode;// 当前节点
+		List_LinkedNode prevNode = null;// 上一个节点
+		List_LinkedNode newNode = new List_LinkedNode();
 		newNode.setValue(value);
 		while (value < lastNode.getValue()) {
 			if (value < thisNode.getValue()) {
@@ -103,7 +104,7 @@ public class LinkDoubleList {
 	// }
 
 	public void show() {
-		NodeLinked tmpNode = firstNode;
+		List_LinkedNode tmpNode = firstNode;
 		if (firstNode == null) {
 			System.out.println("is empty");
 			return;
@@ -123,24 +124,24 @@ public class LinkDoubleList {
 		this.size = size;
 	}
 
-	public NodeLinked getFirstNode() {
+	public List_LinkedNode getFirstNode() {
 		return firstNode;
 	}
 
-	public void setFirstNode(NodeLinked firstNode) {
+	public void setFirstNode(List_LinkedNode firstNode) {
 		this.firstNode = firstNode;
 	}
 
-	public NodeLinked getLastNode() {
+	public List_LinkedNode getLastNode() {
 		return lastNode;
 	}
 
-	public void setLastNode(NodeLinked lastNode) {
+	public void setLastNode(List_LinkedNode lastNode) {
 		this.lastNode = lastNode;
 	}
 
 	public static void main(String[] args) {
-		LinkDoubleList linkedList = new LinkDoubleList();
+		List_LinkedDB linkedList = new List_LinkedDB();
 		linkedList.insert(5);
 		linkedList.insert(1);
 		linkedList.insert(6);
