@@ -1,7 +1,9 @@
 package com.nitian.list;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import com.nitian.sort.SortInsertion;
 import com.nitian.util.Random;
@@ -22,6 +24,15 @@ public class Test {
 	public void test2(){
 		//
 		
+		List<String> list = new ArrayList<String>();
+		list.add("ad");
+		list.add(12, "dd");
+		list.get(1);
+		list.size();
+		list.remove(1);
+		list.remove(1);
+		list.indexOf(12);
+		list.lastIndexOf(12);
 	}
 	
 	/**

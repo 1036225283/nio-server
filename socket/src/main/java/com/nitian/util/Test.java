@@ -29,7 +29,7 @@ public class Test {
 		Second.getSecond("插入排序");
 		List_Linked linkedList = new List_Linked();
 		for (int i = 0; i < array5.length; i++) {
-			linkedList.insert(array5[i]);
+			linkedList.add(array5[i]);
 		}
 		Second.getSecond("单链表排序");
 

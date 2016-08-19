@@ -145,6 +145,10 @@ public class List_Linked {
 		return lastNode.getValue();
 	}
 
+	/**
+	 * 遍历
+	 * @param callback_Each
+	 */
 	public void each(Callback_Each callback_Each) {
 		int index = 0;
 		List_LinkedNode node = firstNode;
@@ -153,6 +157,26 @@ public class List_Linked {
 			node = node.getNext();
 			index = index + 1;
 		}
+	}
+
+	/**
+	 * filter
+	 * @param callback_Filter
+	 * @return
+	 */
+	public List_Linked filter(Callback_Filter callback_Filter) {
+		List_Linked list = new List_Linked();
+		int index = 0;
+		List_LinkedNode node = firstNode;
+		while (index < size) {
+			boolean result = callback_Filter.callback(index, node.getValue());
+			if (result == true) {
+				list.add(node.getValue());
+			}
+			node = node.getNext();
+			index = index + 1;
+		}
+		return list;
 	}
 
 	public void show() {
@@ -211,6 +235,22 @@ public class List_Linked {
 				System.out.println("index = " + index + " and value = " + value);
 			}
 		});
+
+		System.out.println("this is filter result : ");
+		linkedList.filter(new Callback_Filter() {
+
+			@Override
+			public boolean callback(int index, Object value) {
+				// TODO Auto-generated method stub
+				int value_ = (int) value;
+				if (value_ % 2 == 0) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}).show();
+		;
 
 	}
 }
