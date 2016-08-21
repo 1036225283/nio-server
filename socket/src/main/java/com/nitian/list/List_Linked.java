@@ -79,10 +79,12 @@ public class List_Linked {
 			if (value < thisNode.getValue()) {
 				prevNode.setNext(newNode);
 				newNode.setNext(thisNode);
+				size = size + 1;
 				return;
 			} else {
 				prevNode = thisNode;
 				thisNode = thisNode.getNext();
+				size = size + 1;
 			}
 		}
 
@@ -250,7 +252,5 @@ public class List_Linked {
 				}
 			}
 		}).show();
-		;
-
 	}
 }

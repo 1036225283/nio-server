@@ -2,8 +2,8 @@ package com.nitian.util;
 
 import com.nitian.list.List_Linked;
 import com.nitian.list.List_LinkedDB;
+import com.nitian.list.List_Array;
 import com.nitian.sort.SortBubbling;
-import com.nitian.sort.SortInsertion;
 
 public class Test {
 
@@ -22,9 +22,9 @@ public class Test {
 		Second.getSecond("改进冒泡排序");
 		SortBubbling.simpleChoose(array3);
 		Second.getSecond("简单选择排序");
-		SortInsertion insertion = new SortInsertion(array4.length);
+		List_Array insertion = new List_Array(array4.length);
 		for (int i = 0; i < array4.length; i++) {
-			insertion.insert(array4[i]);
+			insertion.add(array4[i]);
 		}
 		Second.getSecond("插入排序");
 		List_Linked linkedList = new List_Linked();

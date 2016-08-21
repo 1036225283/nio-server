@@ -1,11 +1,10 @@
 package com.nitian.list;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.nitian.sort.SortInsertion;
 import com.nitian.util.Random;
 import com.nitian.util.log.LogManager;
 
@@ -13,52 +12,132 @@ public class Test {
 
 	static LogManager logManager = LogManager.getInstance();
 
-	public static void main(String[] args) throws InterruptedException {
-		Test test = new Test();
-		test.test();
+	public Map<String, String> map = new HashMap<String, String>();
+	public List_Linked list = new List_Linked();
+	public int[] array = Random.create(20000);
+	public List<Integer> javaList = new ArrayList<Integer>();
+	public ListXws list_Array = new List_Array(array.length);
+
+	public Test() {
+		// TODO Auto-generated constructor stub
+		logManager.putType("info");
+		LogManager.setFileLog(false);
 	}
 
-	/**
-	 * 测试链表查询的速度和hashMap查询的速度
-	 */
-	public void test2(){
-		//
-		
-		List<String> list = new ArrayList<String>();
-		list.add("ad");
-		list.add(12, "dd");
-		list.get(1);
-		list.size();
-		list.remove(1);
-		list.remove(1);
-		list.indexOf(12);
-		list.lastIndexOf(12);
+	public static void main(String[] args) throws InterruptedException {
+		Test test = new Test();
+		// test.initMap();
+		test.initJavaList();
+		test.initListLinked();
+		test.initList_Array();
+		// test.eachMap();
+		test.testSelectJavaList();
+		test.testSelectListlinked();
+		test.testSelectList_Array();
+		System.out.println("this is end");
 	}
-	
-	/**
-	 * 测试hashMap和array插入排序的比较
-	 */
-	public void test() {
-		logManager.dateInfo("info", Test.class, "init");
-		long start = new Date().getTime();
-		logManager.setFileLog(false);
-		logManager.putType("info");
-		int[] array = Random.create(10000);
-		//测试hashMap插入数据
-		logManager.dateInfo("info", Test.class, "start");
-		HashMap<String, String> map = new HashMap<String, String>();
+
+	public void initList_Array() {
+		logManager.dateInfo("info", Test.class, null);
+		for (int i = 0; i < array.length; i++) {
+			list_Array.add(array[i]);
+		}
+		logManager.dateInfo("info", Test.class, "list_Array insert end");
+	}
+
+	public void testSelectList_Array() {
+		logManager.dateInfo("info", Test.class, null);
+		for (int i = 0; i < array.length; i++) {
+			list_Array.get(i);
+		}
+		logManager.dateInfo("info", Test.class, "list_Array select end");
+
+	}
+
+	public void initMap() {
+		logManager.dateInfo("info", Test.class, null);
 		for (int i = 0; i < array.length; i++) {
 			map.put("" + array[i], "" + array[i]);
 		}
-		logManager.dateInfo("info", Test.class, "end");
-		//测试插入排序
-		logManager.dateInfo("info", Test.class, "插入start");
-		SortInsertion insertion = new SortInsertion(array.length);
+		logManager.dateInfo("info", Test.class, "Map insert end");
+	}
+
+	public void initJavaList() {
+		logManager.dateInfo("info", Test.class, null);
 		for (int i = 0; i < array.length; i++) {
-			insertion.insert(array[i]);
+			javaList.add(array[i]);
 		}
-		logManager.dateInfo("info", Test.class, "插入end");
-		long end = new Date().getTime();
-		System.out.println(end - start);
+		logManager.dateInfo("info", Test.class, "Java List insert end");
+	}
+
+	/**
+	 * 初始化单向链表，同时测试插入时间
+	 */
+	public void initListLinked() {
+		logManager.dateInfo("info", Test.class, null);
+		for (int i = 0; i < array.length; i++) {
+			list.add(array[i]);
+		}
+		logManager.dateInfo("info", Test.class, "ListLinked insert end");
+	}
+
+	/**
+	 * 遍历map，同时测试遍历时间
+	 */
+	public void eachMap() {
+		logManager.dateInfo("info", Test.class, null);
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			entry.getValue();
+			// System.out.println("key= " + entry.getKey() + " and value= " +
+			// entry.getValue());
+		}
+		logManager.dateInfo("info", Test.class, "eachMap insert end");
+	}
+
+	public void eachListLinked() {
+		logManager.dateInfo("info", Test.class, null);
+		list.each(new Callback_Each() {
+
+			@Override
+			public void callback(int index, Object value) {
+				// TODO Auto-generated method stub
+				// System.out.println("listlinked value = " + value);
+			}
+		});
+		logManager.dateInfo("info", Test.class, "eachListLinked end");
+	}
+
+	public void eachJavaList() {
+		logManager.dateInfo("info", Test.class, null);
+		for (int i = 0; i < javaList.size(); i++) {
+			int test = javaList.get(i);
+		}
+		logManager.dateInfo("info", Test.class, "eachJavaList end");
+	}
+
+	public void testSelectMap() {
+		logManager.dateInfo("info", Test.class, null);
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			entry.getValue();
+			// System.out.println("key= " + entry.getKey() + " and value= " +
+			// entry.getValue());
+		}
+		logManager.dateInfo("info", Test.class, "eachMap select end");
+	}
+
+	public void testSelectListlinked() {
+		logManager.dateInfo("info", Test.class, null);
+		for (int i = 0; i < array.length; i++) {
+			list.get(i);
+		}
+		logManager.dateInfo("info", Test.class, "select List end");
+	}
+
+	public void testSelectJavaList() {
+		logManager.dateInfo("info", Test.class, null);
+		for (int i = 0; i < array.length; i++) {
+			javaList.get(i);
+		}
+		logManager.dateInfo("info", Test.class, "selectjavaList end");
 	}
 }

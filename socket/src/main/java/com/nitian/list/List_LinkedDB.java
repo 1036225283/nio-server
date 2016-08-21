@@ -1,13 +1,12 @@
 package com.nitian.list;
 
-
 /**
  * 有序双向链表
  * 
  * @author 1036225283
  *
  */
-public class List_LinkedDB {
+public class List_LinkedDB implements ListXws {
 
 	/**
 	 * 第一个节点
@@ -148,5 +147,47 @@ public class List_LinkedDB {
 		linkedList.insert(7);
 		linkedList.insert(8);
 		linkedList.show();
+	}
+
+	@Override
+	public void add(int value) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String get(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object first() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object last() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void each(Callback_Each callback_Each) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ListXws filter(Callback_Filter callback_Filter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
