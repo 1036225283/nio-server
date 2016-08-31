@@ -28,12 +28,11 @@ public class Test {
 		Test test = new Test();
 		// test.initMap();
 		test.initJavaList();
-		test.initListLinked();
+		// test.initListLinked();
 		test.initList_Array();
 		// test.eachMap();
-		test.testSelectJavaList();
-		test.testSelectListlinked();
-		test.testSelectList_Array();
+		test.eachJavaList();
+		test.eachtList_Array();
 		System.out.println("this is end");
 	}
 
@@ -42,15 +41,15 @@ public class Test {
 		for (int i = 0; i < array.length; i++) {
 			list_Array.add(array[i]);
 		}
-		logManager.dateInfo("info", Test.class, "list_Array insert end");
+		logManager.dateInfo("info", Test.class, "init list_Array");
 	}
 
-	public void testSelectList_Array() {
+	public void eachtList_Array() {
 		logManager.dateInfo("info", Test.class, null);
 		for (int i = 0; i < array.length; i++) {
 			list_Array.get(i);
 		}
-		logManager.dateInfo("info", Test.class, "list_Array select end");
+		logManager.dateInfo("info", Test.class, "each list_Array");
 
 	}
 
@@ -59,7 +58,7 @@ public class Test {
 		for (int i = 0; i < array.length; i++) {
 			map.put("" + array[i], "" + array[i]);
 		}
-		logManager.dateInfo("info", Test.class, "Map insert end");
+		logManager.dateInfo("info", Test.class, "Map insert");
 	}
 
 	public void initJavaList() {
@@ -67,7 +66,7 @@ public class Test {
 		for (int i = 0; i < array.length; i++) {
 			javaList.add(array[i]);
 		}
-		logManager.dateInfo("info", Test.class, "Java List insert end");
+		logManager.dateInfo("info", Test.class, "init JavaList");
 	}
 
 	/**
@@ -78,7 +77,7 @@ public class Test {
 		for (int i = 0; i < array.length; i++) {
 			list.add(array[i]);
 		}
-		logManager.dateInfo("info", Test.class, "ListLinked insert end");
+		logManager.dateInfo("info", Test.class, "init ListLinked");
 	}
 
 	/**
@@ -88,10 +87,8 @@ public class Test {
 		logManager.dateInfo("info", Test.class, null);
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			entry.getValue();
-			// System.out.println("key= " + entry.getKey() + " and value= " +
-			// entry.getValue());
 		}
-		logManager.dateInfo("info", Test.class, "eachMap insert end");
+		logManager.dateInfo("info", Test.class, "each Map");
 	}
 
 	public void eachListLinked() {
@@ -101,10 +98,9 @@ public class Test {
 			@Override
 			public void callback(int index, Object value) {
 				// TODO Auto-generated method stub
-				// System.out.println("listlinked value = " + value);
 			}
 		});
-		logManager.dateInfo("info", Test.class, "eachListLinked end");
+		logManager.dateInfo("info", Test.class, "each ListLinked");
 	}
 
 	public void eachJavaList() {
@@ -112,32 +108,31 @@ public class Test {
 		for (int i = 0; i < javaList.size(); i++) {
 			int test = javaList.get(i);
 		}
-		logManager.dateInfo("info", Test.class, "eachJavaList end");
+		logManager.dateInfo("info", Test.class, "each JavaList");
 	}
 
-	public void testSelectMap() {
-		logManager.dateInfo("info", Test.class, null);
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-			entry.getValue();
-			// System.out.println("key= " + entry.getKey() + " and value= " +
-			// entry.getValue());
-		}
-		logManager.dateInfo("info", Test.class, "eachMap select end");
-	}
-
-	public void testSelectListlinked() {
+	public void eachArray() {
 		logManager.dateInfo("info", Test.class, null);
 		for (int i = 0; i < array.length; i++) {
 			list.get(i);
 		}
-		logManager.dateInfo("info", Test.class, "select List end");
+		logManager.dateInfo("info", Test.class, "each List_Linked");
 	}
 
-	public void testSelectJavaList() {
+	public void getIndexOfJavaList() {
 		logManager.dateInfo("info", Test.class, null);
 		for (int i = 0; i < array.length; i++) {
-			javaList.get(i);
+			javaList.indexOf(array[i]);
 		}
-		logManager.dateInfo("info", Test.class, "selectjavaList end");
+		logManager.dateInfo("info", Test.class, "each JavaList");
 	}
+
+	public void getIndexOfList() {
+		logManager.dateInfo("info", Test.class, null);
+		for (int i = 0; i < array.length; i++) {
+			list_Array.indexOf(array[i]);
+		}
+		logManager.dateInfo("info", Test.class, "each JavaList");
+	}
+
 }

@@ -1,16 +1,16 @@
 package com.nitian.list;
 
-public class NodeArray {
+public class List_Array_Node {
 
 	/**
-	 * 索引
+	 * index
 	 */
 	private long index;
 
 	/**
-	 * 值
+	 * value
 	 */
-	private long value;
+	private Object value;
 
 	public long getIndex() {
 		return index;
@@ -20,11 +20,11 @@ public class NodeArray {
 		this.index = index;
 	}
 
-	public long getValue() {
+	public Object getValue() {
 		return value;
 	}
 
-	public void setValue(long value) {
+	public void setValue(Object value) {
 		this.value = value;
 	}
 

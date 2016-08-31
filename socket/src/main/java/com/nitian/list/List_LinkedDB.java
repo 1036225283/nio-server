@@ -190,4 +190,10 @@ public class List_LinkedDB implements ListXws {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public int indexOf(Object object) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

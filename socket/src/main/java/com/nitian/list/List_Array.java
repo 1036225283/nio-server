@@ -117,4 +117,10 @@ public class List_Array implements ListXws {
 		// TODO Auto-generated method stub
 		return length;
 	}
+
+	@Override
+	public int indexOf(Object object) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

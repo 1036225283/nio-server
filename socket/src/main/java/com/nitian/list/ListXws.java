@@ -16,6 +16,13 @@ public interface ListXws {
 	public Object get(int index);
 
 	/**
+	 * 获取一个元素第一次出现的索引
+	 * @param object
+	 * @return
+	 */
+	public int indexOf(Object object);
+
+	/**
 	 * 返回第一个元素
 	 * @return
 	 */
