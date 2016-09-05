@@ -16,7 +16,6 @@ public class Test {
 	public List_Linked list = new List_Linked();
 	public int[] array = Random.create(20000);
 	public List<Integer> javaList = new ArrayList<Integer>();
-	public ListXws list_Array = new List_Array(array.length);
 
 	public Test() {
 		// TODO Auto-generated constructor stub
@@ -29,28 +28,9 @@ public class Test {
 		// test.initMap();
 		test.initJavaList();
 		// test.initListLinked();
-		test.initList_Array();
 		// test.eachMap();
 		test.eachJavaList();
-		test.eachtList_Array();
 		System.out.println("this is end");
-	}
-
-	public void initList_Array() {
-		logManager.dateInfo("info", Test.class, null);
-		for (int i = 0; i < array.length; i++) {
-			list_Array.add(array[i]);
-		}
-		logManager.dateInfo("info", Test.class, "init list_Array");
-	}
-
-	public void eachtList_Array() {
-		logManager.dateInfo("info", Test.class, null);
-		for (int i = 0; i < array.length; i++) {
-			list_Array.get(i);
-		}
-		logManager.dateInfo("info", Test.class, "each list_Array");
-
 	}
 
 	public void initMap() {
@@ -91,18 +71,6 @@ public class Test {
 		logManager.dateInfo("info", Test.class, "each Map");
 	}
 
-	public void eachListLinked() {
-		logManager.dateInfo("info", Test.class, null);
-		list.each(new Callback_Each() {
-
-			@Override
-			public void callback(int index, Object value) {
-				// TODO Auto-generated method stub
-			}
-		});
-		logManager.dateInfo("info", Test.class, "each ListLinked");
-	}
-
 	public void eachJavaList() {
 		logManager.dateInfo("info", Test.class, null);
 		for (int i = 0; i < javaList.size(); i++) {
@@ -123,14 +91,6 @@ public class Test {
 		logManager.dateInfo("info", Test.class, null);
 		for (int i = 0; i < array.length; i++) {
 			javaList.indexOf(array[i]);
-		}
-		logManager.dateInfo("info", Test.class, "each JavaList");
-	}
-
-	public void getIndexOfList() {
-		logManager.dateInfo("info", Test.class, null);
-		for (int i = 0; i < array.length; i++) {
-			list_Array.indexOf(array[i]);
 		}
 		logManager.dateInfo("info", Test.class, "each JavaList");
 	}

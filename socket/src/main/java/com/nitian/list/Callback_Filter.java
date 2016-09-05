@@ -5,7 +5,7 @@ package com.nitian.list;
  * @author 1036225283
  *
  */
-public interface Callback_Filter {
+public interface Callback_Filter<K, V> {
 
-	public boolean callback(int index, Object value);
+	public boolean callback(K key, V value);
 }

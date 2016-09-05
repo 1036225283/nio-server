@@ -5,7 +5,7 @@ package com.nitian.list;
  * @author 1036225283
  *
  */
-public interface Callback_Map {
+public interface Callback_Map<K, V> {
 
-	public Object callback(int index, Object value);
+	public Object callback(K key, V value);
 }

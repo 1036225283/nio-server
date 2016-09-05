@@ -229,28 +229,7 @@ public class List_Linked {
 		System.out.println("index : " + linkedList.get(0));
 		System.out.println("last:" + linkedList.last());
 		System.out.println("first:" + linkedList.first());
-		linkedList.each(new Callback_Each() {
-
-			@Override
-			public void callback(int index, Object value) {
-				// TODO Auto-generated method stub
-				System.out.println("index = " + index + " and value = " + value);
-			}
-		});
 
 		System.out.println("this is filter result : ");
-		linkedList.filter(new Callback_Filter() {
-
-			@Override
-			public boolean callback(int index, Object value) {
-				// TODO Auto-generated method stub
-				int value_ = (int) value;
-				if (value_ % 2 == 0) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}).show();
 	}
 }
