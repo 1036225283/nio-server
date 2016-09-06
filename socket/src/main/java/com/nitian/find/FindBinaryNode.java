@@ -51,9 +51,9 @@ public class FindBinaryNode<K, V> {
 		// 根据左边界索引，右边界索引，二分之一索引，获取索引对应的值
 		K kHalf = array[nHalf].getKey();
 		while (nMax - nMin > 0) {// 判断索引是否合理
-			System.out.println("查找次数：" + nPrintIndex++);
+			// System.out.println("查找次数：" + nPrintIndex++);
 			nHalf = nMin + (nMax - nMin) / 2;// 折半
-			System.out.println("index：" + nHalf);
+			// System.out.println("index：" + nHalf);
 			kHalf = array[nHalf].getKey();
 			int nCompareResult = 0;
 			if (key instanceof String) {
@@ -87,15 +87,15 @@ public class FindBinaryNode<K, V> {
 			return 0;
 		}
 		int nMin = 0;// 区间左边界
-		int nMax = array.length - 1;// 区间右边界
+		int nMax = length - 1;// 区间右边界
 		int nPrintIndex = 0;
 		int nHalf = 0;// 二分之一索引(坐标)
 		// 根据左边界索引，右边界索引，二分之一索引，获取索引对应的值
 		K kHalf = array[nHalf].getKey();
 		while (nMax - nMin > 1) {// 判断索引是否合理
-			System.out.println("查找次数：" + nPrintIndex++);
+		// System.out.println("查找次数：" + nPrintIndex++);
 			nHalf = nMin + (nMax - nMin) / 2;// 折半
-			System.out.println("index：" + nHalf);
+			// System.out.println("index：" + nHalf);
 			kHalf = array[nHalf].getKey();
 			int nCompareResult = compare(key, kHalf);
 			if (nCompareResult == 0) {

@@ -1,6 +1,6 @@
 package com.nitian.list;
 
-public interface ListXws<K, V> {
+public interface List<K, V> {
 
 	/**
 	 * 
@@ -14,7 +14,7 @@ public interface ListXws<K, V> {
 	 * @param index
 	 * @return
 	 */
-	public Object get(K key);
+	public V get(K key);
 
 	/**
 	 * 获取一个元素第一次出现的索引
@@ -58,7 +58,7 @@ public interface ListXws<K, V> {
 	 * @param callback_Filter
 	 * @return
 	 */
-	public ListXws<K, V> filter(Callback_Filter<K, V> callback_Filter);
+	public List<K, V> filter(Callback_Filter<K, V> callback_Filter);
 
 	/**
 	 * 按条件统计数量

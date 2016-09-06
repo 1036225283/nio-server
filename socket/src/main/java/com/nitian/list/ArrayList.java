@@ -8,7 +8,7 @@ import com.nitian.find.FindBinaryNode;
  * @author 1036225283
  *
  */
-public class ArrayList<K, V> implements ListXws<K, V> {
+public class ArrayList<K, V> implements List<K, V> {
 
 	/**
 	 * 存放元素的数组
@@ -65,9 +65,14 @@ public class ArrayList<K, V> implements ListXws<K, V> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object get(K key) {
+	public V get(K key) {
 		// TODO Auto-generated method stub
-		return findBinary.findNode(array, (Comparable<K>) key, length);
+		Node<K, V> node = findBinary.findNode(array, (Comparable<K>) key, length);
+		if (node == null) {
+			return null;
+		} else {
+			return node.getValue();
+		}
 	}
 
 	@Override
@@ -110,9 +115,9 @@ public class ArrayList<K, V> implements ListXws<K, V> {
 	}
 
 	@Override
-	public ListXws<K, V> filter(Callback_Filter<K, V> callback_Filter) {
+	public List<K, V> filter(Callback_Filter<K, V> callback_Filter) {
 		// TODO Auto-generated method stub
-		ListXws<K, V> list = new ArrayList<K, V>();
+		List<K, V> list = new ArrayList<K, V>();
 		for (int i = 0; i < array.length; i++) {
 			Node<K, V> node = array[i];
 			boolean result = callback_Filter.callback(node.getKey(), node.getValue());
