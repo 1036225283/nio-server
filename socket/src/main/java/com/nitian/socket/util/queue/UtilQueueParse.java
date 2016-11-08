@@ -13,70 +13,71 @@ import com.nitian.util.log.LogType;
 
 /**
  * 解析HTTP/WEBSOCKET请求队列
- * 
- * @author 1036225283
  *
+ * @author 1036225283
  */
 public class UtilQueueParse extends UtilQueue<Socket> {
 
-	private ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
-	protected LogManager log = LogManager.getInstance();
+    protected LogManager log = LogManager.getInstance();
 
-	public UtilQueueParse(ApplicationContext applicationContext) {
-		// TODO Auto-generated constructor stub
-		this.applicationContext = applicationContext;
-	}
+    public UtilQueueParse(ApplicationContext applicationContext) {
+        // TODO Auto-generated constructor stub
+        this.applicationContext = applicationContext;
+    }
 
-	@Override
-	public synchronized void handle(Socket socket) {
-		// TODO Auto-generated method stub
+    @Override
+    public synchronized void handle(Socket socket) {
+        // TODO Auto-generated method stub
 
-		try {
-			log.dateInfo(LogType.time, this, "第二步：开始解析http或者websocket数据");
-			log.info(LogType.thread, this, "线程：读socket："
-					+ Thread.currentThread().toString());
-			byte[] bs = applicationContext.getPoolByte().lend();
-			int size = socket.getInputStream().read(bs);
-			if (size == -1) {
-				socket.close();
-				applicationContext.getPoolByte().repay(bs);
-				return;
-			}
-			log.info(LogType.debug, this, "size=" + size);
+        try {
+            log.dateInfo(LogType.time, this, "第二步：开始解析http或者websocket数据");
+            log.info(LogType.thread, this, "线程：读socket："
+                    + Thread.currentThread().toString());
+            byte[] bs = applicationContext.getPoolByte().lend();
+            int size = socket.getInputStream().read(bs);
+            if (size == -1) {
+                socket.close();
+                applicationContext.getPoolByte().repay(bs);
+                return;
+            }
+            log.info(LogType.debug, this, "size=" + size);
 
-			long applicationId = applicationContext.getApplicationSocket().put(
-					socket);
+            long applicationId = applicationContext.getApplicationSocket().put(
+                    socket);
 
-			Map<String, String> map = applicationContext.getPoolMap().lend();
-			if (map == null) {
-				System.out.println("草你么，空指针了");
-			}
-			map.put(CoreType.applicationId.toString(),
-					String.valueOf(applicationId));
-			map.put(CoreType.size.toString(), String.valueOf(size));
+            Map<String, String> map = applicationContext.getPoolMap().lend();
+            if (map == null) {
+                System.out.println("草你么，空指针了");
+            }
+            map.put(CoreType.applicationId.toString(),
+                    String.valueOf(applicationId));
+            map.put(CoreType.size.toString(), String.valueOf(size));
 
-			new UtilParseProtocol(new String(bs, 0, size), map);
-			applicationContext.getPoolByte().repay(bs);// 偿还bytes给对象池
-			String protocol = map.get(CoreType.protocol.toString());
-			if (protocol.equals("WEBSOCKET")) {
-				ThreadWebSocket webSocket = new ThreadWebSocket(socket);
-				boolean result = applicationContext.getListWebSocketThread()
-						.put(webSocket);
-				if (result == false) {
-					map.put(CoreType.sec_websocket_accept.toString(),
-							"i am sorry");
-				} else {
-					applicationContext.getPoolWebSocketThread().execute(
-							webSocket);
-				}
-			}
-			log.dateInfo(LogType.time, this, "第二步：结束解析http或者websocket数据");
-			applicationContext.getQueueRead().push(map);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			log.info(LogType.error, this, "error=" + e.getMessage());
-		}
-	}
+            new UtilParseProtocol(new String(bs, 0, size), map);
+            applicationContext.getPoolByte().repay(bs);// 偿还bytes给对象池
+            String protocol = map.get(CoreType.protocol.toString());
+            if (protocol.equals("WEBSOCKET")) {
+                ThreadWebSocket webSocket = new ThreadWebSocket(socket);
+                boolean result = applicationContext.getListWebSocketThread()
+                        .put(webSocket);
+                if (result == false) {
+                    map.put(CoreType.sec_websocket_accept.toString(),
+                            "i am sorry");
+                } else {
+                    applicationContext.getPoolWebSocketThread().execute(
+                            webSocket);
+                }
+            }
+            log.dateInfo(LogType.time, this, "第二步：结束解析http或者websocket数据");
+            applicationContext.getQueueRead().push(map);
+            log.dateInfo(LogType.time, this, "第二步：投递读线程队列消息完毕");
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            log.info(LogType.error, this, "error=" + e.getMessage());
+        }
+    }
 
 }

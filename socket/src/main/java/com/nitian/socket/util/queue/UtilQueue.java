@@ -8,35 +8,44 @@ import com.nitian.util.log.LogType;
 
 public abstract class UtilQueue<T> implements Runnable {
 
-	private List<T> list = new ArrayList<T>();// 消息队列
+    private boolean flag = false;
 
-	protected LogManager log = LogManager.getInstance();
+    private List<T> list = new ArrayList<T>();// 消息队列
 
-	public synchronized void push(T t) {
-		list.add(t);
-		notify();
-	}
+    protected LogManager log = LogManager.getInstance();
 
-	@Override
-	public synchronized void run() {
-		// TODO Auto-generated method stub
-		while (true) {
-			if (list.size() == 0) {
-				try {
-					wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					log.info(LogType.error, this, "error+" + e.getMessage());
-				}
-			} else {
-				T t = list.remove(list.size() - 1);
-				handle(t);
-				log.info(LogType.queue, this, "queueSize+" + list.size());
-			}
-		}
+    public synchronized void push(T t) {
+        list.add(t);
+        if (flag) {
+            System.out.println("在运行状态中");
+        } else {
+            System.out.println("被唤醒了=" + Thread.currentThread().getName());
+            notify();
+        }
+    }
 
-	}
+    @Override
+    public synchronized void run() {
+        // TODO Auto-generated method stub
+        while (true) {
+            if (list.size() == 0) {
+                try {
+                    flag = false;
+                    wait();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    log.info(LogType.error, this, "error+" + e.getMessage());
+                }
+            } else {
+                flag = true;
+                T t = list.remove(list.size() - 1);
+                handle(t);
+                log.info(LogType.queue, this, "queueSize+" + list.size());
+            }
+        }
 
-	public abstract void handle(T t);
+    }
+
+    public abstract void handle(T t);
 }
