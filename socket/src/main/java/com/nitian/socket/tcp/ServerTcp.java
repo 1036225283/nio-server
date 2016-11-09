@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.nitian.socket.ApplicationContext;
+import com.nitian.socket.util.WriteTest;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -38,6 +39,8 @@ public class ServerTcp {
             log.dateInfo(LogType.time, this, "____________________________________________________");
             log.dateInfo(LogType.time, this, "第一步：接收socket开始");
             applicationContext.getQueueParse().push(socket);
+//            WriteTest writeTest = new WriteTest(socket);
+//            writeTest.start();
             log.dateInfo(LogType.time, this, "第一步：接收socket结束");
         }
     }
