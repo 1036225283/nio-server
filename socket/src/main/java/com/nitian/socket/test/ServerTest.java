@@ -21,26 +21,26 @@ public class ServerTest {
         try {
             ServerTcp serverTcp = new ServerTcp(88);
             serverTcp.getApplicationContext().getHandlerFactory()
-                    .regist("/user/login", LoginHandler.class)
-                    .regist("/exit", ExitHandler.class)
+                    .regist("/user/login", new LoginHandler())
+                    .regist("/exit", new ExitHandler())
                     .regist("/test", new Handler() {
                         @Override
                         public void handle(Map<String, String> map) {
                             map.put(CoreType.result.toString(), "this is test");
                         }
-                    }.getClass())
+                    })
                     .regist("/love", new Handler() {
                         @Override
                         public void handle(Map<String, String> map) {
                             map.put(CoreType.result.toString(), "l love you !!!");
                         }
-                    }.getClass())
+                    })
                     .regist("/fuck", new Handler() {
                         @Override
                         public void handle(Map<String, String> map) {
                             map.put(CoreType.result.toString(), "l fuck you !!!");
                         }
-                    }.getClass());
+                    });
             serverTcp.start();
         } catch (Exception e) {
             // TODO: handle exception
@@ -49,7 +49,6 @@ public class ServerTest {
             String exception = baos.toString();
             System.out.println("baos:" + exception);
             log.info(LogType.error, null, "error+" + exception);
-            return;
         }
 
     }
