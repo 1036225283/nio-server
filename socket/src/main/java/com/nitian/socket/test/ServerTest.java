@@ -2,6 +2,7 @@ package com.nitian.socket.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.nitian.socket.core.CoreType;
@@ -14,11 +15,15 @@ import com.nitian.util.log.LogType;
 
 public class ServerTest {
 
+
     public static void main(String[] args) {
 
         LogManager log = LogManager.getInstance();
 
+        final Map<String, Long> countMap = new HashMap<>();
+
         try {
+            countMap.put("count", 0l);
             ServerTcp serverTcp = new ServerTcp(88);
             serverTcp.getApplicationContext().getHandlerFactory()
                     .regist("/user/login", new LoginHandler())
@@ -32,7 +37,10 @@ public class ServerTest {
                     .regist("/love", new Handler() {
                         @Override
                         public void handle(Map<String, String> map) {
-                            map.put(CoreType.result.toString(), "l love you !!!");
+                            long count = countMap.get("count");
+                            map.put(CoreType.result.toString(), "l love you " + count + " days !!!");
+                            count = count + 1;
+                            countMap.put("count", count);
                         }
                     })
                     .regist("/fuck", new Handler() {
