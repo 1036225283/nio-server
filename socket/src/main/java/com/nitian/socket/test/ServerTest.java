@@ -23,6 +23,7 @@ public class ServerTest {
         final Map<String, Long> countMap = new HashMap<>();
 
         try {
+            log.setFileLog(true);
             countMap.put("count", 0l);
             ServerTcp serverTcp = new ServerTcp(88);
             serverTcp.getApplicationContext().getHandlerFactory()
