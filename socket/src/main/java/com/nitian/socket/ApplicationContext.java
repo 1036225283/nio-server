@@ -19,16 +19,15 @@ public class ApplicationContext {
     private int poolMax = 800;
     private int poolTotal = 200;
 
-    private UtilPoolByte poolByte;
+    //    private UtilPoolByte poolByte;
     private UtilPoolThread poolSocketThread;
     private UtilPoolThread poolHandlerThread;
     private UtilPoolThread poolWebSocketThread;
-    private UtilPoolMap poolMap;
+
     private HandlerFactory handlerFactory;
     // 消息队列
     private UtilQueueRead queueRead;
-    private UtilQueueWrite queueWrite;
-    private UtilQueueParse queueParse;
+
     private ApplicationSocket applicationSocket;
     private UtilListWebSocketThread listWebSocketThread;
 
@@ -45,19 +44,17 @@ public class ApplicationContext {
         poolWebSocketThread = new UtilPoolThread(10);
 
         // 对象池需要追踪
-        poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
-        poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
+
 
         // {url:handler}业务处理器，不需要追踪
         handlerFactory = new HandlerFactory();
 
         // 读，写消息队列
         queueRead = new UtilQueueRead(this);
-        queueWrite = new UtilQueueWrite(this);
-        queueParse = new UtilQueueParse(this);
+
+//        queueParse = new UtilQueueParse(this);
         new Thread(queueRead, "线程：读队列线程").start();
-        new Thread(queueWrite, "线程：写队列线程").start();
-        new Thread(queueParse, "线程：解析列线程").start();
+
 
         // 默认handler
         handlerFactory.regist("default", new DefaultHandler());
@@ -72,13 +69,6 @@ public class ApplicationContext {
         return context;
     }
 
-    public UtilPoolByte getPoolByte() {
-        return poolByte;
-    }
-
-    public UtilPoolMap getPoolMap() {
-        return poolMap;
-    }
 
     public int getPoolMax() {
         return poolMax;
@@ -108,9 +98,6 @@ public class ApplicationContext {
         this.applicationSocket = applicationSocket;
     }
 
-    public UtilQueueWrite getQueueWrite() {
-        return queueWrite;
-    }
 
     public HandlerFactory getHandlerFactory() {
         return handlerFactory;
@@ -128,12 +115,5 @@ public class ApplicationContext {
         return poolWebSocketThread;
     }
 
-    public UtilQueueParse getQueueParse() {
-        return queueParse;
-    }
-
-    public void setQueueParse(UtilQueueParse queueParse) {
-        this.queueParse = queueParse;
-    }
 
 }

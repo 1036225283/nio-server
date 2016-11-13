@@ -1,5 +1,12 @@
 package com.nitian.socket;
 
+import com.nitian.socket.core.ApplicationSocket;
+import com.nitian.socket.util.UtilPoolThread;
+import com.nitian.socket.util.list.UtilListWebSocketThread;
+import com.nitian.socket.util.pool.UtilPoolByte;
+import com.nitian.socket.util.pool.UtilPoolMap;
+import com.nitian.socket.util.queue.UtilQueueParse;
+import com.nitian.socket.util.queue.UtilQueueWrite;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -18,6 +25,15 @@ public class EngineBIO implements Engine {
      * 业务引擎
      */
     private Engine handleEngine;
+    private Integer port;
+    private ServerSocket serverSocket;
+    private int poolMax = 800;
+    private int poolTotal = 200;
+
+    private UtilQueueParse queueParse;
+    private UtilQueueWrite queueWrite;
+    private UtilPoolByte poolByte;
+    private UtilPoolMap poolMap;
 
     public EngineBIO(int port) {
         this.port = port;
@@ -26,10 +42,50 @@ public class EngineBIO implements Engine {
     public EngineBIO() {
     }
 
+    public void init() {
+
+        poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
+        poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
+        //开启解析线程
+        new Thread(queueParse, "线程：解析列线程").start();
+
+
+        queueParse = new UtilQueueParse(this);
+        queueWrite = new UtilQueueWrite(this);
+        new Thread(queueWrite, "线程：写队列线程").start();
+    }
+
     @Override
-    public void push(Map<String, Object> map) {
+    public void push(Map<String, String> map) {
 
     }
+
+
+    @Override
+    public UtilPoolByte getPoolByte() {
+        return poolByte;
+    }
+
+    @Override
+    public ApplicationSocket getApplicationSocket() {
+        return null;
+    }
+
+    @Override
+    public UtilListWebSocketThread getListWebSocketThread() {
+        return null;
+    }
+
+    @Override
+    public UtilPoolMap getPoolMap() {
+        return poolMap;
+    }
+
+    @Override
+    public UtilPoolThread getPoolWebSocketThread() {
+        return null;
+    }
+
 
     public Engine getHandleEngine() {
         return handleEngine;
@@ -40,13 +96,10 @@ public class EngineBIO implements Engine {
     }
 
 
-    private ApplicationContext applicationContext = ApplicationContext
-            .getInstance();
+//    private ApplicationContext applicationContext = ApplicationContext
+//            .getInstance();
 
     private LogManager log = LogManager.getInstance();
-
-    private Integer port;
-    private ServerSocket serverSocket;
 
 
     public void start() throws IOException {
@@ -61,15 +114,11 @@ public class EngineBIO implements Engine {
             Socket socket = serverSocket.accept();
             log.dateInfo(LogType.time, this, "____________________________________________________");
             log.dateInfo(LogType.time, this, "第一步：接收socket开始");
-            applicationContext.getQueueParse().push(socket);
+//            applicationContext.getQueueParse().push(socket);
 //            WriteTest writeTest = new WriteTest(socket);
 //            writeTest.start();
             log.dateInfo(LogType.time, this, "第一步：接收socket结束");
         }
-    }
-
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
     }
 
 
