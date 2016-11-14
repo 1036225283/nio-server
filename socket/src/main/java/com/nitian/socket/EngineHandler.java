@@ -19,9 +19,12 @@ public class EngineHandler implements EngineHandle {
     // 消息队列
     private UtilQueueRead queueRead;
 
-
-
     private EngineSocket engineSocket;
+
+    EngineHandler() {
+        init();
+    }
+
 
     public void init() {
 

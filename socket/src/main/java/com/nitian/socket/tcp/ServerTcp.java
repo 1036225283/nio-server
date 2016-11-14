@@ -38,7 +38,7 @@ public class ServerTcp {
             Socket socket = serverSocket.accept();
             log.dateInfo(LogType.time, this, "____________________________________________________");
             log.dateInfo(LogType.time, this, "第一步：接收socket开始");
-            applicationContext.getQueueParse().push(socket);
+//            applicationContext.getQueueParse().push(socket);
 //            WriteTest writeTest = new WriteTest(socket);
 //            writeTest.start();
             log.dateInfo(LogType.time, this, "第一步：接收socket结束");

@@ -1,18 +1,17 @@
 package com.nitian.socket.test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
-import com.nitian.socket.tcp.ServerTcp;
 import com.nitian.socket.test.handler.ExitHandler;
 import com.nitian.socket.test.handler.LoginHandler;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServerTest {
 
@@ -25,8 +24,8 @@ public class ServerTest {
 
         try {
             ApplicationContext applicationContext = ApplicationContext.getInstance();
-            log.setFileLog(true);
-            countMap.put("count", 0l);
+            LogManager.setFileLog(true);
+            countMap.put("count", 0L);
 
             applicationContext.getEngineHandle().getHandlerFactory()
                     .regist("/user/login", new LoginHandler())

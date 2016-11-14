@@ -6,6 +6,7 @@ import com.nitian.socket.util.list.UtilListWebSocketThread;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -67,5 +68,5 @@ public interface EngineSocket {
     /**
      * 启动引擎
      */
-    public void start();
+    public void start() throws IOException;
 }
