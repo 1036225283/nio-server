@@ -2,18 +2,19 @@ package com.nitian.socket.util.queue;
 
 import java.util.Map;
 
-import com.nitian.socket.ApplicationContext;
+import com.nitian.socket.EngineHandle;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.util.log.LogType;
 
 public class UtilQueueRead extends UtilQueue<Map<String, String>> {
 
-    private ApplicationContext applicationContext;
 
-    public UtilQueueRead(ApplicationContext applicationContext) {
+    private EngineHandle engineHandle;
+
+    public UtilQueueRead(EngineHandle engineHandle) {
         // TODO Auto-generated constructor stub
-        this.applicationContext = applicationContext;
+        this.engineHandle = engineHandle;
     }
 
     @Override
@@ -22,10 +23,10 @@ public class UtilQueueRead extends UtilQueue<Map<String, String>> {
         log.dateInfo(LogType.time, this, "第三步：开始处理消息");
         String url = t.get(CoreType.url.toString());
 
-        Handler handler = applicationContext.getHandlerFactory()
+        Handler handler = engineHandle.getHandlerFactory()
                 .get(url);
         if (handler != null) {
-            handler.setApplicationContext(applicationContext);
+            handler.setEngineHandle(engineHandle);
             handler.setMap(t);
             handler.handle(t);
             handler.afterHandle();

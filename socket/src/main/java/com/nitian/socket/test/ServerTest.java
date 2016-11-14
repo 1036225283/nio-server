@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.nitian.socket.ApplicationContext;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.tcp.ServerTcp;
@@ -23,10 +24,11 @@ public class ServerTest {
         final Map<String, Long> countMap = new HashMap<>();
 
         try {
+            ApplicationContext applicationContext = ApplicationContext.getInstance();
             log.setFileLog(true);
             countMap.put("count", 0l);
-            ServerTcp serverTcp = new ServerTcp(88);
-            serverTcp.getApplicationContext().getHandlerFactory()
+
+            applicationContext.getEngineHandle().getHandlerFactory()
                     .regist("/user/login", new LoginHandler())
                     .regist("/exit", new ExitHandler())
                     .regist("/test", new Handler() {
@@ -50,7 +52,8 @@ public class ServerTest {
                             map.put(CoreType.result.toString(), "l fuck you !!!");
                         }
                     });
-            serverTcp.start();
+
+            applicationContext.getEngineSocket().start();
         } catch (Exception e) {
             // TODO: handle exception
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

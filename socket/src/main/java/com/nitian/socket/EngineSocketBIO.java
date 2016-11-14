@@ -21,10 +21,13 @@ import java.util.Map;
  */
 public class EngineSocketBIO implements EngineSocket {
 
+    private LogManager log = LogManager.getInstance();
+
+
     /**
      * 业务引擎
      */
-    private EngineSocket handleEngineSocket;
+    private EngineHandle engineHandle;
     private Integer port;
     private ServerSocket serverSocket;
     private int poolMax = 800;
@@ -37,9 +40,11 @@ public class EngineSocketBIO implements EngineSocket {
 
     public EngineSocketBIO(int port) {
         this.port = port;
+        init();
     }
 
     public EngineSocketBIO() {
+        init();
     }
 
     public void init() {
@@ -58,6 +63,36 @@ public class EngineSocketBIO implements EngineSocket {
     @Override
     public void push(Map<String, String> map) {
 
+    }
+
+
+    public void start() throws IOException {
+        if (port == null) {
+            port = 8080;
+        }
+        Thread.currentThread().setName("线程：服务主线程");
+        log.info(LogType.thread, this, Thread.currentThread().toString());
+        serverSocket = new ServerSocket(port);
+        log.info(LogType.debug, this, "server is start");
+        while (true) {
+            Socket socket = serverSocket.accept();
+            log.dateInfo(LogType.time, this, "____________________________________________________");
+            log.dateInfo(LogType.time, this, "第一步：接收socket开始");
+//            applicationContext.getQueueParse().push(socket);
+//            WriteTest writeTest = new WriteTest(socket);
+//            writeTest.start();
+            log.dateInfo(LogType.time, this, "第一步：接收socket结束");
+        }
+    }
+
+
+    public EngineHandle getEngineHandle() {
+        return engineHandle;
+    }
+
+    public void setEngineHandle(EngineHandle engineHandle) {
+        this.engineHandle = engineHandle;
+        engineHandle.setEngineSocket(this);
     }
 
 
@@ -85,41 +120,4 @@ public class EngineSocketBIO implements EngineSocket {
     public UtilPoolThread getPoolWebSocketThread() {
         return null;
     }
-
-
-    public EngineSocket getHandleEngineSocket() {
-        return handleEngineSocket;
-    }
-
-    public void setHandleEngineSocket(EngineSocket handleEngineSocket) {
-        this.handleEngineSocket = handleEngineSocket;
-    }
-
-
-//    private ApplicationContext applicationContext = ApplicationContext
-//            .getInstance();
-
-    private LogManager log = LogManager.getInstance();
-
-
-    public void start() throws IOException {
-        if (port == null) {
-            port = 8080;
-        }
-        Thread.currentThread().setName("线程：服务主线程");
-        log.info(LogType.thread, this, Thread.currentThread().toString());
-        serverSocket = new ServerSocket(port);
-        log.info(LogType.debug, this, "server is start");
-        while (true) {
-            Socket socket = serverSocket.accept();
-            log.dateInfo(LogType.time, this, "____________________________________________________");
-            log.dateInfo(LogType.time, this, "第一步：接收socket开始");
-//            applicationContext.getQueueParse().push(socket);
-//            WriteTest writeTest = new WriteTest(socket);
-//            writeTest.start();
-            log.dateInfo(LogType.time, this, "第一步：接收socket结束");
-        }
-    }
-
-
 }

@@ -56,4 +56,16 @@ public interface EngineSocket {
      * @return
      */
     public UtilPoolThread getPoolWebSocketThread();
+
+    /**
+     * 设置业务引擎
+     *
+     * @param engineHandle
+     */
+    public void setEngineHandle(EngineHandle engineHandle);
+
+    /**
+     * 启动引擎
+     */
+    public void start();
 }

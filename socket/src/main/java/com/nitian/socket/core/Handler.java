@@ -1,8 +1,8 @@
 package com.nitian.socket.core;
 
-import java.util.Map;
+import com.nitian.socket.EngineHandle;
 
-import com.nitian.socket.ApplicationContext;
+import java.util.Map;
 
 public abstract class Handler {
 
@@ -12,11 +12,12 @@ public abstract class Handler {
 
     public abstract void handle(Map<String, String> map);
 
-    private ApplicationContext applicationContext;
+    private EngineHandle engineHandle;
+
     private Map<String, String> map;
 
     public void afterHandle() {
-        applicationContext.getQueueWrite().push(map);
+        engineHandle.push(map);
     }
 
     public Map<String, String> getMap() {
@@ -27,12 +28,9 @@ public abstract class Handler {
         this.map = map;
     }
 
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
 
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
+    public void setEngineHandle(EngineHandle engineHandle) {
+        this.engineHandle = engineHandle;
     }
 
 }
