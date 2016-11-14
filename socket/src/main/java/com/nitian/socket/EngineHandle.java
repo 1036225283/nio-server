@@ -3,13 +3,17 @@ package com.nitian.socket;
 import java.util.Map;
 
 /**
- * Created by 1036225283 on 2016/11/13.
- * 业务引擎
+ * Created by 1036225283 on 2016/11/14.
+ * 业务引擎接口定义
  */
-public class EngineHandle implements Engine {
+public interface EngineHandle {
 
-    @Override
-    public void push(Map<String, Object> map) {
+    /**
+     * 将消息推送给消息引擎
+     *
+     * @param map
+     */
+    public void push(Map<String, String> map);
 
-    }
+
 }

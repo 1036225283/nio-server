@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
 
-import com.nitian.socket.ApplicationContext;
-import com.nitian.socket.Engine;
+import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseProtocol;
 import com.nitian.socket.util.thread.ThreadWebSocket;
@@ -20,12 +19,12 @@ import com.nitian.util.log.LogType;
 public class UtilQueueParse extends UtilQueue<Socket> {
 
 
-    private Engine engine;
+    private EngineSocket engineSocket;
     protected LogManager log = LogManager.getInstance();
 
-    public UtilQueueParse(Engine engine) {
+    public UtilQueueParse(EngineSocket engineSocket) {
         // TODO Auto-generated constructor stub
-        this.engine = engine;
+        this.engineSocket = engineSocket;
     }
 
     @Override
@@ -36,19 +35,19 @@ public class UtilQueueParse extends UtilQueue<Socket> {
             log.dateInfo(LogType.time, this, "第二步：开始解析http或者websocket数据");
             log.info(LogType.thread, this, "线程：读socket："
                     + Thread.currentThread().toString());
-            byte[] bs = engine.getPoolByte().lend();
+            byte[] bs = engineSocket.getPoolByte().lend();
             int size = socket.getInputStream().read(bs);
             if (size == -1) {
                 socket.close();
-                engine.getPoolByte().repay(bs);
+                engineSocket.getPoolByte().repay(bs);
                 return;
             }
             log.info(LogType.debug, this, "size=" + size);
 
-            long applicationId = engine.getApplicationSocket().put(
+            long applicationId = engineSocket.getApplicationSocket().put(
                     socket);
 
-            Map<String, String> map = engine.getPoolMap().lend();
+            Map<String, String> map = engineSocket.getPoolMap().lend();
             if (map == null) {
                 System.out.println("草你么，空指针了");
             }
@@ -57,22 +56,22 @@ public class UtilQueueParse extends UtilQueue<Socket> {
             map.put(CoreType.size.toString(), String.valueOf(size));
 
             new UtilParseProtocol(new String(bs, 0, size), map);
-            engine.getPoolByte().repay(bs);// 偿还bytes给对象池
+            engineSocket.getPoolByte().repay(bs);// 偿还bytes给对象池
             String protocol = map.get(CoreType.protocol.toString());
             if (protocol.equals("WEBSOCKET")) {
                 ThreadWebSocket webSocket = new ThreadWebSocket(socket);
-                boolean result = engine.getListWebSocketThread()
+                boolean result = engineSocket.getListWebSocketThread()
                         .put(webSocket);
                 if (result == false) {
                     map.put(CoreType.sec_websocket_accept.toString(),
                             "i am sorry");
                 } else {
-                    engine.getPoolWebSocketThread().execute(
+                    engineSocket.getPoolWebSocketThread().execute(
                             webSocket);
                 }
             }
             log.dateInfo(LogType.time, this, "第二步：结束解析http或者websocket数据");
-            engine.push(map);
+            engineSocket.push(map);
             log.dateInfo(LogType.time, this, "第二步：投递读线程队列消息完毕");
 
         } catch (IOException e) {

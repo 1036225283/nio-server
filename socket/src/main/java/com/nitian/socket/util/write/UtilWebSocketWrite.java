@@ -1,6 +1,6 @@
 package com.nitian.socket.util.write;
 
-import com.nitian.socket.Engine;
+import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseWebSocketWrite;
 import com.nitian.util.log.LogManager;
@@ -14,10 +14,10 @@ public class UtilWebSocketWrite {
 
     protected static LogManager log = LogManager.getInstance();
 
-    public static void write(Map<String, String> map, Engine engine) {
+    public static void write(Map<String, String> map, EngineSocket engineSocket) {
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
                 .toString()));
-        Socket socket = engine.getApplicationSocket().remove(
+        Socket socket = engineSocket.getApplicationSocket().remove(
                 applicationId);
         UtilParseWebSocketWrite webSocketWrite = new UtilParseWebSocketWrite(
                 map);
@@ -27,7 +27,7 @@ public class UtilWebSocketWrite {
         } catch (IOException e) {
             log.info(LogType.error, null, "error+" + e.getMessage());
         } finally {
-            engine.getPoolMap().repay(map);
+            engineSocket.getPoolMap().repay(map);
         }
     }
 }

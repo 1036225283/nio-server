@@ -19,12 +19,12 @@ import java.util.Map;
  * Created by 1036225283 on 2016/11/13.
  * SOCKET ENGINE BIO
  */
-public class EngineBIO implements Engine {
+public class EngineSocketBIO implements EngineSocket {
 
     /**
      * 业务引擎
      */
-    private Engine handleEngine;
+    private EngineSocket handleEngineSocket;
     private Integer port;
     private ServerSocket serverSocket;
     private int poolMax = 800;
@@ -35,11 +35,11 @@ public class EngineBIO implements Engine {
     private UtilPoolByte poolByte;
     private UtilPoolMap poolMap;
 
-    public EngineBIO(int port) {
+    public EngineSocketBIO(int port) {
         this.port = port;
     }
 
-    public EngineBIO() {
+    public EngineSocketBIO() {
     }
 
     public void init() {
@@ -87,12 +87,12 @@ public class EngineBIO implements Engine {
     }
 
 
-    public Engine getHandleEngine() {
-        return handleEngine;
+    public EngineSocket getHandleEngineSocket() {
+        return handleEngineSocket;
     }
 
-    public void setHandleEngine(Engine handleEngine) {
-        this.handleEngine = handleEngine;
+    public void setHandleEngineSocket(EngineSocket handleEngineSocket) {
+        this.handleEngineSocket = handleEngineSocket;
     }
 
 
