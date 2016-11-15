@@ -33,7 +33,7 @@ public class EngineHandle {
         handlerFactory = new HandlerFactory();
         handlerFactory.regist("default", new DefaultHandler());
 
-        // 读，写消息队列
+        // 待处理消息队列
         queueRead = new UtilQueueRead(this);
         new Thread(queueRead, "线程：读队列线程").start();
 

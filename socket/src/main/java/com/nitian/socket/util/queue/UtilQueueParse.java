@@ -71,7 +71,7 @@ public class UtilQueueParse extends UtilQueue<Socket> {
                 }
             }
             log.dateInfo(LogType.time, this, "第二步：结束解析http或者websocket数据");
-            engineSocket.push(map);
+            engineSocket.getEngineHandle().push(map);
             log.dateInfo(LogType.time, this, "第二步：投递读线程队列消息完毕");
 
         } catch (IOException e) {

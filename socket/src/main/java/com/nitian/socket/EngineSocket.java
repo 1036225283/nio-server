@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * Created by 1036225283 on 2016/11/13.
- * SOCKET ENGINE BIO
+ * 消息引擎
  */
 public class EngineSocket {
 
@@ -51,12 +51,12 @@ public class EngineSocket {
 
         poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
         poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
-        //开启解析线程
-        new Thread(queueParse, "线程：解析列线程").start();
-
 
         queueParse = new UtilQueueParse(this);
         queueWrite = new UtilQueueWrite(this);
+
+        //开启解析线程
+        new Thread(queueParse, "线程：解析列线程").start();
         new Thread(queueWrite, "线程：写队列线程").start();
     }
 
@@ -76,6 +76,7 @@ public class EngineSocket {
             Socket socket = serverSocket.accept();
             log.dateInfo(LogType.time, this, "____________________________________________________");
             log.dateInfo(LogType.time, this, "第一步：接收socket开始");
+            queueParse.push(socket);
 //            applicationContext.getQueueParse().push(socket);
 //            WriteTest writeTest = new WriteTest(socket);
 //            writeTest.start();
@@ -83,10 +84,6 @@ public class EngineSocket {
         }
     }
 
-
-    public EngineHandle getEngineHandle() {
-        return engineHandle;
-    }
 
     public void setEngineHandle(EngineHandle engineHandle) {
         this.engineHandle = engineHandle;
@@ -112,5 +109,10 @@ public class EngineSocket {
 
     public UtilPoolThread getPoolWebSocketThread() {
         return null;
+    }
+
+
+    public EngineHandle getEngineHandle() {
+        return engineHandle;
     }
 }
