@@ -3,7 +3,7 @@ package com.nitian.socket;
 import com.nitian.socket.core.DefaultHandler;
 import com.nitian.socket.util.HandlerFactory;
 import com.nitian.socket.util.UtilPoolThread;
-import com.nitian.socket.util.queue.UtilQueueRead;
+import com.nitian.socket.util.queue.UtilQueueHandle;
 
 import java.util.Map;
 
@@ -17,7 +17,8 @@ public class EngineHandle {
     private UtilPoolThread poolHandlerThread;
     private HandlerFactory handlerFactory;
     // 消息队列
-    private UtilQueueRead queueRead;
+    private UtilQueueHandle queueHandle;
+
 
     private EngineSocket engineSocket;
 
@@ -28,20 +29,20 @@ public class EngineHandle {
 
     public void init() {
 
-        poolHandlerThread = new UtilPoolThread(200);
+//        poolHandlerThread = new UtilPoolThread(200);
         // {url:handler}业务处理器，不需要追踪         // 默认handler
         handlerFactory = new HandlerFactory();
         handlerFactory.regist("default", new DefaultHandler());
 
         // 待处理消息队列
-        queueRead = new UtilQueueRead(this);
-        new Thread(queueRead, "线程：读队列线程").start();
+        queueHandle = new UtilQueueHandle(this);
+        new Thread(queueHandle, "线程：读队列线程").start();
 
 
     }
 
     public void push(Map<String, String> map) {
-
+        queueHandle.push(map);
     }
 
     public UtilPoolThread getPoolHandlerThread() {
@@ -56,11 +57,11 @@ public class EngineHandle {
         this.handlerFactory = handlerFactory;
     }
 
-    public UtilQueueRead getQueueRead() {
-        return queueRead;
-    }
-
     public void setEngineSocket(EngineSocket engineSocket) {
         this.engineSocket = engineSocket;
+    }
+
+    public EngineSocket getEngineSocket() {
+        return engineSocket;
     }
 }

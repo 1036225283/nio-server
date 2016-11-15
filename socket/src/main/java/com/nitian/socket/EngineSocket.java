@@ -29,6 +29,7 @@ public class EngineSocket {
      */
     private EngineHandle engineHandle;
     private Integer port;
+    private ApplicationSocket applicationSocket;
     private ServerSocket serverSocket;
     private int poolMax = 800;
     private int poolTotal = 200;
@@ -49,6 +50,8 @@ public class EngineSocket {
 
     public void init() {
 
+        applicationSocket = new ApplicationSocket();
+
         poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
         poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
 
@@ -61,7 +64,7 @@ public class EngineSocket {
     }
 
     public void push(Map<String, String> map) {
-
+        queueWrite.push(map);
     }
 
     public void start() throws IOException {
@@ -96,7 +99,7 @@ public class EngineSocket {
     }
 
     public ApplicationSocket getApplicationSocket() {
-        return null;
+        return applicationSocket;
     }
 
     public UtilListWebSocketThread getListWebSocketThread() {

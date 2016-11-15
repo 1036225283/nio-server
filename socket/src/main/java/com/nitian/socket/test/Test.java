@@ -15,7 +15,7 @@ import java.util.Map;
 
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
-import com.nitian.socket.util.queue.UtilQueueRead;
+import com.nitian.socket.util.queue.UtilQueueHandle;
 import com.nitian.socket.util.websocket.UtilWebSocket;
 import com.nitian.util.encrypt.UtilBase64;
 import com.nitian.util.encrypt.UtilMd5;
@@ -89,7 +89,7 @@ public class Test {
 	}
 
 	public static void testQueueRead() {
-		UtilQueueRead queueRead = new UtilQueueRead(null);
+		UtilQueueHandle queueRead = new UtilQueueHandle(null);
 		for (int i = 0; i < 10000; i++) {
 			queueRead.push(new HashMap<String, String>());
 		}

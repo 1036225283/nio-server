@@ -17,7 +17,7 @@ public abstract class Handler {
     private Map<String, String> map;
 
     public void afterHandle() {
-        engineHandle.push(map);
+        engineHandle.getEngineSocket().push(map);
     }
 
     public Map<String, String> getMap() {

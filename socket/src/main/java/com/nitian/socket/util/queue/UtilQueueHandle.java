@@ -7,12 +7,12 @@ import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.util.log.LogType;
 
-public class UtilQueueRead extends UtilQueue<Map<String, String>> {
+public class UtilQueueHandle extends UtilQueue<Map<String, String>> {
 
 
     private EngineHandle engineHandle;
 
-    public UtilQueueRead(EngineHandle engineHandle) {
+    public UtilQueueHandle(EngineHandle engineHandle) {
         // TODO Auto-generated constructor stub
         this.engineHandle = engineHandle;
     }
