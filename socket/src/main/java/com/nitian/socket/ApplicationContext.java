@@ -19,8 +19,8 @@ public class ApplicationContext {
 
         log.putType(LogType.time.toString());
 
-        engineHandle = new EngineHandler();
-        engineSocket = new EngineSocketBIO(88);
+        engineHandle = new EngineHandle();
+        engineSocket = new EngineSocket(88);
         engineSocket.setEngineHandle(engineHandle);
 
         // log.putType("websocket_frame");

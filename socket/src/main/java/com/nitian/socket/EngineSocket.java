@@ -5,68 +5,112 @@ import com.nitian.socket.util.UtilPoolThread;
 import com.nitian.socket.util.list.UtilListWebSocketThread;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
+import com.nitian.socket.util.queue.UtilQueueParse;
+import com.nitian.socket.util.queue.UtilQueueWrite;
+import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
 
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Map;
 
 /**
  * Created by 1036225283 on 2016/11/13.
- * push
+ * SOCKET ENGINE BIO
  */
-public interface EngineSocket {
+public class EngineSocket {
 
-    /**
-     * 将消息推送给业务引擎
-     *
-     * @param map
-     */
-    public void push(Map<String, String> map);
+    private LogManager log = LogManager.getInstance();
 
 
     /**
-     * 获取对象池
-     *
-     * @return
+     * 业务引擎
      */
-    public UtilPoolByte getPoolByte();
+    private EngineHandle engineHandle;
+    private Integer port;
+    private ServerSocket serverSocket;
+    private int poolMax = 800;
+    private int poolTotal = 200;
 
-    /**
-     * 获取消息池
-     *
-     * @return
-     */
-    public UtilPoolMap getPoolMap();
+    private UtilQueueParse queueParse;
+    private UtilQueueWrite queueWrite;
+    private UtilPoolByte poolByte;
+    private UtilPoolMap poolMap;
 
-    /**
-     * 获取Socket 计数
-     *
-     * @return
-     */
-    public ApplicationSocket getApplicationSocket();
+    public EngineSocket(int port) {
+        this.port = port;
+        init();
+    }
 
-    /**
-     * 获取webSocket线程
-     *
-     * @return
-     */
-    public UtilListWebSocketThread getListWebSocketThread();
+    public EngineSocket() {
+        init();
+    }
 
-    /**
-     * 获取webSocket相关的东西
-     *
-     * @return
-     */
-    public UtilPoolThread getPoolWebSocketThread();
+    public void init() {
 
-    /**
-     * 设置业务引擎
-     *
-     * @param engineHandle
-     */
-    public void setEngineHandle(EngineHandle engineHandle);
+        poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
+        poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
+        //开启解析线程
+        new Thread(queueParse, "线程：解析列线程").start();
 
-    /**
-     * 启动引擎
-     */
-    public void start() throws IOException;
+
+        queueParse = new UtilQueueParse(this);
+        queueWrite = new UtilQueueWrite(this);
+        new Thread(queueWrite, "线程：写队列线程").start();
+    }
+
+    public void push(Map<String, String> map) {
+
+    }
+
+    public void start() throws IOException {
+        if (port == null) {
+            port = 8080;
+        }
+        Thread.currentThread().setName("线程：服务主线程");
+        log.info(LogType.thread, this, Thread.currentThread().toString());
+        serverSocket = new ServerSocket(port);
+        log.info(LogType.debug, this, "server is start");
+        while (true) {
+            Socket socket = serverSocket.accept();
+            log.dateInfo(LogType.time, this, "____________________________________________________");
+            log.dateInfo(LogType.time, this, "第一步：接收socket开始");
+//            applicationContext.getQueueParse().push(socket);
+//            WriteTest writeTest = new WriteTest(socket);
+//            writeTest.start();
+            log.dateInfo(LogType.time, this, "第一步：接收socket结束");
+        }
+    }
+
+
+    public EngineHandle getEngineHandle() {
+        return engineHandle;
+    }
+
+    public void setEngineHandle(EngineHandle engineHandle) {
+        this.engineHandle = engineHandle;
+        engineHandle.setEngineSocket(this);
+    }
+
+
+    public UtilPoolByte getPoolByte() {
+        return poolByte;
+    }
+
+    public ApplicationSocket getApplicationSocket() {
+        return null;
+    }
+
+    public UtilListWebSocketThread getListWebSocketThread() {
+        return null;
+    }
+
+    public UtilPoolMap getPoolMap() {
+        return poolMap;
+    }
+
+    public UtilPoolThread getPoolWebSocketThread() {
+        return null;
+    }
 }
