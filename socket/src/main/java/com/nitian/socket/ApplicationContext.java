@@ -20,7 +20,7 @@ public class ApplicationContext {
         log.putType(LogType.time.toString());
 
         engineHandle = new EngineHandle();
-        engineSocket = new EngineSocket(88);
+        engineSocket = new EngineSocketNIO(88);
         engineSocket.setEngineHandle(engineHandle);
 
         // log.putType("websocket_frame");

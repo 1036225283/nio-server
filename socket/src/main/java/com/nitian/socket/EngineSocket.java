@@ -118,4 +118,16 @@ public class EngineSocket {
     public EngineHandle getEngineHandle() {
         return engineHandle;
     }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public UtilQueueParse getQueueParse() {
+        return queueParse;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
 }
