@@ -1,5 +1,7 @@
 package com.nitian.socket;
 
+import com.nitian.socket.util.WriteTest;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -19,6 +21,7 @@ public class EngineSocketNIO extends EngineSocket {
     // 通道管理器
     private Selector selector;
 
+    Socket socket;
 
     public void start() throws IOException {
 
@@ -55,14 +58,15 @@ public class EngineSocketNIO extends EngineSocket {
                         }
 
                         if (key.isReadable()) {
-                            SocketChannel socketChannel = (SocketChannel) key.channel();
-                            Socket socket = socketChannel.socket();
-                            getQueueParse().push(socket);
-                            System.out.println("推送到解析队列里面了");
+                            read(key);
+//                            SocketChannel socketChannel = (SocketChannel) key.channel();
+//                            Socket socket = socketChannel.socket();
+//                            getQueueParse().push(socket);
+//                            System.out.println("推送到解析队列里面了");
                         }
                     }
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
 //                // 客户端请求连接事件
 //                if (key.isAcceptable()) {
@@ -88,8 +92,34 @@ public class EngineSocketNIO extends EngineSocket {
     public void read(SelectionKey key) throws IOException {
         // 服务器可读取消息:得到事件发生的Socket通道
         SocketChannel channel = (SocketChannel) key.channel();
-        Socket socket = channel.socket();
-        getQueueParse().push(socket);
+        // 创建读取的缓冲区
+        ByteBuffer buffer = ByteBuffer.allocate(1000);
+        int length = channel.read(buffer);
+        System.out.println("读取的数据长度为:" + length);
+        if(length>0){
+            buffer.flip();
+        }
+        System.out.println("position:" + buffer.position());
+        if (buffer.position() == 0) {
+            channel.close();
+        } else {
+            byte[] data = buffer.array();
+            String msg = new String(data).trim();
+            System.out.println("服务端收到信息：" + msg);
+        }
+        write(channel, null);
+        System.out.println("发送消息完毕");
+    }
+
+
+    public void write(SocketChannel socketChannel, String value) throws IOException {
+        byte[] bytes = WriteTest.getString().getBytes();
+        ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length);
+        byteBuffer.put(bytes);
+        byteBuffer.flip();
+        socketChannel.write(byteBuffer);
+        socketChannel.close();
+
     }
 
     EngineSocketNIO() {
