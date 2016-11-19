@@ -1,4 +1,4 @@
-package com.nitian.socket.core;
+package com.nitian.socket.util.store;
 
 import java.net.Socket;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.Map;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
-public class ApplicationSocket {
+public class CountStoreSocket {
 
 	/**
 	 * <applicationId,socket>队列

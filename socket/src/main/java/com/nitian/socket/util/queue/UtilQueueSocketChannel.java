@@ -1,9 +1,5 @@
 package com.nitian.socket.util.queue;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.util.Map;
-
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseProtocol;
@@ -11,18 +7,22 @@ import com.nitian.socket.util.thread.ThreadWebSocket;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Map;
+
 /**
  * 解析HTTP/WEBSOCKET请求队列
  *
  * @author 1036225283
  */
-public class UtilQueueParse extends UtilQueue<Socket> {
+public class UtilQueueSocketChannel extends UtilQueue<Socket> {
 
 
     private EngineSocket engineSocket;
     protected LogManager log = LogManager.getInstance();
 
-    public UtilQueueParse(EngineSocket engineSocket) {
+    public UtilQueueSocketChannel(EngineSocket engineSocket) {
         // TODO Auto-generated constructor stub
         this.engineSocket = engineSocket;
     }
@@ -44,7 +44,7 @@ public class UtilQueueParse extends UtilQueue<Socket> {
             }
             log.info(LogType.debug, this, "size=" + size);
 
-            long applicationId = engineSocket.getApplicationSocket().put(
+            long applicationId = engineSocket.getCountStoreSocket().put(
                     socket);
 
             Map<String, String> map = engineSocket.getPoolMap().lend();

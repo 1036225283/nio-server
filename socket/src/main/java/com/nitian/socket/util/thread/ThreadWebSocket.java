@@ -43,7 +43,7 @@ public class ThreadWebSocket implements Runnable {
                 if (size != -1) {
                     UtilParseWebSocketData.parse(bs, size);
                     long applicationId = applicationContext.getEngineSocket()
-                            .getApplicationSocket().put(socket);
+                            .getCountStoreSocket().put(socket);
                     log.info(LogType.debug, this, "size=" + size);
                     Map<String, String> map = applicationContext.getEngineSocket().getPoolMap()
                             .lend();

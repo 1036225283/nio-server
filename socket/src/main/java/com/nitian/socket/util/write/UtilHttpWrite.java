@@ -17,7 +17,7 @@ public class UtilHttpWrite {
     public synchronized static void write(Map<String, String> map, EngineSocket engineSocket) {
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
                 .toString()));
-        Socket socket = engineSocket.getApplicationSocket().remove(
+        Socket socket = engineSocket.getCountStoreSocket().remove(
                 applicationId);
         UtilParseHttpWrite httpWrite = new UtilParseHttpWrite(map);
         byte[] bs = httpWrite.getResult();

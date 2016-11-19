@@ -61,7 +61,7 @@ public class EngineSocketNIO extends EngineSocket {
                             read(key);
 //                            SocketChannel socketChannel = (SocketChannel) key.channel();
 //                            Socket socket = socketChannel.socket();
-//                            getQueueParse().push(socket);
+//                            getQueueRead().push(socket);
 //                            System.out.println("推送到解析队列里面了");
                         }
                     }
@@ -96,16 +96,12 @@ public class EngineSocketNIO extends EngineSocket {
         ByteBuffer buffer = ByteBuffer.allocate(1000);
         int length = channel.read(buffer);
         System.out.println("读取的数据长度为:" + length);
-        if(length>0){
+        if (length > 0) {
             buffer.flip();
-        }
-        System.out.println("position:" + buffer.position());
-        if (buffer.position() == 0) {
-            channel.close();
-        } else {
-            byte[] data = buffer.array();
-            String msg = new String(data).trim();
-            System.out.println("服务端收到信息：" + msg);
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+            String value = new String(bytes, "UTF-8");
+            System.out.println(value);
         }
         write(channel, null);
         System.out.println("发送消息完毕");
