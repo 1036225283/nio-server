@@ -1,5 +1,6 @@
 package com.nitian.socket;
 
+import com.nitian.socket.util.store.CountStore;
 import com.nitian.socket.util.store.CountStoreSocket;
 import com.nitian.socket.util.UtilPoolThread;
 import com.nitian.socket.util.list.UtilListWebSocketThread;
@@ -30,7 +31,7 @@ public class EngineSocket {
      */
     private EngineHandle engineHandle;
     private Integer port;
-    private CountStoreSocket countStoreSocket;
+    private CountStore countStore;
     private ServerSocket serverSocket;
     private int poolMax = 800;
     private int poolTotal = 200;
@@ -51,7 +52,7 @@ public class EngineSocket {
 
     public void init() {
 
-        countStoreSocket = new CountStoreSocket();
+        countStore = new CountStoreSocket();
 
         poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
         poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
@@ -99,8 +100,8 @@ public class EngineSocket {
         return poolByte;
     }
 
-    public CountStoreSocket getCountStoreSocket() {
-        return countStoreSocket;
+    public CountStore getCountStore() {
+        return countStore;
     }
 
     public UtilListWebSocketThread getListWebSocketThread() {

@@ -44,7 +44,7 @@ public class UtilQueueSocketChannel extends UtilQueue<Socket> {
             }
             log.info(LogType.debug, this, "size=" + size);
 
-            long applicationId = engineSocket.getCountStoreSocket().put(
+            long applicationId = engineSocket.getCountStore().put(
                     socket);
 
             Map<String, String> map = engineSocket.getPoolMap().lend();

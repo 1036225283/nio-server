@@ -17,7 +17,7 @@ public class UtilWebSocketWrite {
     public static void write(Map<String, String> map, EngineSocket engineSocket) {
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
                 .toString()));
-        Socket socket = engineSocket.getCountStoreSocket().remove(
+        Socket socket = (Socket) engineSocket.getCountStore().remove(
                 applicationId);
         UtilParseWebSocketWrite webSocketWrite = new UtilParseWebSocketWrite(
                 map);
