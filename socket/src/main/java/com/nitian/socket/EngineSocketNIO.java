@@ -62,7 +62,9 @@ public class EngineSocketNIO extends EngineSocket {
                         }
 
                         if (key.isReadable()) {
-                            read(key);
+                            SocketChannel socketChannel = (SocketChannel) key.channel();
+                            getQueueRead().push(socketChannel);
+//                            read(key);
 //                            SocketChannel socketChannel = (SocketChannel) key.channel();
 //                            Socket socket = socketChannel.socket();
 //                            getQueueRead().push(socket);
@@ -70,6 +72,7 @@ public class EngineSocketNIO extends EngineSocket {
                         }
                     }
                 } catch (Exception e) {
+                    System.out.println("888888888888888888888888888888888888888888888888888888888888");
                     e.printStackTrace();
                 }
 //                // 客户端请求连接事件
@@ -123,12 +126,10 @@ public class EngineSocketNIO extends EngineSocket {
     }
 
     EngineSocketNIO() {
-        init();
     }
 
     EngineSocketNIO(int port) {
         setPort(port);
-        init();
     }
 
     public void test() {

@@ -44,14 +44,21 @@ public class UtilQueueSocketChannel extends UtilQueue<SocketChannel> {
             System.out.println("读取的数据长度为:" + size);
             if (size > 0) {
                 buffer.flip();
-                buffer.get(bs);
+                buffer.get(bs, 0, size);
             }
 
-//            if (size == -1) {
-//                socketChannel.close();
-//                engineSocket.getPoolByte().repay(bs);
-//                return;
-//            }
+            if (size == 0) {
+                engineSocket.getPoolByte().repay(bs);
+                engineSocket.getPoolBuffer().repay(buffer);
+                System.out.println("size = 0" + "00000000000000000000000000000000000000000000000000000");
+                return;
+            } else if (size == -1) {
+                socketChannel.close();
+                engineSocket.getPoolByte().repay(bs);
+                engineSocket.getPoolBuffer().repay(buffer);
+
+            }
+
             log.info(LogType.debug, this, "size=" + size);
 
             long applicationId = engineSocket.getCountStore().put(
@@ -87,6 +94,7 @@ public class UtilQueueSocketChannel extends UtilQueue<SocketChannel> {
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            System.out.println("------------------------------------------------------------------------------------------");
             log.info(LogType.error, this, "error=" + e.getMessage());
         }
     }

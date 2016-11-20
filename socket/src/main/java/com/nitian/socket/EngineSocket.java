@@ -55,6 +55,7 @@ public class EngineSocket {
 
     public void init() {
 
+        System.out.println(this.getClass().getName());
         countStore = Factory.getCountStore(this.getClass().getName());
 
         poolBuffer = Factory.getPoolBuffer(this.getClass().getName(), this);
@@ -65,7 +66,7 @@ public class EngineSocket {
         queueWrite = Factory.getWriteQueue(this.getClass().getName(), this);
 
         //开启解析线程
-        new Thread(queueRead, "线程：解析列线程").start();
+        new Thread(queueRead, "线程：读队列线程").start();
         new Thread(queueWrite, "线程：写队列线程").start();
     }
 

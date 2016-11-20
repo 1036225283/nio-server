@@ -36,7 +36,7 @@ public class EngineHandle {
 
         // 待处理消息队列
         queueHandle = new UtilQueueHandle(this);
-        new Thread(queueHandle, "线程：读队列线程").start();
+        new Thread(queueHandle, "线程：业务队列线程").start();
 
 
     }

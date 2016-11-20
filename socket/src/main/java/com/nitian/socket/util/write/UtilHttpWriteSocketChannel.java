@@ -23,6 +23,10 @@ public class UtilHttpWriteSocketChannel extends UtilWrite {
                 .toString()));
         SocketChannel socketChannel = (SocketChannel) engineSocket.getCountStore().remove(
                 applicationId);
+
+        if(socketChannel.isConnected()){
+            return;
+        }
         UtilParseHttpWrite httpWrite = new UtilParseHttpWrite(map);
         ByteBuffer byteBuffer = null;
         byte[] bs = httpWrite.getResult();
@@ -42,7 +46,7 @@ public class UtilHttpWriteSocketChannel extends UtilWrite {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                log.dateInfo(LogType.error, null, "第三步：结束处理消息");
+                log.dateInfo(LogType.error, e.getMessage(), "异常消息");
             }
         }
     }

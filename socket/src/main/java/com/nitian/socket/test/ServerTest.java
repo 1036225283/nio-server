@@ -23,6 +23,9 @@ public class ServerTest {
         final Map<String, Long> countMap = new HashMap<>();
 
         try {
+            log.putType(LogType.debug.toString());
+            log.putType(LogType.error.toString());
+
             ApplicationContext applicationContext = ApplicationContext.getInstance();
             LogManager.setFileLog(true);
             countMap.put("count", 0L);

@@ -146,7 +146,7 @@ public class UtilParseRead {
 	private static String decode(String param)
 			throws UnsupportedEncodingException {
 		String result = "";
-		result = URLDecoder.decode(param, "UTF8");
+		result = URLDecoder.decode(param, "UTF-8");
 		return result;
 	}
 }
