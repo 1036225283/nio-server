@@ -1,0 +1,71 @@
+package com.nitian.socket.util.factory;
+
+import com.nitian.socket.EngineSocket;
+import com.nitian.socket.EngineSocketNIO;
+import com.nitian.socket.util.queue.UtilQueue;
+import com.nitian.socket.util.queue.UtilQueueSocket;
+import com.nitian.socket.util.queue.UtilQueueSocketChannel;
+import com.nitian.socket.util.queue.UtilQueueWrite;
+import com.nitian.socket.util.store.CountStore;
+import com.nitian.socket.util.store.CountStoreSocket;
+import com.nitian.socket.util.store.CountStoreSocketChannel;
+
+/**
+ * Created by 1036225283 on 2016/11/20.
+ * 工厂函数，根据类名来返回生成的实例
+ */
+public class Factory {
+
+    /**
+     * 获取计数存储socket等对象
+     *
+     * @param className
+     * @return
+     */
+    public static CountStore getCountStore(String className) {
+        if (className.equals(EngineSocket.class.getName())) {
+            return new CountStoreSocket();
+        } else if (className.equals(EngineSocketNIO.class.getName())) {
+            return new CountStoreSocketChannel();
+        }
+        return null;
+    }
+
+    /**
+     * 获取读线程队列
+     *
+     * @param className
+     * @param engineSocket
+     * @return
+     */
+    public static UtilQueue getReadQueue(String className, EngineSocket engineSocket) {
+        if (className.equals(EngineSocket.class.getName())) {
+            return new UtilQueueSocket(engineSocket);
+        } else if (className.equals(EngineSocketNIO.class.getName())) {
+            return new UtilQueueSocketChannel(engineSocket);
+        }
+        return null;
+
+    }
+
+
+    /**
+     * 获取写线程队列
+     *
+     * @param className
+     * @param engineSocket
+     * @return
+     */
+    public static UtilQueue getWriteQueue(String className, EngineSocket engineSocket) {
+        System.out.println("------------------------------------" + className);
+        if (className.equals(EngineSocket.class.getName())) {
+            return new UtilQueueWrite(engineSocket);
+        } else if (className.equals(EngineSocketNIO.class.getName())) {
+            return new UtilQueueWrite(engineSocket);
+        }
+        return null;
+
+    }
+
+
+}

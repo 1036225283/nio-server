@@ -1,5 +1,6 @@
 package com.nitian.socket;
 
+import com.nitian.socket.util.factory.Factory;
 import com.nitian.socket.util.store.CountStore;
 import com.nitian.socket.util.store.CountStoreSocket;
 import com.nitian.socket.util.UtilPoolThread;
@@ -37,28 +38,26 @@ public class EngineSocket {
     private int poolTotal = 200;
 
     private UtilQueue queueRead;
-    private UtilQueueWrite queueWrite;
+    private UtilQueue queueWrite;
     private UtilPoolByte poolByte;
     private UtilPoolMap poolMap;
 
     public EngineSocket(int port) {
         this.port = port;
-        init();
     }
 
     public EngineSocket() {
-        init();
     }
 
     public void init() {
 
-        countStore = new CountStoreSocket();
+        countStore = Factory.getCountStore(this.getClass().getName());
 
         poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
         poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
 
-        queueRead = new UtilQueueSocket(this);
-        queueWrite = new UtilQueueWrite(this);
+        queueRead = Factory.getReadQueue(this.getClass().getName(), this);
+        queueWrite = Factory.getWriteQueue(this.getClass().getName(), this);
 
         //开启解析线程
         new Thread(queueRead, "线程：解析列线程").start();
@@ -70,6 +69,7 @@ public class EngineSocket {
     }
 
     public void start() throws IOException {
+        init();
         if (port == null) {
             port = 8080;
         }

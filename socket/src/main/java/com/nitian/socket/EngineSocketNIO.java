@@ -1,6 +1,9 @@
 package com.nitian.socket;
 
 import com.nitian.socket.util.WriteTest;
+import com.nitian.socket.util.factory.Factory;
+import com.nitian.socket.util.pool.UtilPoolByte;
+import com.nitian.socket.util.pool.UtilPoolMap;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -25,6 +28,7 @@ public class EngineSocketNIO extends EngineSocket {
 
     public void start() throws IOException {
 
+        init();
         this.selector = Selector.open();
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
         serverChannel.configureBlocking(false);
