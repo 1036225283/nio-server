@@ -1,6 +1,7 @@
 package com.nitian.socket;
 
 import com.nitian.socket.util.factory.Factory;
+import com.nitian.socket.util.pool.UtilPoolBuffer;
 import com.nitian.socket.util.store.CountStore;
 import com.nitian.socket.util.store.CountStoreSocket;
 import com.nitian.socket.util.UtilPoolThread;
@@ -39,6 +40,9 @@ public class EngineSocket {
 
     private UtilQueue queueRead;
     private UtilQueue queueWrite;
+
+
+    private UtilPoolBuffer poolBuffer;
     private UtilPoolByte poolByte;
     private UtilPoolMap poolMap;
 
@@ -53,6 +57,7 @@ public class EngineSocket {
 
         countStore = Factory.getCountStore(this.getClass().getName());
 
+        poolBuffer = Factory.getPoolBuffer(this.getClass().getName(), this);
         poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
         poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
 
@@ -100,6 +105,10 @@ public class EngineSocket {
         return poolByte;
     }
 
+    public UtilPoolBuffer getPoolBuffer() {
+        return poolBuffer;
+    }
+
     public CountStore getCountStore() {
         return countStore;
     }
@@ -131,5 +140,13 @@ public class EngineSocket {
 
     public Integer getPort() {
         return port;
+    }
+
+    public int getPoolMax() {
+        return poolMax;
+    }
+
+    public int getPoolTotal() {
+        return poolTotal;
     }
 }

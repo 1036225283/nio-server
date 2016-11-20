@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.write.UtilHttpWrite;
-import com.nitian.socket.util.write.UtilWebSocketWrite;
+import com.nitian.socket.util.factory.Factory;
+import com.nitian.socket.util.write.UtilWrite;
 import com.nitian.util.log.LogType;
 
 /**
@@ -17,10 +17,15 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 
 
     private EngineSocket engineSocket;
+    private UtilWrite httpWrite;
+    private UtilWrite webSocketWrite;
+
 
     public UtilQueueWrite(EngineSocket engineSocket) {
         // TODO Auto-generated constructor stub
         this.engineSocket = engineSocket;
+        httpWrite = Factory.getUtilHttpWrite(engineSocket.getClass().getName());
+        webSocketWrite = Factory.getUtilWebSocketWrite(engineSocket.getClass().getName());
     }
 
     @Override
@@ -30,9 +35,9 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
         log.dateInfo(LogType.time, this, "第五步：开始包装发送消息");
         String protocol = map.get(CoreType.protocol.toString());
         if (protocol.equals("HTTP")) {
-            UtilHttpWrite.write(map, engineSocket);
+            httpWrite.write(map, engineSocket);
         } else if (protocol.equals("WEBSOCKET")) {
-            UtilWebSocketWrite.write(map, engineSocket);
+            webSocketWrite.write(map, engineSocket);
         }
         log.dateInfo(LogType.time, this, "第五步：结束包装发送消息");
         log.info(LogType.thread, this, Thread.currentThread().toString());

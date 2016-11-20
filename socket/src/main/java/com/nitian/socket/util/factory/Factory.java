@@ -2,6 +2,7 @@ package com.nitian.socket.util.factory;
 
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.EngineSocketNIO;
+import com.nitian.socket.util.pool.UtilPoolBuffer;
 import com.nitian.socket.util.queue.UtilQueue;
 import com.nitian.socket.util.queue.UtilQueueSocket;
 import com.nitian.socket.util.queue.UtilQueueSocketChannel;
@@ -9,6 +10,7 @@ import com.nitian.socket.util.queue.UtilQueueWrite;
 import com.nitian.socket.util.store.CountStore;
 import com.nitian.socket.util.store.CountStoreSocket;
 import com.nitian.socket.util.store.CountStoreSocketChannel;
+import com.nitian.socket.util.write.*;
 
 /**
  * Created by 1036225283 on 2016/11/20.
@@ -67,5 +69,53 @@ public class Factory {
 
     }
 
+    /**
+     * 获取buffer池
+     *
+     * @param className
+     * @return
+     */
+    public static UtilPoolBuffer getPoolBuffer(String className, EngineSocket engineSocket) {
+        System.out.println("------------------------------------" + className);
+        if (className.equals(EngineSocket.class.getName())) {
+            return null;
+        } else if (className.equals(EngineSocketNIO.class.getName())) {
+            return new UtilPoolBuffer(engineSocket.getPoolMax(), engineSocket.getPoolTotal(), null);
+        }
+        return null;
 
+    }
+
+    /**
+     * 获取 http write
+     *
+     * @param className
+     * @return
+     */
+    public static UtilWrite getUtilHttpWrite(String className) {
+        System.out.println("------------------------------------" + className);
+        if (className.equals(EngineSocket.class.getName())) {
+            return new UtilHttpWriteSocket();
+        } else if (className.equals(EngineSocketNIO.class.getName())) {
+            return new UtilHttpWriteSocketChannel();
+        }
+        return null;
+    }
+
+
+    /**
+     * 获取 web socket write
+     *
+     * @param className
+     * @return
+     */
+    public static UtilWrite getUtilWebSocketWrite(String className) {
+        System.out.println("------------------------------------" + className);
+        if (className.equals(EngineSocket.class.getName())) {
+            return new UtilWebSocketWriteSocket();
+        } else if (className.equals(EngineSocketNIO.class.getName())) {
+            return new UtilWebSocketWriteSocketChannel();
+        }
+        return null;
+    }
 }

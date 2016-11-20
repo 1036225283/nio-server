@@ -10,11 +10,14 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
 
-public class UtilWebSocketWrite {
+/**
+ * NIO 发送web socket 消息
+ */
+public class UtilWebSocketWriteSocketChannel extends UtilWrite {
 
     protected static LogManager log = LogManager.getInstance();
 
-    public static void write(Map<String, String> map, EngineSocket engineSocket) {
+    public synchronized void write(Map<String, String> map, EngineSocket engineSocket) {
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
                 .toString()));
         Socket socket = (Socket) engineSocket.getCountStore().remove(
