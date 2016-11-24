@@ -55,8 +55,8 @@ public class WriteTest extends Thread {
 
     }
 
-    public static String getString() {
-        String result = "赵玉，我会不会慢慢喜欢上你";
+    public static String getString(String value) {
+        String result = value;
         StringBuffer sb = new StringBuffer();
         sb.append("HTTP/1.1 200 OK").append("\r\n");
         sb.append("Server: Apache-Coyote/1.1").append("\r\n");

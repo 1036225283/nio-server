@@ -17,9 +17,7 @@ public abstract class UtilQueue<T> implements Runnable {
     public synchronized void push(T t) {
         list.add(t);
         if (flag) {
-            System.out.println("在运行状态中");
         } else {
-            System.out.println("被唤醒了=" + Thread.currentThread().getName());
             notify();
         }
     }

@@ -24,7 +24,7 @@ public class UtilHttpWriteSocketChannel extends UtilWrite {
         SocketChannel socketChannel = (SocketChannel) engineSocket.getCountStore().remove(
                 applicationId);
 
-        if(socketChannel.isConnected()){
+        if (!socketChannel.isConnected()) {
             return;
         }
         UtilParseHttpWrite httpWrite = new UtilParseHttpWrite(map);
