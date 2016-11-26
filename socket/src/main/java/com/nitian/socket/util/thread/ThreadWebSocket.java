@@ -61,7 +61,7 @@ public class ThreadWebSocket implements Runnable {
                 }
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                log.info(LogType.error, this, "error=" + e.getMessage());
+                log.error(e, "");
             }
         }
     }

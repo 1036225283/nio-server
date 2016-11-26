@@ -28,7 +28,7 @@ public class UtilWebSocketWriteSocketChannel extends UtilWrite {
         try {
             socket.getOutputStream().write(bs);
         } catch (IOException e) {
-            log.info(LogType.error, null, "error+" + e.getMessage());
+            log.error(e, "");
         } finally {
             engineSocket.getPoolMap().repay(map);
         }

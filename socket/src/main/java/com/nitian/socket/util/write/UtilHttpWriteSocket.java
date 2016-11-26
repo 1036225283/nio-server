@@ -28,15 +28,14 @@ public class UtilHttpWriteSocket extends UtilWrite {
             socket.getOutputStream().write(bs);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error(e, "");
         } finally {
             engineSocket.getPoolMap().repay(map);
             try {
                 socket.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
-                log.dateInfo(LogType.error, null, "第三步：结束处理消息");
+                log.error(e, "");
             }
         }
     }

@@ -18,7 +18,7 @@ import java.util.Map;
  *
  * @author 1036225283
  */
-public class UtilQueueSocketChannel extends UtilQueue<Map<String,String>> {
+public class UtilQueueSocketChannel extends UtilQueue<Map<String, String>> {
 
 
     private EngineSocket engineSocket;
@@ -30,7 +30,7 @@ public class UtilQueueSocketChannel extends UtilQueue<Map<String,String>> {
     }
 
     @Override
-    public synchronized void handle(Map<String,String> map) {
+    public synchronized void handle(Map<String, String> map) {
         // TODO Auto-generated method stub
 
         try {
@@ -59,8 +59,7 @@ public class UtilQueueSocketChannel extends UtilQueue<Map<String,String>> {
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            System.out.println("------------------------------------------------------------------------------------------");
-            log.info(LogType.error, this, "error=" + e.getMessage());
+            log.error(e, "");
         }
     }
 

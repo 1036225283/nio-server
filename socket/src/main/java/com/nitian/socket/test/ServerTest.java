@@ -25,9 +25,11 @@ public class ServerTest {
         try {
             log.putType(LogType.debug.toString());
             log.putType(LogType.error.toString());
-
+            log.putType(LogType.info.toString());
+            log.putType(LogType.warning.toString());
             ApplicationContext applicationContext = ApplicationContext.getInstance();
             LogManager.setFileLog(true);
+            LogManager.setIsConsole(true);
             countMap.put("count", 0L);
 
             applicationContext.getEngineHandle().getHandlerFactory()
@@ -58,11 +60,7 @@ public class ServerTest {
             applicationContext.getEngineSocket().start();
         } catch (Exception e) {
             // TODO: handle exception
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            e.printStackTrace(new PrintStream(baos));
-            String exception = baos.toString();
-            System.out.println("baos:" + exception);
-            log.info(LogType.error, null, "error+" + exception);
+            log.error(e, "");
         }
 
     }

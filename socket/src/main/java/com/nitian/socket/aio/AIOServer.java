@@ -58,6 +58,7 @@ public class AIOServer {
 									+ new String(buffer.array()));
 						} catch (InterruptedException | ExecutionException e) {
 							System.out.println(e.toString());
+
 						} catch (TimeoutException e) {
 							e.printStackTrace();
 						} finally {

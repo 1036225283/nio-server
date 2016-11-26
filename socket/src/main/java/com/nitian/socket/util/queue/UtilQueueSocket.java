@@ -76,7 +76,7 @@ public class UtilQueueSocket extends UtilQueue<Socket> {
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            log.info(LogType.error, this, "error=" + e.getMessage());
+            log.error(e, "");
         }
     }
 

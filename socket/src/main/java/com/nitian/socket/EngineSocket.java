@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class EngineSocket {
 
-    private LogManager log = LogManager.getInstance();
+    public LogManager log = LogManager.getInstance();
 
 
     /**

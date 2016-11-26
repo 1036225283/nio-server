@@ -70,6 +70,7 @@ public class EngineSocketNIO extends EngineSocket {
                 } catch (Exception e) {
                     System.out.println("888888888888888888888888888888888888888888888888888888888888");
                     e.printStackTrace();
+                    log.error(e, "");
                 }
 
             }
@@ -96,6 +97,7 @@ public class EngineSocketNIO extends EngineSocket {
             System.out.println("远程客户端关闭了。。。");
             key.cancel();
             socketChannel.close();
+            log.error(e, "");
             return;
         }
 

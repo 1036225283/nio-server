@@ -32,8 +32,7 @@ public abstract class UtilQueue<T> implements Runnable {
                     wait();
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    log.info(LogType.error, this, "error+" + e.getMessage());
+                    log.error(e, "");
                 }
             } else {
                 flag = true;

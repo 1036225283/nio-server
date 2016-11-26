@@ -37,7 +37,7 @@ public class UtilHttpWriteSocketChannel extends UtilWrite {
             socketChannel.write(byteBuffer);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error(e, "");
         } finally {
             engineSocket.getPoolMap().repay(map);
             engineSocket.getPoolBuffer().repay(byteBuffer);
@@ -45,8 +45,7 @@ public class UtilHttpWriteSocketChannel extends UtilWrite {
                 socketChannel.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
-                log.dateInfo(LogType.error, e.getMessage(), "异常消息");
+                log.error(e, "");
             }
         }
     }
