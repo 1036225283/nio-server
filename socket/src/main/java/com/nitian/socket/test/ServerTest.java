@@ -22,14 +22,17 @@ public class ServerTest {
 
         final Map<String, Long> countMap = new HashMap<>();
 
+
         try {
+
+            LogManager.setFileLog(true);
+            LogManager.setIsConsole(true);
+
             log.putType(LogType.debug.toString());
             log.putType(LogType.error.toString());
             log.putType(LogType.info.toString());
             log.putType(LogType.warning.toString());
             ApplicationContext applicationContext = ApplicationContext.getInstance();
-            LogManager.setFileLog(true);
-            LogManager.setIsConsole(true);
             countMap.put("count", 0L);
 
             applicationContext.getEngineHandle().getHandlerFactory()
