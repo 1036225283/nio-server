@@ -8,8 +8,6 @@ import com.nitian.socket.test.handler.LoginHandler;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
