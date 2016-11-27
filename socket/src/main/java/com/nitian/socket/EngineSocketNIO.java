@@ -62,7 +62,8 @@ public class EngineSocketNIO extends EngineSocket {
                         this.connect(key);
                     } else if (key.isReadable()) {
                         System.out.println("read...");
-                        this.read(key);
+                        getQueueRead().push(key);
+//                        this.read(key);
                     } else if (key.isWritable()) {
                         System.out.println("write...");
 //                        this.write(key);
