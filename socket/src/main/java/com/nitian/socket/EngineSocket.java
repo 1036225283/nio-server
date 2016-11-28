@@ -3,14 +3,11 @@ package com.nitian.socket;
 import com.nitian.socket.util.factory.Factory;
 import com.nitian.socket.util.pool.UtilPoolBuffer;
 import com.nitian.socket.util.store.CountStore;
-import com.nitian.socket.util.store.CountStoreSocket;
 import com.nitian.socket.util.UtilPoolThread;
 import com.nitian.socket.util.list.UtilListWebSocketThread;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.queue.UtilQueue;
-import com.nitian.socket.util.queue.UtilQueueSocket;
-import com.nitian.socket.util.queue.UtilQueueWrite;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
