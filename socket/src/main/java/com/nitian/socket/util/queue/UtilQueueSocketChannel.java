@@ -84,44 +84,45 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
         byte[] bs = engineSocket.getPoolByte().lend();
         ByteBuffer buffer = engineSocket.getPoolBuffer().lend();
 
-        synchronized (key) {
-            SocketChannel socketChannel = (SocketChannel) key.channel();
+        SocketChannel socketChannel = (SocketChannel) key.channel();
 
 
-            int size;
+        int size;
 
-            try {
-                size = socketChannel.read(buffer);
-            } catch (IOException e) {
-                size = -2;
-                log.error(e, "远程客户端关闭了");
-            }
-
-
-            if (size > 0) {
-                buffer.flip();
-                buffer.get(bs, 0, size);
-            } else if (size == 0) {
-                log.dateInfo(LogType.time, this, "读取的数据长度为0，需要释放key和其他资源");
-                size = -3;
-            } else if (size == -1) {
-                log.dateInfo(LogType.time, this, "读取的数据长度为-1，需要释放key和其他资源");
-                size = -2;
-            }
-
-            //偿还资源
+        try {
+            size = socketChannel.read(buffer);
+        } catch (IOException e) {
+//            key.cancel();
+            socketChannel.close();
+            log.error(e, "远程客户端关闭了");
             engineSocket.getPoolByte().repay(bs);
             engineSocket.getPoolBuffer().repay(buffer);
-
-            if (size == -2) {
-                key.channel().close();
-                key.cancel();
-                return null;
-            } else if (size == -3) {
-                return null;
-            }
-            return new String(bs, 0, size, "UTF-8");
+            return null;
         }
+
+
+        if (size > 0) {
+            buffer.flip();
+            buffer.get(bs, 0, size);
+        } else if (size == 0) {
+            engineSocket.getPoolByte().repay(bs);
+            engineSocket.getPoolBuffer().repay(buffer);
+            log.dateInfo(LogType.time, this, "读取的数据长度为0，需要释放key和其他资源");
+            return null;
+        } else if (size == -1) {
+            key.channel().close();
+//            key.cancel();
+            engineSocket.getPoolByte().repay(bs);
+            engineSocket.getPoolBuffer().repay(buffer);
+            log.dateInfo(LogType.time, this, "读取的数据长度为-1，需要释放key和其他资源");
+            return null;
+        }
+
+        //偿还资源
+        engineSocket.getPoolByte().repay(bs);
+        engineSocket.getPoolBuffer().repay(buffer);
+
+        return new String(bs, 0, size, "UTF-8");
 
     }
 

@@ -15,7 +15,11 @@ public abstract class UtilQueue<T> implements Runnable {
     protected LogManager log = LogManager.getInstance();
 
     public synchronized void push(T t) {
-        list.add(t);
+        synchronized (list) {
+            if (!list.contains(t)) {
+                list.add(t);
+            }
+        }
         if (flag) {
         } else {
             notify();
@@ -36,7 +40,10 @@ public abstract class UtilQueue<T> implements Runnable {
                 }
             } else {
                 flag = true;
-                T t = list.remove(list.size() - 1);
+                T t;
+                synchronized (list) {
+                    t = list.remove(list.size() - 1);
+                }
                 handle(t);
                 log.info(LogType.queue, this, "queueSize+" + list.size());
             }

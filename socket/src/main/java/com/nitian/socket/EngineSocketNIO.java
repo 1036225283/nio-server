@@ -62,8 +62,8 @@ public class EngineSocketNIO extends EngineSocket {
                         this.connect(key);
                     } else if (key.isReadable()) {
                         System.out.println("read...");
+                        key.cancel();
                         getQueueRead().push(key);
-//                        this.read(key);
                     } else if (key.isWritable()) {
                         System.out.println("write...");
 //                        this.write(key);
@@ -177,6 +177,7 @@ public class EngineSocketNIO extends EngineSocket {
         } else {
             socketChannel.configureBlocking(false);
             socketChannel.register(selector, SelectionKey.OP_READ);
+            System.out.println("注册完毕。。。");
         }
     }
 
