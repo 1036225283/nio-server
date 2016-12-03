@@ -1,10 +1,10 @@
 package com.nitian.socket.util.store;
 
-import java.nio.channels.SocketChannel;
+import java.nio.channels.SelectionKey;
 
 /**
- * SocketChannel计数存储
+ * SelectionKey 计数存储
  */
-public class CountStoreSocketChannel extends CountStore<SocketChannel> {
+public class CountStoreSocketChannel extends CountStore<SelectionKey> {
 
 }
