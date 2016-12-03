@@ -34,7 +34,7 @@ public class UtilParseHttpWrite {
             sb.append("");
         } else {
             System.out.println(result.getBytes().length);
-            sb.append("Content-Length: ").append(result.getBytes().length + 4).append("\r\n");
+            sb.append("Content-Length: ").append(result.getBytes().length + 2).append("\r\n");
             sb.append("\r\n").append("\r\n");
             // ---------------------------------------------------------------------------------------
             sb.append(result);
