@@ -1,12 +1,18 @@
 package com.nitian.socket.util.queue;
 
-import java.util.Map;
-
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.factory.Factory;
+import com.nitian.socket.util.parse.UtilParseHttpWrite;
+import com.nitian.socket.util.parse.UtilParseWebSocketWrite;
 import com.nitian.socket.util.write.UtilWrite;
 import com.nitian.util.log.LogType;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.SocketChannel;
+import java.util.Map;
 
 /**
  * 读消息队列：处理map数据
@@ -31,17 +37,49 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
     @Override
     public synchronized void handle(Map<String, String> map) {
         // TODO Auto-generated method stub
-        log.dateInfo(LogType.time, this, "第四步：开始发送消息");
-        log.dateInfo(LogType.time, this, "第五步：开始包装发送消息");
+        log.dateInfo(LogType.time, this, "写消息开始处理");
+
+        long applicationId = Long.valueOf(map.get(CoreType.applicationId
+                .toString()));
+        SelectionKey key = (SelectionKey) engineSocket.getCountStore().remove(
+                applicationId);
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+
+        if (!socketChannel.isConnected()) {
+            return;
+        }
+
+        ByteBuffer byteBuffer = null;
+        byte[] bs = null;
+
         String protocol = map.get(CoreType.protocol.toString());
         if (protocol.equals("HTTP")) {
-            httpWrite.write(map, engineSocket);
+            bs = UtilParseHttpWrite.getResult(map);
         } else if (protocol.equals("WEBSOCKET")) {
-            webSocketWrite.write(map, engineSocket);
+            bs = UtilParseWebSocketWrite.getResult(map);
         }
-        log.dateInfo(LogType.time, this, "第五步：结束包装发送消息");
+
+        try {
+            byteBuffer = engineSocket.getPoolBuffer().lend();
+            byteBuffer.put(bs);
+            byteBuffer.flip();
+            socketChannel.write(byteBuffer);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            log.error(e, "");
+        } finally {
+            engineSocket.getPoolMap().repay(map);
+            engineSocket.getPoolBuffer().repay(byteBuffer);
+            try {
+                socketChannel.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                log.error(e, "");
+            }
+        }
         log.info(LogType.thread, this, Thread.currentThread().toString());
-        log.dateInfo(LogType.time, this, "第四步：结束发送消息");
+        log.dateInfo(LogType.time, this, "写消息队列处理结束");
+
     }
 
 }

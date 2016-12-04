@@ -22,8 +22,7 @@ public class UtilHttpWriteSocket extends UtilWrite {
                 .toString()));
         Socket socket = (Socket) engineSocket.getCountStore().remove(
                 applicationId);
-        UtilParseHttpWrite httpWrite = new UtilParseHttpWrite(map);
-        byte[] bs = httpWrite.getResult();
+        byte[] bs = UtilParseHttpWrite.getResult(map);
         try {
             socket.getOutputStream().write(bs);
         } catch (IOException e) {

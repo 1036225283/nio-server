@@ -22,9 +22,7 @@ public class UtilWebSocketWriteSocketChannel extends UtilWrite {
                 .toString()));
         Socket socket = (Socket) engineSocket.getCountStore().remove(
                 applicationId);
-        UtilParseWebSocketWrite webSocketWrite = new UtilParseWebSocketWrite(
-                map);
-        byte[] bs = webSocketWrite.getResult();
+        byte[] bs = UtilParseWebSocketWrite.getResult(map);
         try {
             socket.getOutputStream().write(bs);
         } catch (IOException e) {

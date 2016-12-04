@@ -7,14 +7,7 @@ import com.nitian.socket.core.CoreType;
 
 public class UtilParseHttpWrite {
 
-    private Map<String, String> map;
-
-    public UtilParseHttpWrite(Map<String, String> map) {
-        // TODO Auto-generated constructor stub
-        this.map = map;
-    }
-
-    public byte[] getResult() {
+    public static byte[] getResult(Map<String, String> map) {
         map.get(CoreType.sessionId.toString());
         String result = map.get(CoreType.result.toString());
         StringBuffer sb = new StringBuffer();

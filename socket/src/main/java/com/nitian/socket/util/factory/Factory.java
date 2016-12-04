@@ -97,7 +97,7 @@ public class Factory {
         if (className.equals(EngineSocket.class.getName())) {
             return new UtilHttpWriteSocket();
         } else if (className.equals(EngineSocketNIO.class.getName())) {
-            return new UtilHttpWriteSocketChannel();
+            return new UtilHttpWriteSocket();
         }
         return null;
     }

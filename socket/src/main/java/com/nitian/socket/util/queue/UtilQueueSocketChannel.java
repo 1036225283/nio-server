@@ -3,12 +3,10 @@ package com.nitian.socket.util.queue;
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseProtocol;
-import com.nitian.socket.util.thread.ThreadWebSocket;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
@@ -44,26 +42,8 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
                 new UtilParseProtocol(request, map);
                 log.dateInfo(LogType.time, this, "解析协议结束");
 
-
-                String protocol = map.get(CoreType.protocol.toString());
-
-
-                //            if (protocol.equals("WEBSOCKET")) {
-//                ThreadWebSocket webSocket = new ThreadWebSocket(socket);
-//                boolean result = engineSocket.getListWebSocketThread()
-//                        .put(webSocket);
-//                if (result == false) {
-//                    map.put(CoreType.sec_websocket_accept.toString(),
-//                            "i am sorry");
-//                } else {
-//                    engineSocket.getPoolWebSocketThread().execute(
-//                            webSocket);
-//                }
-//            }
-
                 //存放异步标识
-                long applicationId = engineSocket.getCountStore().put(
-                        (SocketChannel) selectionKey.channel());
+                long applicationId = engineSocket.getCountStore().put(selectionKey);
                 map.put(CoreType.applicationId.toString(),
                         String.valueOf(applicationId));
                 map.put(CoreType.size.toString(), String.valueOf(request.length()));
