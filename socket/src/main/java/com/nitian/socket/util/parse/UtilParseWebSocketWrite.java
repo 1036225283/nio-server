@@ -12,7 +12,7 @@ public class UtilParseWebSocketWrite {
         map.get(CoreType.sessionId.toString());
         StringBuffer sb = new StringBuffer();
         sb.append("HTTP/1.1 101 Switching Protocols").append("\r\n");
-        sb.append("Server: Apache-Coyote/1.1").append("\r\n");
+        sb.append("Server: XWS-Coyote/1.1").append("\r\n");
         sb.append("Upgrade: websocket").append("\r\n");
         sb.append("Connection: upgrade").append("\r\n");
         String secWebSocketAccept = map.get(CoreType.sec_websocket_accept
@@ -23,6 +23,7 @@ public class UtilParseWebSocketWrite {
                 .append("\r\n");
         sb.append("Date: ").append(new Date().toString()).append("\r\n")
                 .append("\r\n");
+        System.out.println(sb.toString());
         return sb.toString().getBytes();
     }
 }

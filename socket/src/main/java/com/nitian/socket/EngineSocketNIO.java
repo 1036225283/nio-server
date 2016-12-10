@@ -193,4 +193,20 @@ public class EngineSocketNIO extends EngineSocket {
         setPort(port);
     }
 
+    @Override
+    public synchronized void callback(Object object) {
+        try {
+            SocketChannel socketChannel = (SocketChannel) object;
+            if (socketChannel.isRegistered()) {
+                System.out.println("已结注册过");
+            } else {
+                socketChannel.configureBlocking(false);
+                socketChannel.register(selector, SelectionKey.OP_READ);
+                System.out.println("重新注册完毕。。。");
+            }
+        } catch (IOException e) {
+            log.error(e, "重新注册异常");
+        }
+
+    }
 }

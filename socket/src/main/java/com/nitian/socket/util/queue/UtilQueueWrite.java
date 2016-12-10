@@ -2,15 +2,14 @@ package com.nitian.socket.util.queue;
 
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.factory.Factory;
 import com.nitian.socket.util.parse.UtilParseHttpWrite;
 import com.nitian.socket.util.parse.UtilParseWebSocketWrite;
-import com.nitian.socket.util.write.UtilWrite;
 import com.nitian.util.log.LogType;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Map;
 
@@ -23,15 +22,11 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 
 
     private EngineSocket engineSocket;
-    private UtilWrite httpWrite;
-    private UtilWrite webSocketWrite;
 
 
     public UtilQueueWrite(EngineSocket engineSocket) {
         // TODO Auto-generated constructor stub
         this.engineSocket = engineSocket;
-        httpWrite = Factory.getUtilHttpWrite(engineSocket.getClass().getName());
-        webSocketWrite = Factory.getUtilWebSocketWrite(engineSocket.getClass().getName());
     }
 
     @Override
@@ -71,7 +66,12 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
             engineSocket.getPoolMap().repay(map);
             engineSocket.getPoolBuffer().repay(byteBuffer);
             try {
-                socketChannel.close();
+                if (protocol.equals("HTTP")) {
+                    socketChannel.close();
+                } else if (protocol.equals("WEBSOCKET")) {
+                    this.engineSocket.callback(socketChannel);
+                }
+
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 log.error(e, "");

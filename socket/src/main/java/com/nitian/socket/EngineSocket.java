@@ -2,6 +2,7 @@ package com.nitian.socket;
 
 import com.nitian.socket.util.factory.Factory;
 import com.nitian.socket.util.pool.UtilPoolBuffer;
+import com.nitian.socket.util.queue.UtilQueueWrite;
 import com.nitian.socket.util.store.CountStore;
 import com.nitian.socket.util.UtilPoolThread;
 import com.nitian.socket.util.list.UtilListWebSocketThread;
@@ -146,5 +147,14 @@ public class EngineSocket {
 
     public int getPoolTotal() {
         return poolTotal;
+    }
+
+
+    /**
+     * 系统回调处理
+     *
+     * @param object
+     */
+    public synchronized void callback(Object object) {
     }
 }
