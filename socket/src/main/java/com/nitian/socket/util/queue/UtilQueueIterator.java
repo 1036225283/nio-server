@@ -1,14 +1,9 @@
 package com.nitian.socket.util.queue;
 
 import com.nitian.socket.EngineSocket;
-import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.parse.UtilParseProtocol;
 import com.nitian.util.log.LogManager;
-import com.nitian.util.log.LogType;
 
-import java.io.IOException;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * 解析HTTP/WEBSOCKET请求队列

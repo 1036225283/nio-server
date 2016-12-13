@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by 1036225283 on 2016/11/17.
  */
-public class EngineSocketNIO extends EngineSocket {
+public class EngineSocketNIO extends EngineSocket<SelectionKey> {
 
 
     // 通道管理器

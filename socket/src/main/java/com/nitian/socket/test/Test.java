@@ -46,6 +46,12 @@ public class Test {
 
         byte[] bytes = new byte[10000];
         int length = byteBuffer.remaining();
+        System.out.println("第一次 = " + length);
+
+
+        length = byteBuffer.remaining();
+        System.out.println("第二次 = " + length);
+
         byteBuffer.get(bytes, 0, length);
         System.out.println(new String(bytes, 0, length));
 

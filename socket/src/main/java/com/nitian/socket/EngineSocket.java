@@ -21,9 +21,12 @@ import java.util.Map;
  * Created by 1036225283 on 2016/11/13.
  * 消息引擎
  */
-public class EngineSocket {
+public class EngineSocket<T> {
 
     public LogManager log = LogManager.getInstance();
+
+
+    private Map<T, String> socketMap;
 
 
     /**
@@ -157,4 +160,10 @@ public class EngineSocket {
      */
     public synchronized void callback(Object object) {
     }
+
+    public synchronized Map<T, String> getSocketMap() {
+        return socketMap;
+    }
 }
+
+

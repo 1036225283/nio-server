@@ -1,8 +1,9 @@
 package com.nitian.socket.util.queue;
 
 import com.nitian.socket.EngineSocket;
+import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.parse.UtilParseProtocol;
+import com.nitian.socket.util.parse.FactoryProtocol;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -34,19 +35,29 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
         log.dateInfo(LogType.time, this, "第二步：开始解析SocketChannel中的http或者websocket数据");
 
         try {
-            String request = read(selectionKey);
-            if (request == null) {
+
+            String protocol;
+            if (engineSocket.getSocketMap().containsKey(selectionKey)) {
+                protocol = engineSocket.getSocketMap().get(selectionKey).toString();
+            } else {
+                protocol = CoreProtocol.HTTP.toString();
+            }
+
+            ByteBuffer buffer = read(selectionKey);
+            if (buffer == null) {
                 return;
             } else {
                 Map<String, String> map = engineSocket.getPoolMap().lend();
-                new UtilParseProtocol(request, map);
+                byte[] bs = engineSocket.getPoolByte().lend();
+                FactoryProtocol.parse(protocol, map, buffer, bs);
+                engineSocket.getPoolByte().repay(bs);
+                engineSocket.getPoolBuffer().repay(buffer);
                 log.dateInfo(LogType.time, this, "解析协议结束");
-
                 //存放异步标识
                 long applicationId = engineSocket.getCountStore().put(selectionKey);
                 map.put(CoreType.applicationId.toString(),
                         String.valueOf(applicationId));
-                map.put(CoreType.size.toString(), String.valueOf(request.length()));
+//                map.put(CoreType.size.toString(), String.valueOf(request.length()));
                 engineSocket.getEngineHandle().push(map);
 
             }
@@ -59,9 +70,9 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
     }
 
 
-    public synchronized String read(SelectionKey key) throws IOException {
+    public synchronized ByteBuffer read(SelectionKey key) throws IOException {
         //首先，借取资源
-        byte[] bs = engineSocket.getPoolByte().lend();
+
         ByteBuffer buffer = engineSocket.getPoolBuffer().lend();
 
         SocketChannel socketChannel = (SocketChannel) key.channel();
@@ -72,38 +83,33 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
         try {
             size = socketChannel.read(buffer);
         } catch (IOException e) {
-//            key.cancel();
             socketChannel.close();
             log.error(e, "远程客户端关闭了");
-            engineSocket.getPoolByte().repay(bs);
             engineSocket.getPoolBuffer().repay(buffer);
             return null;
         }
 
 
         if (size > 0) {
-            buffer.flip();
-            buffer.get(bs, 0, size);
+            return buffer;
+//            buffer.flip();
+//            buffer.get(bs, 0, size);
         } else if (size == 0) {
-            engineSocket.getPoolByte().repay(bs);
             engineSocket.getPoolBuffer().repay(buffer);
             log.dateInfo(LogType.time, this, "读取的数据长度为0，需要释放key和其他资源");
             return null;
         } else if (size == -1) {
             key.channel().close();
-//            key.cancel();
-            engineSocket.getPoolByte().repay(bs);
             engineSocket.getPoolBuffer().repay(buffer);
             log.dateInfo(LogType.time, this, "读取的数据长度为-1，需要释放key和其他资源");
             return null;
         }
 
         //偿还资源
-        engineSocket.getPoolByte().repay(bs);
-        engineSocket.getPoolBuffer().repay(buffer);
 
-        return new String(bs, 0, size, "UTF-8");
+//        return new String(bs, 0, size, "UTF-8");
 
+        return null;
     }
 
 }

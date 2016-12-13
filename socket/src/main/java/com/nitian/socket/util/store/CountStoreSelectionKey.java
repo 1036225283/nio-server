@@ -5,6 +5,6 @@ import java.nio.channels.SelectionKey;
 /**
  * SelectionKey 计数存储
  */
-public class CountStoreSocketChannel extends CountStore<SelectionKey> {
+public class CountStoreSelectionKey extends CountStore<SelectionKey> {
 
 }
