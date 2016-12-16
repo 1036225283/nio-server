@@ -186,10 +186,10 @@ public class EngineSocketNIO extends EngineSocket<SelectionKey> {
         System.out.println(socketChannel);
     }
 
-    EngineSocketNIO() {
+    public EngineSocketNIO() {
     }
 
-    EngineSocketNIO(int port) {
+    public EngineSocketNIO(int port) {
         setPort(port);
     }
 
