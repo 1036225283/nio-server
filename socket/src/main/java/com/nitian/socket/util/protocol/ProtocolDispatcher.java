@@ -2,7 +2,6 @@ package com.nitian.socket.util.protocol;
 
 import com.nitian.socket.core.CoreProtocol;
 import com.nitian.util.log.LogManager;
-import com.nitian.util.log.LogType;
 
 import java.nio.ByteBuffer;
 
@@ -22,7 +21,6 @@ public class ProtocolDispatcher {
             int length = buffer.remaining();
             buffer.get(bs, 0, length);
             String request = new String(bs, 0, length);
-            log.info(LogType.debug, "----鉴定协议 = " + request);
             if (request.contains("Upgrade: websocket")) {
                 return CoreProtocol.WEBSOCKETUPGRADE.toString();
             } else if (request.startsWith("GET") || request.startsWith("POST") || request.startsWith("DELETE") || request.startsWith("UPDATE")) {

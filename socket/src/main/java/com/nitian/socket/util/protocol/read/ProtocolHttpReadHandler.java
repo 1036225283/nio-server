@@ -3,7 +3,6 @@ package com.nitian.socket.util.protocol.read;
 import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseRead;
-import com.nitian.socket.util.protocol.read.ProtocolReadHandler;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -40,7 +39,7 @@ public class ProtocolHttpReadHandler extends ProtocolReadHandler {
             map.put(CoreType.method.toString(), method);
             map.put(CoreType.protocol.toString(), CoreProtocol.HTTP.toString());
             map.put(CoreType.size.toString(), String.valueOf(request.length()));
-
+            map.put(CoreType.close.toString(), "true");
             return true;
         } catch (Exception e) {
             log.error(e, "解析HTTP协议出错了!!!");

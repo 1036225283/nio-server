@@ -10,7 +10,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -23,7 +22,6 @@ public class EngineSocketNIO extends EngineSocket<SelectionKey> {
     // 通道管理器
     private Selector selector;
 
-    Map<SocketChannel, Integer> tMap = new HashMap<>();
 
     int count = 0;
 

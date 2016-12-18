@@ -45,6 +45,7 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
             //进行socket获取socketChannel的判断，如果存在协议，就调用协议处理器
             //如果不存在，就另行处理
             String protocol;
+            System.out.println("协议存储 = " + engineSocket.getSocketMap());
             if (engineSocket.getSocketMap().containsKey(selectionKey)) {
                 protocol = engineSocket.getSocketMap().get(selectionKey).toString();
             } else {
@@ -65,6 +66,10 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
                 engineSocket.getPoolBuffer().repay(buffer);
                 selectionKey.channel().close();
                 return;
+            }
+            if (map.get(CoreType.close.toString()).equals("false")) {
+                engineSocket.getSocketMap().put(selectionKey, protocol.replace("UPGRADE", ""));
+                log.dateInfo(LogType.time, this, "<SocketChannel,String>的数量 = " + engineSocket.getSocketMap().size());
             }
             engineSocket.getPoolByte().repay(bs);
             engineSocket.getPoolBuffer().repay(buffer);
