@@ -1,20 +1,21 @@
 package com.nitian.socket;
 
-import com.nitian.socket.util.factory.Factory;
-import com.nitian.socket.util.pool.UtilPoolBuffer;
-import com.nitian.socket.util.queue.UtilQueueWrite;
-import com.nitian.socket.util.store.CountStore;
 import com.nitian.socket.util.UtilPoolThread;
+import com.nitian.socket.util.factory.Factory;
 import com.nitian.socket.util.list.UtilListWebSocketThread;
+import com.nitian.socket.util.pool.UtilPoolBuffer;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
+import com.nitian.socket.util.protocol.ProtocolReadFactory;
 import com.nitian.socket.util.queue.UtilQueue;
+import com.nitian.socket.util.store.CountStore;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -39,6 +40,10 @@ public class EngineSocket<T> {
     private int poolMax = 800;
     private int poolTotal = 200;
 
+
+    private ProtocolReadFactory protocolReadFactory;
+
+
     private UtilQueue queueRead;
     private UtilQueue queueWrite;
 
@@ -57,6 +62,11 @@ public class EngineSocket<T> {
     public void init() {
 
         System.out.println(this.getClass().getName());
+
+        socketMap = new HashMap<>();
+
+        protocolReadFactory = new ProtocolReadFactory();
+
         countStore = Factory.getCountStore(this.getClass().getName());
 
         poolBuffer = Factory.getPoolBuffer(this.getClass().getName(), this);
@@ -163,6 +173,15 @@ public class EngineSocket<T> {
 
     public synchronized Map<T, String> getSocketMap() {
         return socketMap;
+    }
+
+    /**
+     * 获取协议处理器
+     *
+     * @return
+     */
+    public ProtocolReadFactory getProtocolReadFactory() {
+        return protocolReadFactory;
     }
 }
 

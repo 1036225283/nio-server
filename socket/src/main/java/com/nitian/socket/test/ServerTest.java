@@ -3,10 +3,13 @@ package com.nitian.socket.test;
 import com.nitian.socket.EngineHandle;
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.EngineSocketNIO;
+import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.test.handler.ExitHandler;
 import com.nitian.socket.test.handler.LoginHandler;
+import com.nitian.socket.util.protocol.ProtocolHttpReadHandler;
+import com.nitian.socket.util.protocol.ProtocolWebSocketUpgradeReadHandler;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -39,6 +42,10 @@ public class ServerTest {
             EngineSocket engineSocket = new EngineSocketNIO(88);
             engineSocket.setEngineHandle(engineHandle);
 
+            engineSocket.getProtocolReadFactory()
+                    .regist(CoreProtocol.HTTP.toString(), new ProtocolHttpReadHandler())
+                    .regist(CoreProtocol.WEBSOCKETUPGRADE.toString(), new ProtocolWebSocketUpgradeReadHandler())
+            ;
 
             countMap.put("count", 0L);
 

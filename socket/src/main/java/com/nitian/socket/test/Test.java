@@ -32,8 +32,15 @@ public class Test {
     public static void main(String[] args) throws IOException,
             InstantiationException, IllegalAccessException,
             NoSuchAlgorithmException {
-        testByteBuffer();
+        testMapNullKey();
+//        testByteBuffer();
         System.out.println("this is end{ss}");
+    }
+
+    public static void testMapNullKey() {
+        Map<String, String> map = new HashMap<>();
+        map.put("a", "a");
+        System.out.print(map.get(null));
     }
 
     public static void testByteBuffer() {

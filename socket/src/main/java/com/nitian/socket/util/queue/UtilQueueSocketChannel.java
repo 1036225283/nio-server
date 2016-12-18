@@ -1,9 +1,10 @@
 package com.nitian.socket.util.queue;
 
 import com.nitian.socket.EngineSocket;
-import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.FactoryProtocol;
+import com.nitian.socket.util.protocol.ProtocolDispatcher;
+import com.nitian.socket.util.protocol.ProtocolReadHandler;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -36,31 +37,42 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
 
         try {
 
+            ByteBuffer buffer = read(selectionKey);
+            if (buffer == null) {
+                return;
+            }
+            byte[] bs = engineSocket.getPoolByte().lend();
+
+            //进行socket获取socketChannel的判断，如果存在协议，就调用协议处理器
+            //如果不存在，就另行处理
             String protocol;
             if (engineSocket.getSocketMap().containsKey(selectionKey)) {
                 protocol = engineSocket.getSocketMap().get(selectionKey).toString();
             } else {
-                protocol = CoreProtocol.HTTP.toString();
+                protocol = ProtocolDispatcher.dispatcher(buffer, bs);
             }
 
-            ByteBuffer buffer = read(selectionKey);
-            if (buffer == null) {
-                return;
-            } else {
-                Map<String, String> map = engineSocket.getPoolMap().lend();
-                byte[] bs = engineSocket.getPoolByte().lend();
-                FactoryProtocol.parse(protocol, map, buffer, bs);
+            ProtocolReadHandler protocolReadHandler = engineSocket.getProtocolReadFactory().get(protocol);
+            if (protocolReadHandler == null) {
                 engineSocket.getPoolByte().repay(bs);
                 engineSocket.getPoolBuffer().repay(buffer);
-                log.dateInfo(LogType.time, this, "解析协议结束");
-                //存放异步标识
-                long applicationId = engineSocket.getCountStore().put(selectionKey);
-                map.put(CoreType.applicationId.toString(),
-                        String.valueOf(applicationId));
-//                map.put(CoreType.size.toString(), String.valueOf(request.length()));
-                engineSocket.getEngineHandle().push(map);
-
+                selectionKey.channel().close();
+                return;
             }
+
+            Map<String, String> map = engineSocket.getPoolMap().lend();
+            protocolReadHandler.handle(map, buffer, bs);
+            FactoryProtocol.parse(protocol, map, buffer, bs);
+            engineSocket.getPoolByte().repay(bs);
+            engineSocket.getPoolBuffer().repay(buffer);
+            log.dateInfo(LogType.time, this, "解析协议结束");
+            //存放异步标识
+            long applicationId = engineSocket.getCountStore().put(selectionKey);
+            map.put(CoreType.applicationId.toString(),
+                    String.valueOf(applicationId));
+//                map.put(CoreType.size.toString(), String.valueOf(request.length()));
+            engineSocket.getEngineHandle().push(map);
+
         } catch (Exception e) {
             log.error(e, "read线程异常");
         }
