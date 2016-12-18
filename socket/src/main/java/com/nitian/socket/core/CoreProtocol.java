@@ -7,6 +7,6 @@ package com.nitian.socket.core;
  */
 public enum CoreProtocol {
 
-    HTTP, WEBSOCKET, WEBSOCKETUPGRADE
+    HTTP, WEBSOCKET, WEBSOCKETUPGRADE, XWS
 
 }

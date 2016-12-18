@@ -37,6 +37,7 @@ public class EngineSocketNIO extends EngineSocket<SelectionKey> {
         // 轮询访问selector
         boolean isFlag = true;
         while (isFlag) {
+            System.out.println("服务一直在运行");
             selector.select();
             Iterator<SelectionKey> ite = this.selector.selectedKeys()
                     .iterator();
@@ -195,13 +196,17 @@ public class EngineSocketNIO extends EngineSocket<SelectionKey> {
     @Override
     public synchronized void callback(Object object) {
         try {
+
             SocketChannel socketChannel = (SocketChannel) object;
-            if (socketChannel.isRegistered()) {
-                System.out.println("已结注册过");
-            } else {
-                socketChannel.configureBlocking(false);
-                socketChannel.register(selector, SelectionKey.OP_READ);
-                System.out.println("重新注册完毕。。。");
+            synchronized (socketChannel) {
+                if (socketChannel.isRegistered()) {
+                    System.out.println("已结注册过");
+                } else {
+                    socketChannel.configureBlocking(false);
+                    selector.wakeup();
+                    socketChannel.register(selector, SelectionKey.OP_READ);
+                    System.out.println("重新注册完毕。。。");
+                }
             }
         } catch (IOException e) {
             log.error(e, "重新注册异常");

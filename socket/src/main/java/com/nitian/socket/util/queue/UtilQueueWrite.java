@@ -51,7 +51,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
             try {
                 socketChannel.close();
             } catch (Exception e) {
-
+                log.error(e, "");
             }
             return;
         } else {

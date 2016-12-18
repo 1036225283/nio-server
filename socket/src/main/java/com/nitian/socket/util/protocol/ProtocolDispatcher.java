@@ -21,7 +21,9 @@ public class ProtocolDispatcher {
             int length = buffer.remaining();
             buffer.get(bs, 0, length);
             String request = new String(bs, 0, length);
-            if (request.contains("Upgrade: websocket")) {
+            if (request.startsWith("XWS")) {
+                return CoreProtocol.XWS.toString();
+            } else if (request.contains("Upgrade: websocket")) {
                 return CoreProtocol.WEBSOCKETUPGRADE.toString();
             } else if (request.startsWith("GET") || request.startsWith("POST") || request.startsWith("DELETE") || request.startsWith("UPDATE")) {
                 return CoreProtocol.HTTP.toString();

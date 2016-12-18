@@ -62,6 +62,7 @@ public class EngineSocket<T> {
 
     public void init() {
 
+        Thread.currentThread().setName("线程:主轮询线程");
         System.out.println(this.getClass().getName());
 
         socketMap = new HashMap<>();
