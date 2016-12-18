@@ -1,6 +1,7 @@
-package com.nitian.socket.util.protocol;
+package com.nitian.socket.util.protocol.read;
 
 import com.nitian.socket.util.UtilRegister;
+import com.nitian.socket.util.protocol.read.ProtocolReadHandler;
 
 /**
  * protocol-handler处理器

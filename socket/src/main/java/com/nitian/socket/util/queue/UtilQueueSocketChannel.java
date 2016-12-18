@@ -3,7 +3,7 @@ package com.nitian.socket.util.queue;
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.protocol.ProtocolDispatcher;
-import com.nitian.socket.util.protocol.ProtocolReadHandler;
+import com.nitian.socket.util.protocol.read.ProtocolReadHandler;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 

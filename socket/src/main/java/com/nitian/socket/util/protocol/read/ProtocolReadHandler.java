@@ -1,4 +1,4 @@
-package com.nitian.socket.util.protocol;
+package com.nitian.socket.util.protocol.read;
 
 import com.nitian.socket.EngineSocket;
 

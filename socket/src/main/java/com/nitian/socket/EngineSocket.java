@@ -6,7 +6,7 @@ import com.nitian.socket.util.list.UtilListWebSocketThread;
 import com.nitian.socket.util.pool.UtilPoolBuffer;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
-import com.nitian.socket.util.protocol.ProtocolReadFactory;
+import com.nitian.socket.util.protocol.read.ProtocolReadFactory;
 import com.nitian.socket.util.protocol.write.ProtocolWriteFactory;
 import com.nitian.socket.util.queue.UtilQueue;
 import com.nitian.socket.util.store.CountStore;
