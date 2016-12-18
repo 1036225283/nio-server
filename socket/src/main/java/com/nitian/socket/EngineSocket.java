@@ -7,6 +7,7 @@ import com.nitian.socket.util.pool.UtilPoolBuffer;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.protocol.ProtocolReadFactory;
+import com.nitian.socket.util.protocol.write.ProtocolWriteFactory;
 import com.nitian.socket.util.queue.UtilQueue;
 import com.nitian.socket.util.store.CountStore;
 import com.nitian.util.log.LogManager;
@@ -42,7 +43,7 @@ public class EngineSocket<T> {
 
 
     private ProtocolReadFactory protocolReadFactory;
-
+    private ProtocolWriteFactory protocolWriteFactory;
 
     private UtilQueue queueRead;
     private UtilQueue queueWrite;
@@ -66,6 +67,7 @@ public class EngineSocket<T> {
         socketMap = new HashMap<>();
 
         protocolReadFactory = new ProtocolReadFactory();
+        protocolWriteFactory = new ProtocolWriteFactory();
 
         countStore = Factory.getCountStore(this.getClass().getName());
 
@@ -183,6 +185,14 @@ public class EngineSocket<T> {
     public ProtocolReadFactory getProtocolReadFactory() {
         return protocolReadFactory;
     }
+
+    public ProtocolWriteFactory getProtocolWriteFactory() {
+        return protocolWriteFactory;
+    }
+
+//    public void setProtocolWriteFactory(ProtocolWriteFactory protocolWriteFactory) {
+//        this.protocolWriteFactory = protocolWriteFactory;
+//    }
 }
 
 

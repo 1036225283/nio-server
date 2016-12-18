@@ -2,14 +2,12 @@ package com.nitian.socket.util.queue;
 
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.parse.UtilParseHttpWrite;
-import com.nitian.socket.util.parse.UtilParseWebSocketWrite;
+import com.nitian.socket.util.protocol.write.ProtocolWriteHandler;
 import com.nitian.util.log.LogType;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Map;
 
@@ -45,13 +43,19 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
         }
 
         ByteBuffer byteBuffer = null;
-        byte[] bs = null;
+        byte[] bs;
 
         String protocol = map.get(CoreType.protocol.toString());
-        if (protocol.equals("HTTP")) {
-            bs = UtilParseHttpWrite.getResult(map);
-        } else if (protocol.equals("WEBSOCKET")) {
-            bs = UtilParseWebSocketWrite.getResult(map);
+        ProtocolWriteHandler protocolWriteHandler = engineSocket.getProtocolWriteFactory().get(protocol);
+        if (protocolWriteHandler == null) {
+            try {
+                socketChannel.close();
+            } catch (Exception e) {
+
+            }
+            return;
+        } else {
+            bs = protocolWriteHandler.handle(map);
         }
 
         try {
@@ -63,19 +67,19 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
             // TODO Auto-generated catch block
             log.error(e, "");
         } finally {
-            engineSocket.getPoolMap().repay(map);
-            engineSocket.getPoolBuffer().repay(byteBuffer);
+
             try {
-                if (protocol.equals("HTTP")) {
+                if (map.get(CoreType.close.toString()).equals("true")) {
                     socketChannel.close();
-                } else if (protocol.equals("WEBSOCKET")) {
+                } else {
                     this.engineSocket.callback(socketChannel);
                 }
-
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 log.error(e, "");
             }
+            engineSocket.getPoolMap().repay(map);
+            engineSocket.getPoolBuffer().repay(byteBuffer);
         }
         log.info(LogType.thread, this, Thread.currentThread().toString());
         log.dateInfo(LogType.time, this, "写消息队列处理结束");

@@ -29,7 +29,6 @@ public class EngineSocketNIO extends EngineSocket<SelectionKey> {
 
     public void start() throws IOException {
 
-        init();
         this.selector = Selector.open();
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
         serverChannel.configureBlocking(false);
@@ -187,10 +186,12 @@ public class EngineSocketNIO extends EngineSocket<SelectionKey> {
     }
 
     public EngineSocketNIO() {
+        init();
     }
 
     public EngineSocketNIO(int port) {
         setPort(port);
+        init();
     }
 
     @Override

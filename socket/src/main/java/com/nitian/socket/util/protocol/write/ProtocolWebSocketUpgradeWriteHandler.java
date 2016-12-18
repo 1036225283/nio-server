@@ -1,14 +1,22 @@
-package com.nitian.socket.util.parse;
+package com.nitian.socket.util.protocol.write;
 
 import com.nitian.socket.core.CoreType;
+import com.nitian.util.log.LogManager;
 
 import java.util.Date;
 import java.util.Map;
 
-public class UtilParseWebSocketWrite {
+/**
+ * Web-socket-Upgrade-Write协议解析器
+ * Created by 1036225283 on 2016/12/17.
+ */
+public class ProtocolWebSocketUpgradeWriteHandler extends ProtocolWriteHandler {
 
+    protected static LogManager log = LogManager.getInstance();
 
-    public static byte[] getResult(Map<String, String> map) {
+    @Override
+    public byte[] handle(Map<String, String> map) {
+
         map.get(CoreType.sessionId.toString());
         StringBuffer sb = new StringBuffer();
         sb.append("HTTP/1.1 101 Switching Protocols").append("\r\n");
@@ -24,6 +32,7 @@ public class UtilParseWebSocketWrite {
         sb.append("Date: ").append(new Date().toString()).append("\r\n")
                 .append("\r\n");
         System.out.println(sb.toString());
+        map.put(CoreType.close.toString(), "false");
         return sb.toString().getBytes();
     }
 }

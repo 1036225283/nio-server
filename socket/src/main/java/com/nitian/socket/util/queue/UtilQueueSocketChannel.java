@@ -2,7 +2,6 @@ package com.nitian.socket.util.queue;
 
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.parse.FactoryProtocol;
 import com.nitian.socket.util.protocol.ProtocolDispatcher;
 import com.nitian.socket.util.protocol.ProtocolReadHandler;
 import com.nitian.util.log.LogManager;
@@ -61,8 +60,12 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
             }
 
             Map<String, String> map = engineSocket.getPoolMap().lend();
-            protocolReadHandler.handle(map, buffer, bs);
-            FactoryProtocol.parse(protocol, map, buffer, bs);
+            if (!protocolReadHandler.handle(map, buffer, bs)) {
+                engineSocket.getPoolByte().repay(bs);
+                engineSocket.getPoolBuffer().repay(buffer);
+                selectionKey.channel().close();
+                return;
+            }
             engineSocket.getPoolByte().repay(bs);
             engineSocket.getPoolBuffer().repay(buffer);
             log.dateInfo(LogType.time, this, "解析协议结束");
@@ -70,7 +73,6 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
             long applicationId = engineSocket.getCountStore().put(selectionKey);
             map.put(CoreType.applicationId.toString(),
                     String.valueOf(applicationId));
-//                map.put(CoreType.size.toString(), String.valueOf(request.length()));
             engineSocket.getEngineHandle().push(map);
 
         } catch (Exception e) {

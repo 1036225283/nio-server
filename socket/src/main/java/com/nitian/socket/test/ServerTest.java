@@ -10,6 +10,8 @@ import com.nitian.socket.test.handler.ExitHandler;
 import com.nitian.socket.test.handler.LoginHandler;
 import com.nitian.socket.util.protocol.ProtocolHttpReadHandler;
 import com.nitian.socket.util.protocol.ProtocolWebSocketUpgradeReadHandler;
+import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
+import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandler;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -45,6 +47,11 @@ public class ServerTest {
             engineSocket.getProtocolReadFactory()
                     .regist(CoreProtocol.HTTP.toString(), new ProtocolHttpReadHandler())
                     .regist(CoreProtocol.WEBSOCKETUPGRADE.toString(), new ProtocolWebSocketUpgradeReadHandler())
+            ;
+
+            engineSocket.getProtocolWriteFactory()
+                    .regist(CoreProtocol.HTTP.toString(), new ProtocolHttpWriteHandler())
+                    .regist(CoreProtocol.WEBSOCKETUPGRADE.toString(), new ProtocolWebSocketUpgradeWriteHandler())
             ;
 
             countMap.put("count", 0L);

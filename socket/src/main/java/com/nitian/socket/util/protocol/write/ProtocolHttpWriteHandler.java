@@ -1,13 +1,21 @@
-package com.nitian.socket.util.parse;
+package com.nitian.socket.util.protocol.write;
+
+import com.nitian.socket.core.CoreType;
+import com.nitian.util.log.LogManager;
 
 import java.util.Date;
 import java.util.Map;
 
-import com.nitian.socket.core.CoreType;
+/**
+ * HTTP-Write协议解析器
+ * Created by 1036225283 on 2016/12/17.
+ */
+public class ProtocolHttpWriteHandler extends ProtocolWriteHandler {
 
-public class UtilParseHttpWrite {
+    protected static LogManager log = LogManager.getInstance();
 
-    public static byte[] getResult(Map<String, String> map) {
+    @Override
+    public byte[] handle(Map<String, String> map) {
         map.get(CoreType.sessionId.toString());
         String result = map.get(CoreType.result.toString());
         StringBuffer sb = new StringBuffer();
@@ -32,6 +40,7 @@ public class UtilParseHttpWrite {
             // ---------------------------------------------------------------------------------------
             sb.append(result);
         }
+        map.put(CoreType.close.toString(), "true");
         return sb.toString().getBytes();
     }
 }
