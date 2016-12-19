@@ -2,6 +2,7 @@ package com.nitian.socket;
 
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.WriteTest;
+import com.nitian.util.java.UtilByte;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -54,15 +55,20 @@ public class EngineSocketNIO extends EngineSocket<SelectionKey> {
 
                     if (key.isAcceptable()) {
                         System.out.println("accept...");
+                        System.out.println(UtilByte.toBin((byte) key.interestOps()));
+
                         this.accept(key);
                     } else if (key.isConnectable()) {
                         System.out.println("connect...");
+                        System.out.println(UtilByte.toBin((byte) key.interestOps()));
                         this.connect(key);
                     } else if (key.isReadable()) {
                         System.out.println("read...");
-                        key.cancel();
+                        System.out.println(UtilByte.toBin((byte) key.interestOps()));
+                        key.interestOps(key.interestOps() ^ SelectionKey.OP_READ);
                         getQueueRead().push(key);
                     } else if (key.isWritable()) {
+                        System.out.println(UtilByte.toBin((byte) key.interestOps()));
                         System.out.println("write...");
 //                        this.write(key);
                     }
@@ -195,22 +201,10 @@ public class EngineSocketNIO extends EngineSocket<SelectionKey> {
 
     @Override
     public synchronized void callback(Object object) {
-        try {
-
-            SocketChannel socketChannel = (SocketChannel) object;
-            synchronized (socketChannel) {
-                if (socketChannel.isRegistered()) {
-                    System.out.println("已结注册过");
-                } else {
-                    socketChannel.configureBlocking(false);
-                    selector.wakeup();
-                    socketChannel.register(selector, SelectionKey.OP_READ);
-                    System.out.println("重新注册完毕。。。");
-                }
-            }
-        } catch (IOException e) {
-            log.error(e, "重新注册异常");
-        }
+        SelectionKey key = (SelectionKey) object;
+        key.interestOps(SelectionKey.OP_READ);
+        System.out.println(UtilByte.toBin((byte) key.interestOps()));
+        selector.wakeup();
 
     }
 }

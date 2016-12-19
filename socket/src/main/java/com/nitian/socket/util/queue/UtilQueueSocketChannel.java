@@ -2,6 +2,7 @@ package com.nitian.socket.util.queue;
 
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
+import com.nitian.socket.util.key.UtilSelectionKey;
 import com.nitian.socket.util.protocol.ProtocolDispatcher;
 import com.nitian.socket.util.protocol.read.ProtocolReadHandler;
 import com.nitian.util.log.LogManager;
@@ -102,7 +103,7 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
         try {
             size = socketChannel.read(buffer);
         } catch (IOException e) {
-            socketChannel.close();
+            UtilSelectionKey.cancel(key);
             log.error(e, "远程客户端关闭了");
             engineSocket.getPoolBuffer().repay(buffer);
             return null;
@@ -118,7 +119,7 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
             log.dateInfo(LogType.time, this, "读取的数据长度为0，需要释放key和其他资源");
             return null;
         } else if (size == -1) {
-            key.channel().close();
+            UtilSelectionKey.cancel(key);
             engineSocket.getPoolBuffer().repay(buffer);
             log.dateInfo(LogType.time, this, "读取的数据长度为-1，需要释放key和其他资源");
             return null;

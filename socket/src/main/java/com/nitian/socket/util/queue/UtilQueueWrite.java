@@ -2,7 +2,9 @@ package com.nitian.socket.util.queue;
 
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
+import com.nitian.socket.util.key.UtilSelectionKey;
 import com.nitian.socket.util.protocol.write.ProtocolWriteHandler;
+import com.nitian.util.java.UtilByte;
 import com.nitian.util.log.LogType;
 
 import java.io.IOException;
@@ -39,6 +41,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
         SocketChannel socketChannel = (SocketChannel) key.channel();
 
         if (!socketChannel.isConnected()) {
+            UtilSelectionKey.cancel(key);
             return;
         }
 
@@ -48,11 +51,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
         String protocol = map.get(CoreType.protocol.toString());
         ProtocolWriteHandler protocolWriteHandler = engineSocket.getProtocolWriteFactory().get(protocol);
         if (protocolWriteHandler == null) {
-            try {
-                socketChannel.close();
-            } catch (Exception e) {
-                log.error(e, "");
-            }
+            UtilSelectionKey.cancel(key);
             return;
         } else {
             bs = protocolWriteHandler.handle(map);
@@ -67,16 +66,10 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
             // TODO Auto-generated catch block
             log.error(e, "");
         } finally {
-
-            try {
-                if (map.get(CoreType.close.toString()).equals("true")) {
-                    socketChannel.close();
-                } else {
-                    this.engineSocket.callback(socketChannel);
-                }
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                log.error(e, "");
+            if (map.get(CoreType.close.toString()).equals("true")) {
+                UtilSelectionKey.cancel(key);
+            } else {
+                this.engineSocket.callback(key);
             }
             engineSocket.getPoolMap().repay(map);
             engineSocket.getPoolBuffer().repay(byteBuffer);
