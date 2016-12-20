@@ -7,6 +7,6 @@ package com.nitian.socket.core;
  */
 public enum CoreType {
 
-    param, url, ip, port, sessionId, applicationId, size, result, web, protocol, sec_websocket_accept, method, request, close
+    param, url, ip, port, sessionId, applicationId, size, result, web, protocol, sec_websocket_accept, method, request, close, param_type
 
 }

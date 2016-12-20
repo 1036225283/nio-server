@@ -33,7 +33,8 @@ public class Test {
             InstantiationException, IllegalAccessException,
             NoSuchAlgorithmException {
 //        testMapNullKey();
-        testNio();
+//        testNio();
+        testGetBit();
 //        testByteBuffer();
         System.out.println("this is end{ss}");
     }
@@ -86,7 +87,7 @@ public class Test {
     }
 
     public static void testGetBit() {
-        byte height = (byte) 255;
+        byte height = (byte) 2;
         for (int i = 8; i > 0; i--) {
             System.out.print(UtilByte.getBit(height, i));
         }

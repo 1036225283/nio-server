@@ -57,7 +57,7 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
             if (protocolReadHandler == null) {
                 engineSocket.getPoolByte().repay(bs);
                 engineSocket.getPoolBuffer().repay(buffer);
-                selectionKey.channel().close();
+                UtilSelectionKey.cancel(selectionKey);
                 return;
             }
 
