@@ -36,7 +36,6 @@ public class ProtocolWebSocketUpgradeReadHandler extends ProtocolReadHandler {
             map.put(CoreType.sec_websocket_accept.toString(), secWebSocketAccept);
             map.put(CoreType.protocol.toString(), CoreProtocol.WEBSOCKETUPGRADE.toString());
             map.put(CoreType.size.toString(), String.valueOf(request.length()));
-            map.put(CoreType.close.toString(), "false");
             return true;
         } catch (Exception e) {
             log.error(e, "解析HTTP协议出错了!!!");

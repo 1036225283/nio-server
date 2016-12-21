@@ -52,6 +52,7 @@ public class ProtocolWebSocketReadHandler extends ProtocolReadHandler {
                 if (OPCODE == 0) {
                     log.info("web socket frame", "这是连续帧");
                 } else if (OPCODE == 1) {// 文本帧
+                    map.put(CoreType.param_type.toString(), CoreType.text.toString());
                     int size = UtilWebSocket.getPAYLOADLENGTH(bs);
                     int offset = 0;
                     if (size < 126) {
@@ -74,22 +75,28 @@ public class ProtocolWebSocketReadHandler extends ProtocolReadHandler {
                     log.info("web socket frame", "这是文本帧");
                     log.info("websocket", textValue);
                     log.info("websocket", "------------------------------------------");
+                    map.put(CoreType.stop.toString(), CoreType.stop.toString());
+                    return true;
                 } else if (OPCODE == 2) {// 字节帧
+                    map.put(CoreType.stop.toString(), CoreType.stop.toString());
                     log.info("web socket frame", "这是字节帧");
+                    return true;
                 } else if (OPCODE == 8) {// 关闭帧
+                    map.put(CoreType.stop.toString(), CoreType.stop.toString());
                     log.info("web socket frame", "这是关闭帧");
+                    return true;
                 } else if (OPCODE == 9) {// PING帧
+                    map.put(CoreType.stop.toString(), CoreType.stop.toString());
                     log.info("web socket frame", "这是ping帧");
+                    return true;
                 } else if (OPCODE == 10) {// PONG帧
+                    map.put(CoreType.stop.toString(), CoreType.stop.toString());
                     log.info("web socket frame", "这是pong帧");
+                    return true;
                 }
 
-                long PAYLOADLENGTH = UtilWebSocket.getPAYLOADLENGTH(bs);
-                System.out.println();
-                log.info("web socket frame", "PAYLOADLENGTH=" + PAYLOADLENGTH);
-
             } catch (Exception e) {
-
+                return false;
             }
 
             String request = new String(bs, 0, length);
@@ -104,7 +111,6 @@ public class ProtocolWebSocketReadHandler extends ProtocolReadHandler {
             map.put(CoreType.sec_websocket_accept.toString(), secWebSocketAccept);
             map.put(CoreType.protocol.toString(), CoreProtocol.WEBSOCKETUPGRADE.toString());
             map.put(CoreType.size.toString(), String.valueOf(request.length()));
-            map.put(CoreType.close.toString(), "false");
             return true;
         } catch (Exception e) {
             log.error(e, "解析HTTP协议出错了!!!");

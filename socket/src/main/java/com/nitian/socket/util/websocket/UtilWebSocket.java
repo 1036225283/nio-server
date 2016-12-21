@@ -69,4 +69,23 @@ public class UtilWebSocket {
     }
 
 
+    /**
+     * 获取文本帧的内容
+     *
+     * @param bytes
+     * @return
+     */
+    public static String getTEXT(byte[] bytes) {
+        return null;
+    }
+
+    /**
+     * 获取二进制数据
+     *
+     * @param bytes
+     * @return
+     */
+    public static byte[] getBIN(byte[] bytes) {
+        return null;
+    }
 }

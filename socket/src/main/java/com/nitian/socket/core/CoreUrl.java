@@ -5,18 +5,22 @@ package com.nitian.socket.core;
  *
  * @author 1036225283
  */
-public enum CoreProtocol {
+public enum CoreUrl {
 
-    HTTP("HTTP"), WEBSOCKET("WEBSOCKET"), WEBSOCKETUPGRADE("WEBSOCKETUPGRADE"), XWS("XWS");
+    PING("/ping"), PONG("/pong"), CLOSE("/close");
 
     private String value;
 
-    CoreProtocol(String value) {
+    CoreUrl(String value) {
         this.value = value;
     }
 
     @Override
     public String toString() {
         return this.value;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(CoreUrl.PONG);
     }
 }

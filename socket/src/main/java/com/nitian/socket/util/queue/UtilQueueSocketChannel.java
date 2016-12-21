@@ -68,13 +68,18 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
                 selectionKey.channel().close();
                 return;
             }
-            if (map.get(CoreType.close.toString()).equals("false")) {
+            if (!map.containsKey(CoreType.close.toString())) {
                 engineSocket.getSocketMap().put(selectionKey, protocol.replace("UPGRADE", ""));
                 log.dateInfo(LogType.time, this, "<SocketChannel,String>的数量 = " + engineSocket.getSocketMap().size());
             }
             engineSocket.getPoolByte().repay(bs);
             engineSocket.getPoolBuffer().repay(buffer);
             log.dateInfo(LogType.time, this, "解析协议结束");
+            if (map.containsKey(CoreType.stop.toString())) {
+                log.dateInfo(LogType.time, this, "没有进入业务流程，直接返回了");
+
+                return;
+            }
             //存放异步标识
             long applicationId = engineSocket.getCountStore().put(selectionKey);
             map.put(CoreType.applicationId.toString(),
