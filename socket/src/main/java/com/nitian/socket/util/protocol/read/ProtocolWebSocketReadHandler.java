@@ -35,22 +35,22 @@ public class ProtocolWebSocketReadHandler extends ProtocolReadHandler {
             try {
                 byte FIN = UtilWebSocket.getFIN(bs);
                 if (FIN == 0) {// 暂不处理连续帧
-                    log.info("web socket frame", "这是连续帧fin");
+                    log.info(LogType.debug, "----web socket 这是连续帧");
                 } else {
-                    log.info("web socket frame", "这是唯一帧fin");
+                    log.info(LogType.debug, "----web socket 这是唯一帧");
                 }
 
                 // 获取掩码
                 byte MASK = UtilWebSocket.getMASK(bs);
                 if (MASK == 1) {
-                    log.info("web socket frame", "这是掩码");
+                    log.info(LogType.debug, "----web socket 这是掩码标志");
                 } else {
-                    log.info("web socket frame", "没有掩码");
+                    log.info(LogType.debug, "----web socket 没有掩码标志");
                 }
 
                 byte OPCODE = UtilWebSocket.getOPCODE(bs);
                 if (OPCODE == 0) {
-                    log.info("web socket frame", "这是连续帧");
+                    log.info(LogType.debug, "----web socket OPCODE = 0");
                 } else if (OPCODE == 1) {// 文本帧
                     map.put(CoreType.param_type.toString(), CoreType.text.toString());
                     int size = UtilWebSocket.getPAYLOADLENGTH(bs);
@@ -72,26 +72,25 @@ public class ProtocolWebSocketReadHandler extends ProtocolReadHandler {
                         String textValue = new String(bs, offset + 4, size);
                     }
                     String textValue = new String(bs, offset + 4, size);
-                    log.info("web socket frame", "这是文本帧");
-                    log.info("websocket", textValue);
-                    log.info("websocket", "------------------------------------------");
+                    log.info(LogType.debug, "----web socket textValue" + textValue);
+                    log.info(LogType.debug, "----web socket OPCODE = 1");
                     map.put(CoreType.stop.toString(), CoreType.stop.toString());
                     return true;
                 } else if (OPCODE == 2) {// 字节帧
                     map.put(CoreType.stop.toString(), CoreType.stop.toString());
-                    log.info("web socket frame", "这是字节帧");
+                    log.info(LogType.debug, "----web socket OPCODE = 2");
                     return true;
                 } else if (OPCODE == 8) {// 关闭帧
                     map.put(CoreType.stop.toString(), CoreType.stop.toString());
-                    log.info("web socket frame", "这是关闭帧");
+                    log.info(LogType.debug, "----web socket OPCODE = 8");
                     return true;
                 } else if (OPCODE == 9) {// PING帧
                     map.put(CoreType.stop.toString(), CoreType.stop.toString());
-                    log.info("web socket frame", "这是ping帧");
+                    log.info(LogType.debug, "----web socket OPCODE = 9");
                     return true;
                 } else if (OPCODE == 10) {// PONG帧
                     map.put(CoreType.stop.toString(), CoreType.stop.toString());
-                    log.info("web socket frame", "这是pong帧");
+                    log.info(LogType.debug, "----web socket OPCODE = 10");
                     return true;
                 }
 
