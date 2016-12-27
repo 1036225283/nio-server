@@ -16,6 +16,7 @@ import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolXwsWriteHandler;
+import com.nitian.util.keyvalue.KeyValue;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -23,6 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ServerTest {
+
+
+    private static KeyValue keyValue = new KeyValue();
 
 
     public static void main(String[] args) {
@@ -86,6 +90,14 @@ public class ServerTest {
                         @Override
                         public void handle(Map<String, String> map) {
                             map.put(CoreType.result.toString(), "l fuck you !!!");
+                        }
+                    })
+                    .regist("/key-value/get", new Handler() {
+                        @Override
+                        public void handle(Map<String, String> map) {
+                            String param = map.get(CoreType.param);
+                            System.out.println("param = " + param);
+//                            keyValue.set("xws", "xws");
                         }
                     });
 
