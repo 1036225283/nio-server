@@ -2,9 +2,8 @@ package com.nitian.socket.util.write;
 
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.parse.UtilParseWebSocketWrite;
+import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandler;
 import com.nitian.util.log.LogManager;
-import com.nitian.util.log.LogType;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -22,9 +21,7 @@ public class UtilWebSocketWriteSocket extends UtilWrite {
                 .toString()));
         Socket socket = (Socket) engineSocket.getCountStore().remove(
                 applicationId);
-        UtilParseWebSocketWrite webSocketWrite = new UtilParseWebSocketWrite(
-                map);
-        byte[] bs = webSocketWrite.getResult();
+        byte[] bs = new ProtocolWebSocketUpgradeWriteHandler().handle(map);
         try {
             socket.getOutputStream().write(bs);
         } catch (IOException e) {

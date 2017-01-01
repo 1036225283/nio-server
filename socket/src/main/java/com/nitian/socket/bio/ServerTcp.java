@@ -1,4 +1,4 @@
-package test;
+package com.nitian.socket.bio;
 
 import java.io.IOException;
 import java.net.ServerSocket;

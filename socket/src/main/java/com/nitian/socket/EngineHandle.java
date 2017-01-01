@@ -22,7 +22,7 @@ public class EngineHandle {
 
     private EngineSocket engineSocket;
 
-    EngineHandle() {
+    public EngineHandle() {
         init();
     }
 

@@ -1,31 +1,34 @@
 package com.nitian.socket;
 
-import com.nitian.socket.util.factory.Factory;
-import com.nitian.socket.util.pool.UtilPoolBuffer;
-import com.nitian.socket.util.store.CountStore;
-import com.nitian.socket.util.store.CountStoreSocket;
 import com.nitian.socket.util.UtilPoolThread;
+import com.nitian.socket.util.factory.Factory;
 import com.nitian.socket.util.list.UtilListWebSocketThread;
+import com.nitian.socket.util.pool.UtilPoolBuffer;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
+import com.nitian.socket.util.protocol.read.ProtocolReadFactory;
+import com.nitian.socket.util.protocol.write.ProtocolWriteFactory;
 import com.nitian.socket.util.queue.UtilQueue;
-import com.nitian.socket.util.queue.UtilQueueSocket;
-import com.nitian.socket.util.queue.UtilQueueWrite;
+import com.nitian.socket.util.store.CountStore;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by 1036225283 on 2016/11/13.
  * 消息引擎
  */
-public class EngineSocket {
+public class EngineSocket<T> {
 
     public LogManager log = LogManager.getInstance();
+
+
+    private Map<T, String> socketMap;
 
 
     /**
@@ -37,6 +40,10 @@ public class EngineSocket {
     private ServerSocket serverSocket;
     private int poolMax = 800;
     private int poolTotal = 200;
+
+
+    private ProtocolReadFactory protocolReadFactory;
+    private ProtocolWriteFactory protocolWriteFactory;
 
     private UtilQueue queueRead;
     private UtilQueue queueWrite;
@@ -55,7 +62,14 @@ public class EngineSocket {
 
     public void init() {
 
+        Thread.currentThread().setName("线程:主轮询线程");
         System.out.println(this.getClass().getName());
+
+        socketMap = new HashMap<>();
+
+        protocolReadFactory = new ProtocolReadFactory();
+        protocolWriteFactory = new ProtocolWriteFactory();
+
         countStore = Factory.getCountStore(this.getClass().getName());
 
         poolBuffer = Factory.getPoolBuffer(this.getClass().getName(), this);
@@ -150,4 +164,36 @@ public class EngineSocket {
     public int getPoolTotal() {
         return poolTotal;
     }
+
+
+    /**
+     * 系统回调处理
+     *
+     * @param object
+     */
+    public synchronized void callback(Object object) {
+    }
+
+    public synchronized Map<T, String> getSocketMap() {
+        return socketMap;
+    }
+
+    /**
+     * 获取协议处理器
+     *
+     * @return
+     */
+    public ProtocolReadFactory getProtocolReadFactory() {
+        return protocolReadFactory;
+    }
+
+    public ProtocolWriteFactory getProtocolWriteFactory() {
+        return protocolWriteFactory;
+    }
+
+//    public void setProtocolWriteFactory(ProtocolWriteFactory protocolWriteFactory) {
+//        this.protocolWriteFactory = protocolWriteFactory;
+//    }
 }
+
+

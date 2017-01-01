@@ -1,12 +1,17 @@
 package com.nitian.socket.util.queue;
 
-import java.util.Map;
-
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.factory.Factory;
-import com.nitian.socket.util.write.UtilWrite;
+import com.nitian.socket.util.key.UtilSelectionKey;
+import com.nitian.socket.util.protocol.write.ProtocolWriteHandler;
+import com.nitian.util.java.UtilByte;
 import com.nitian.util.log.LogType;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.SocketChannel;
+import java.util.Map;
 
 /**
  * 读消息队列：处理map数据
@@ -17,31 +22,61 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 
 
     private EngineSocket engineSocket;
-    private UtilWrite httpWrite;
-    private UtilWrite webSocketWrite;
 
 
     public UtilQueueWrite(EngineSocket engineSocket) {
         // TODO Auto-generated constructor stub
         this.engineSocket = engineSocket;
-        httpWrite = Factory.getUtilHttpWrite(engineSocket.getClass().getName());
-        webSocketWrite = Factory.getUtilWebSocketWrite(engineSocket.getClass().getName());
     }
 
     @Override
     public synchronized void handle(Map<String, String> map) {
         // TODO Auto-generated method stub
-        log.dateInfo(LogType.time, this, "第四步：开始发送消息");
-        log.dateInfo(LogType.time, this, "第五步：开始包装发送消息");
-        String protocol = map.get(CoreType.protocol.toString());
-        if (protocol.equals("HTTP")) {
-            httpWrite.write(map, engineSocket);
-        } else if (protocol.equals("WEBSOCKET")) {
-            webSocketWrite.write(map, engineSocket);
+        log.dateInfo(LogType.time, this, "写消息开始处理");
+
+        long applicationId = Long.valueOf(map.get(CoreType.applicationId
+                .toString()));
+        SelectionKey key = (SelectionKey) engineSocket.getCountStore().remove(
+                applicationId);
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+
+        if (!socketChannel.isConnected()) {
+            UtilSelectionKey.cancel(key);
+            return;
         }
-        log.dateInfo(LogType.time, this, "第五步：结束包装发送消息");
+
+        ByteBuffer byteBuffer = null;
+        byte[] bs;
+
+        String protocol = map.get(CoreType.protocol.toString());
+        ProtocolWriteHandler protocolWriteHandler = engineSocket.getProtocolWriteFactory().get(protocol);
+        if (protocolWriteHandler == null) {
+            UtilSelectionKey.cancel(key);
+            return;
+        } else {
+            bs = protocolWriteHandler.handle(map);
+        }
+
+        try {
+            byteBuffer = engineSocket.getPoolBuffer().lend();
+            byteBuffer.put(bs);
+            byteBuffer.flip();
+            socketChannel.write(byteBuffer);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            log.error(e, "");
+        } finally {
+            if (map.get(CoreType.close.toString()).equals("true")) {
+                UtilSelectionKey.cancel(key);
+            } else {
+                this.engineSocket.callback(key);
+            }
+            engineSocket.getPoolMap().repay(map);
+            engineSocket.getPoolBuffer().repay(byteBuffer);
+        }
         log.info(LogType.thread, this, Thread.currentThread().toString());
-        log.dateInfo(LogType.time, this, "第四步：结束发送消息");
+        log.dateInfo(LogType.time, this, "写消息队列处理结束");
+
     }
 
 }

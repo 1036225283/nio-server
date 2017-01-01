@@ -1,15 +1,14 @@
 package com.nitian.socket.util.queue;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.util.Map;
-
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.parse.UtilParseProtocol;
 import com.nitian.socket.util.thread.ThreadWebSocket;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Map;
 
 /**
  * 解析HTTP/WEBSOCKET请求队列
@@ -55,11 +54,10 @@ public class UtilQueueSocket extends UtilQueue<Socket> {
                     String.valueOf(applicationId));
             map.put(CoreType.size.toString(), String.valueOf(size));
 
-            new UtilParseProtocol(new String(bs, 0, size), map);
             engineSocket.getPoolByte().repay(bs);// 偿还bytes给对象池
             String protocol = map.get(CoreType.protocol.toString());
             if (protocol.equals("WEBSOCKET")) {
-                ThreadWebSocket webSocket = new ThreadWebSocket(socket);
+                ThreadWebSocket webSocket = new ThreadWebSocket(socket, null, null);
                 boolean result = engineSocket.getListWebSocketThread()
                         .put(webSocket);
                 if (result == false) {

@@ -2,6 +2,7 @@ package com.nitian.socket;
 
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.WriteTest;
+import com.nitian.util.java.UtilByte;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,26 +11,23 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 /**
  * Created by 1036225283 on 2016/11/17.
  */
-public class EngineSocketNIO extends EngineSocket {
+public class EngineSocketNIO extends EngineSocket<SelectionKey> {
 
 
     // 通道管理器
     private Selector selector;
 
-    Map<SocketChannel, Integer> tMap = new HashMap<>();
 
     int count = 0;
 
     public void start() throws IOException {
 
-        init();
         this.selector = Selector.open();
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
         serverChannel.configureBlocking(false);
@@ -40,6 +38,7 @@ public class EngineSocketNIO extends EngineSocket {
         // 轮询访问selector
         boolean isFlag = true;
         while (isFlag) {
+            System.out.println("服务一直在运行");
             selector.select();
             Iterator<SelectionKey> ite = this.selector.selectedKeys()
                     .iterator();
@@ -56,14 +55,20 @@ public class EngineSocketNIO extends EngineSocket {
 
                     if (key.isAcceptable()) {
                         System.out.println("accept...");
+                        System.out.println(UtilByte.toBin((byte) key.interestOps()));
+
                         this.accept(key);
                     } else if (key.isConnectable()) {
                         System.out.println("connect...");
+                        System.out.println(UtilByte.toBin((byte) key.interestOps()));
                         this.connect(key);
                     } else if (key.isReadable()) {
                         System.out.println("read...");
-                        this.read(key);
+                        System.out.println(UtilByte.toBin((byte) key.interestOps()));
+                        key.interestOps(key.interestOps() ^ SelectionKey.OP_READ);
+                        getQueueRead().push(key);
                     } else if (key.isWritable()) {
+                        System.out.println(UtilByte.toBin((byte) key.interestOps()));
                         System.out.println("write...");
 //                        this.write(key);
                     }
@@ -176,6 +181,7 @@ public class EngineSocketNIO extends EngineSocket {
         } else {
             socketChannel.configureBlocking(false);
             socketChannel.register(selector, SelectionKey.OP_READ);
+            System.out.println("注册完毕。。。");
         }
     }
 
@@ -184,11 +190,21 @@ public class EngineSocketNIO extends EngineSocket {
         System.out.println(socketChannel);
     }
 
-    EngineSocketNIO() {
+    public EngineSocketNIO() {
+        init();
     }
 
-    EngineSocketNIO(int port) {
+    public EngineSocketNIO(int port) {
         setPort(port);
+        init();
     }
 
+    @Override
+    public synchronized void callback(Object object) {
+        SelectionKey key = (SelectionKey) object;
+        key.interestOps(SelectionKey.OP_READ);
+        System.out.println(UtilByte.toBin((byte) key.interestOps()));
+        selector.wakeup();
+
+    }
 }

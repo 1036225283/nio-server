@@ -9,7 +9,7 @@ import com.nitian.socket.util.queue.UtilQueueSocketChannel;
 import com.nitian.socket.util.queue.UtilQueueWrite;
 import com.nitian.socket.util.store.CountStore;
 import com.nitian.socket.util.store.CountStoreSocket;
-import com.nitian.socket.util.store.CountStoreSocketChannel;
+import com.nitian.socket.util.store.CountStoreSelectionKey;
 import com.nitian.socket.util.write.*;
 
 /**
@@ -28,7 +28,7 @@ public class Factory {
         if (className.equals(EngineSocket.class.getName())) {
             return new CountStoreSocket();
         } else if (className.equals(EngineSocketNIO.class.getName())) {
-            return new CountStoreSocketChannel();
+            return new CountStoreSelectionKey();
         }
         return null;
     }
@@ -97,7 +97,7 @@ public class Factory {
         if (className.equals(EngineSocket.class.getName())) {
             return new UtilHttpWriteSocket();
         } else if (className.equals(EngineSocketNIO.class.getName())) {
-            return new UtilHttpWriteSocketChannel();
+            return new UtilHttpWriteSocket();
         }
         return null;
     }

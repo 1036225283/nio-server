@@ -1,0 +1,22 @@
+package com.nitian.socket.core;
+
+/**
+ * 协议的枚举
+ *
+ * @author 1036225283
+ */
+public enum CoreProtocol {
+
+    HTTP("HTTP"), WEBSOCKET("WEBSOCKET"), WEBSOCKETUPGRADE("WEBSOCKETUPGRADE"), XWS("XWS");
+
+    private String value;
+
+    CoreProtocol(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
+}

@@ -2,14 +2,15 @@ package com.nitian.socket.util.queue;
 
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.core.CoreType;
-import com.nitian.socket.util.parse.UtilParseProtocol;
-import com.nitian.socket.util.thread.ThreadWebSocket;
+import com.nitian.socket.util.key.UtilSelectionKey;
+import com.nitian.socket.util.protocol.ProtocolDispatcher;
+import com.nitian.socket.util.protocol.read.ProtocolReadHandler;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ import java.util.Map;
  *
  * @author 1036225283
  */
-public class UtilQueueSocketChannel extends UtilQueue<Map<String, String>> {
+public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
 
 
     private EngineSocket engineSocket;
@@ -30,37 +31,110 @@ public class UtilQueueSocketChannel extends UtilQueue<Map<String, String>> {
     }
 
     @Override
-    public synchronized void handle(Map<String, String> map) {
+    public synchronized void handle(SelectionKey selectionKey) {
         // TODO Auto-generated method stub
+        log.dateInfo(LogType.time, this, "第二步：开始解析SocketChannel中的http或者websocket数据");
 
         try {
-            log.dateInfo(LogType.time, this, "第二步：开始解析http或者websocket数据");
-            log.info(LogType.thread, this, "线程：读socket："
-                    + Thread.currentThread().toString());
-            String request = map.get(CoreType.request.toString());
-            new UtilParseProtocol(request, map);
 
-            String protocol = map.get(CoreType.protocol.toString());
-//            if (protocol.equals("WEBSOCKET")) {
-//                ThreadWebSocket webSocket = new ThreadWebSocket(socket);
-//                boolean result = engineSocket.getListWebSocketThread()
-//                        .put(webSocket);
-//                if (result == false) {
-//                    map.put(CoreType.sec_websocket_accept.toString(),
-//                            "i am sorry");
-//                } else {
-//                    engineSocket.getPoolWebSocketThread().execute(
-//                            webSocket);
-//                }
-//            }
-            log.dateInfo(LogType.time, this, "第二步：结束解析http或者websocket数据");
+            ByteBuffer buffer = read(selectionKey);
+            if (buffer == null) {
+                return;
+            }
+            byte[] bs = engineSocket.getPoolByte().lend();
+
+            //进行socket获取socketChannel的判断，如果存在协议，就调用协议处理器
+            //如果不存在，就另行处理
+            String protocol;
+            System.out.println("协议存储 = " + engineSocket.getSocketMap());
+            if (engineSocket.getSocketMap().containsKey(selectionKey)) {
+                protocol = engineSocket.getSocketMap().get(selectionKey).toString();
+            } else {
+                protocol = ProtocolDispatcher.dispatcher(buffer, bs);
+            }
+
+            ProtocolReadHandler protocolReadHandler = engineSocket.getProtocolReadFactory().get(protocol);
+            if (protocolReadHandler == null) {
+                engineSocket.getPoolByte().repay(bs);
+                engineSocket.getPoolBuffer().repay(buffer);
+                UtilSelectionKey.cancel(selectionKey);
+                return;
+            }
+
+            Map<String, String> map = engineSocket.getPoolMap().lend();
+            if (!protocolReadHandler.handle(map, buffer, bs)) {
+                engineSocket.getPoolByte().repay(bs);
+                engineSocket.getPoolBuffer().repay(buffer);
+                selectionKey.channel().close();
+                return;
+            }
+            if (!map.containsKey(CoreType.close.toString())) {
+                engineSocket.getSocketMap().put(selectionKey, protocol.replace("UPGRADE", ""));
+                log.dateInfo(LogType.time, this, "<SocketChannel,String>的数量 = " + engineSocket.getSocketMap().size());
+            }
+            engineSocket.getPoolByte().repay(bs);
+            engineSocket.getPoolBuffer().repay(buffer);
+            log.dateInfo(LogType.time, this, "解析协议结束");
+            if (map.containsKey(CoreType.stop.toString())) {
+                log.dateInfo(LogType.time, this, "没有进入业务流程，直接返回了");
+
+                return;
+            }
+            //存放异步标识
+            long applicationId = engineSocket.getCountStore().put(selectionKey);
+            map.put(CoreType.applicationId.toString(),
+                    String.valueOf(applicationId));
             engineSocket.getEngineHandle().push(map);
-            log.dateInfo(LogType.time, this, "第二步：投递读线程队列消息完毕");
 
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            log.error(e, "");
+        } catch (Exception e) {
+            log.error(e, "read线程异常");
         }
+
+        log.dateInfo(LogType.time, this, "push数据到handler线程了");
+
+    }
+
+
+    public synchronized ByteBuffer read(SelectionKey key) throws IOException {
+        //首先，借取资源
+
+        ByteBuffer buffer = engineSocket.getPoolBuffer().lend();
+
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+
+
+        int size;
+
+        try {
+            size = socketChannel.read(buffer);
+        } catch (IOException e) {
+            UtilSelectionKey.cancel(key);
+            log.error(e, "远程客户端关闭了");
+            engineSocket.getPoolBuffer().repay(buffer);
+            return null;
+        }
+
+
+        if (size > 0) {
+            return buffer;
+//            buffer.flip();
+//            buffer.get(bs, 0, size);
+        } else if (size == 0) {
+            engineSocket.getPoolBuffer().repay(buffer);
+            log.dateInfo(LogType.time, this, "读取的数据长度为0，需要释放key和其他资源");
+            return null;
+        } else if (size == -1) {
+            UtilSelectionKey.cancel(key);
+            engineSocket.getPoolBuffer().repay(buffer);
+            log.dateInfo(LogType.time, this, "读取的数据长度为-1，需要释放key和其他资源");
+            return null;
+        }
+
+        //偿还资源
+
+//        return new String(bs, 0, size, "UTF-8");
+
+        return null;
     }
 
 }

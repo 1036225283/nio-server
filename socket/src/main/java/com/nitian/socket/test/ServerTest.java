@@ -1,10 +1,21 @@
 package com.nitian.socket.test;
 
-import com.nitian.socket.ApplicationContext;
+import com.nitian.socket.EngineHandle;
+import com.nitian.socket.EngineSocket;
+import com.nitian.socket.EngineSocketNIO;
+import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.test.handler.ExitHandler;
 import com.nitian.socket.test.handler.LoginHandler;
+import com.nitian.socket.util.protocol.read.ProtocolHttpReadHandler;
+import com.nitian.socket.util.protocol.read.ProtocolWebSocketReadHandler;
+import com.nitian.socket.util.protocol.read.ProtocolWebSocketUpgradeReadHandler;
+import com.nitian.socket.util.protocol.read.ProtocolXwsReadHandler;
+import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
+import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandler;
+import com.nitian.socket.util.protocol.write.ProtocolWebSocketWriteHandler;
+import com.nitian.socket.util.protocol.write.ProtocolXwsWriteHandler;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -30,10 +41,30 @@ public class ServerTest {
             log.putType(LogType.error.toString());
             log.putType(LogType.info.toString());
             log.putType(LogType.warning.toString());
-            ApplicationContext applicationContext = ApplicationContext.getInstance();
+
+            log.putType(LogType.time.toString());
+
+            EngineHandle engineHandle = new EngineHandle();
+            EngineSocket engineSocket = new EngineSocketNIO(88);
+            engineSocket.setEngineHandle(engineHandle);
+
+            engineSocket.getProtocolReadFactory()
+                    .regist(CoreProtocol.HTTP.toString(), new ProtocolHttpReadHandler())
+                    .regist(CoreProtocol.WEBSOCKETUPGRADE.toString(), new ProtocolWebSocketUpgradeReadHandler())
+                    .regist(CoreProtocol.XWS.toString(), new ProtocolXwsReadHandler())
+                    .regist(CoreProtocol.WEBSOCKET.toString(), new ProtocolWebSocketReadHandler())
+            ;
+
+            engineSocket.getProtocolWriteFactory()
+                    .regist(CoreProtocol.HTTP.toString(), new ProtocolHttpWriteHandler())
+                    .regist(CoreProtocol.WEBSOCKETUPGRADE.toString(), new ProtocolWebSocketUpgradeWriteHandler())
+                    .regist(CoreProtocol.XWS.toString(), new ProtocolXwsWriteHandler())
+                    .regist(CoreProtocol.WEBSOCKET.toString(), new ProtocolWebSocketWriteHandler())
+            ;
+
             countMap.put("count", 0L);
 
-            applicationContext.getEngineHandle().getHandlerFactory()
+            engineHandle.getHandlerFactory()
                     .regist("/user/login", new LoginHandler())
                     .regist("/exit", new ExitHandler())
                     .regist("/test", new Handler() {
@@ -58,7 +89,7 @@ public class ServerTest {
                         }
                     });
 
-            applicationContext.getEngineSocket().start();
+            engineSocket.start();
         } catch (Exception e) {
             // TODO: handle exception
             log.error(e, "");

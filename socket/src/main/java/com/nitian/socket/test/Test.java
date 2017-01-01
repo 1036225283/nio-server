@@ -32,8 +32,28 @@ public class Test {
     public static void main(String[] args) throws IOException,
             InstantiationException, IllegalAccessException,
             NoSuchAlgorithmException {
-        testByteBuffer();
+//        testMapNullKey();
+//        testNio();
+        testGetBit();
+//        testByteBuffer();
         System.out.println("this is end{ss}");
+    }
+
+    public static void testNio() {
+        int OP_READ = 1 << 0;
+        int OP_WRITE = 1 << 2;
+        int OP_CONNECT = 1 << 3;
+        int OP_ACCEPT = ((1 << 4) | OP_READ) ^ OP_READ;
+        System.out.println(UtilByte.toBin((byte) OP_READ));
+        System.out.println(UtilByte.toBin((byte) OP_WRITE));
+        System.out.println(UtilByte.toBin((byte) OP_CONNECT));
+        System.out.println(UtilByte.toBin((byte) OP_ACCEPT));
+    }
+
+    public static void testMapNullKey() {
+        Map<String, String> map = new HashMap<>();
+        map.put("a", "a");
+        System.out.print(map.get(null));
     }
 
     public static void testByteBuffer() {
@@ -46,6 +66,12 @@ public class Test {
 
         byte[] bytes = new byte[10000];
         int length = byteBuffer.remaining();
+        System.out.println("第一次 = " + length);
+
+
+        length = byteBuffer.remaining();
+        System.out.println("第二次 = " + length);
+
         byteBuffer.get(bytes, 0, length);
         System.out.println(new String(bytes, 0, length));
 
@@ -61,7 +87,7 @@ public class Test {
     }
 
     public static void testGetBit() {
-        byte height = (byte) 255;
+        byte height = (byte) 2;
         for (int i = 8; i > 0; i--) {
             System.out.print(UtilByte.getBit(height, i));
         }
