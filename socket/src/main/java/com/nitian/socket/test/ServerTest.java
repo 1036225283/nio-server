@@ -99,6 +99,14 @@ public class ServerTest {
                             System.out.println("param = " + param);
 //                            keyValue.set("xws", "xws");
                         }
+                    })
+                    .regist("/key-value/set", new Handler() {
+                        @Override
+                        public void handle(Map<String, String> map) {
+                            String param = map.get(CoreType.param);
+                            System.out.println("param = " + param);
+                            keyValue.set("xws", "xws");
+                        }
                     });
 
             engineSocket.start();
