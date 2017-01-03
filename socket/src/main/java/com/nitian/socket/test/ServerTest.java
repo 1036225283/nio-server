@@ -8,6 +8,7 @@ import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.test.handler.ExitHandler;
 import com.nitian.socket.test.handler.LoginHandler;
+import com.nitian.socket.util.parse.UtilParam;
 import com.nitian.socket.util.protocol.read.ProtocolHttpReadHandler;
 import com.nitian.socket.util.protocol.read.ProtocolWebSocketReadHandler;
 import com.nitian.socket.util.protocol.read.ProtocolWebSocketUpgradeReadHandler;
@@ -95,17 +96,21 @@ public class ServerTest {
                     .regist("/key-value/get", new Handler() {
                         @Override
                         public void handle(Map<String, String> map) {
-                            String param = map.get(CoreType.param);
-                            System.out.println("param = " + param);
-//                            keyValue.set("xws", "xws");
+                            String param = map.get(CoreType.param.toString());
+                            Map<String, String> paramMap = UtilParam.getParam(param);
+                            String key = paramMap.get("setKey");
+                            String value = paramMap.get("setValue");
+                            map.put(CoreType.result.toString(), "赵玉，我会不会慢慢喜欢上你");
                         }
                     })
                     .regist("/key-value/set", new Handler() {
                         @Override
                         public void handle(Map<String, String> map) {
-                            String param = map.get(CoreType.param);
-                            System.out.println("param = " + param);
-                            keyValue.set("xws", "xws");
+                            String param = map.get(CoreType.param.toString());
+                            Map<String, String> paramMap = UtilParam.getParam(param);
+                            String key = paramMap.get("setKey");
+                            String value = paramMap.get("setValue");
+                            keyValue.set(key, value);
                         }
                     });
 

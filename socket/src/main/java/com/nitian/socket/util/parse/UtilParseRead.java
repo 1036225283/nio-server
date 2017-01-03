@@ -88,7 +88,7 @@ public class UtilParseRead {
         String param = "";
         String[] gets = strings[0].split(" ")[1].split("[?]");
         if (gets.length == 2) {
-            param = decode(gets[1]);
+            param = gets[1];
         }
         String post = getPostParam(strings);
         if (!post.equals("")) {
@@ -139,7 +139,7 @@ public class UtilParseRead {
         int length = strings.length;
         if (strings[length - 2].equals("")) {
             String value = strings[length - 1];
-            result = decode(value);
+            result = value;
         }
         return result;
     }
