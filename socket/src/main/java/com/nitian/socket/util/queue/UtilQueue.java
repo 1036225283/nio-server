@@ -44,7 +44,13 @@ public abstract class UtilQueue<T> implements Runnable {
                 synchronized (list) {
                     t = list.remove(list.size() - 1);
                 }
-                handle(t);
+                try {
+                    handle(t);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.info(LogType.queue, this, "handle exception = " + e.getMessage());
+                }
+
                 log.info(LogType.queue, this, "queueSize+" + list.size());
             }
         }

@@ -21,9 +21,18 @@ public class UtilParam {
         String[] lines = param.split("&");
         for (String line : lines) {
             String[] keyValue = line.split("=");
-            String key = decode(keyValue[0]);
-            String value = decode(keyValue[1]);
-            map.put(key, value);
+            if (keyValue.length == 0) {
+                return map;
+            } else if (keyValue.length == 1) {
+                String key = decode(keyValue[0]);
+                map.put(key, null);
+                return map;
+            } else if (keyValue.length == 2) {
+                String key = decode(keyValue[0]);
+                String value = decode(keyValue[1]);
+                map.put(key, value);
+                return map;
+            }
         }
         return map;
     }

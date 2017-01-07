@@ -8,6 +8,8 @@ import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.test.handler.ExitHandler;
 import com.nitian.socket.test.handler.LoginHandler;
+import com.nitian.socket.test.handler.keyValue.GetHandler;
+import com.nitian.socket.test.handler.keyValue.SetHandler;
 import com.nitian.socket.util.parse.UtilParam;
 import com.nitian.socket.util.protocol.read.ProtocolHttpReadHandler;
 import com.nitian.socket.util.protocol.read.ProtocolWebSocketReadHandler;
@@ -93,26 +95,8 @@ public class ServerTest {
                             map.put(CoreType.result.toString(), "l fuck you !!!");
                         }
                     })
-                    .regist("/key-value/get", new Handler() {
-                        @Override
-                        public void handle(Map<String, String> map) {
-                            String param = map.get(CoreType.param.toString());
-                            Map<String, String> paramMap = UtilParam.getParam(param);
-                            String key = paramMap.get("setKey");
-                            String value = paramMap.get("setValue");
-                            map.put(CoreType.result.toString(), "赵玉，我会不会慢慢喜欢上你");
-                        }
-                    })
-                    .regist("/key-value/set", new Handler() {
-                        @Override
-                        public void handle(Map<String, String> map) {
-                            String param = map.get(CoreType.param.toString());
-                            Map<String, String> paramMap = UtilParam.getParam(param);
-                            String key = paramMap.get("setKey");
-                            String value = paramMap.get("setValue");
-                            keyValue.set(key, value);
-                        }
-                    });
+                    .regist("/key-value/get", new GetHandler())
+                    .regist("/key-value/set", new SetHandler());
 
             engineSocket.start();
         } catch (Exception e) {
