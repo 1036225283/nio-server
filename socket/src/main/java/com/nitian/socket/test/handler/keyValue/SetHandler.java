@@ -20,8 +20,8 @@ public class SetHandler extends Handler {
         // TODO Auto-generated method stub
         String param = map.get(CoreType.param.toString());
         Map<String, String> paramMap = UtilParam.getParam(param);
-        String key = paramMap.get("setKey");
-        String value = paramMap.get("setValue");
+        String key = paramMap.get("key");
+        String value = paramMap.get("key");
         Result result = keyValue.set(key, value);
         String json = JSON.toJSONString(result);
         map.put(CoreType.result.toString(), json);
