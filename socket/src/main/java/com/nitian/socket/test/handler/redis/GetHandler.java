@@ -1,11 +1,9 @@
-package com.nitian.socket.test.handler.keyValue;
+package com.nitian.socket.test.handler.redis;
 
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.test.handler.UtilResult;
 import com.nitian.socket.util.parse.UtilParam;
-import com.nitian.util.keyvalue.KeyValue;
-import com.nitian.util.keyvalue.Result;
 
 import java.util.Map;
 
@@ -14,7 +12,7 @@ import java.util.Map;
  */
 public class GetHandler extends Handler {
 
-    private static KeyValue keyValue = KeyValue.getInstance();
+    private static Redis redis = Redis.getInstance();
 
 
     @Override
@@ -27,10 +25,16 @@ public class GetHandler extends Handler {
             map.put(CoreType.result.toString(), UtilResult.keyIsNull("key is null"));
             return;
         }
-        Result result = keyValue.get(key);
 
-        long nanosecond = Long.valueOf(result.getTime());
-        map.put(CoreType.result.toString(), UtilResult.success(key, result.getValue(), nanosecond));
+
+        String value;
+        long startTime = Redis.getTime();
+        value = redis.get(key);
+        long endTime = Redis.getTime();
+
+        long nanosecond = endTime - startTime;
+
+        map.put(CoreType.result.toString(), UtilResult.success(key, value, nanosecond));
 
     }
 

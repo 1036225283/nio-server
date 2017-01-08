@@ -10,7 +10,6 @@ import com.nitian.socket.test.handler.ExitHandler;
 import com.nitian.socket.test.handler.LoginHandler;
 import com.nitian.socket.test.handler.keyValue.GetHandler;
 import com.nitian.socket.test.handler.keyValue.SetHandler;
-import com.nitian.socket.util.parse.UtilParam;
 import com.nitian.socket.util.protocol.read.ProtocolHttpReadHandler;
 import com.nitian.socket.util.protocol.read.ProtocolWebSocketReadHandler;
 import com.nitian.socket.util.protocol.read.ProtocolWebSocketUpgradeReadHandler;
@@ -19,7 +18,6 @@ import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolXwsWriteHandler;
-import com.nitian.util.keyvalue.KeyValue;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -27,9 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ServerTest {
-
-
-    private static KeyValue keyValue = new KeyValue();
 
 
     public static void main(String[] args) {
@@ -96,7 +91,9 @@ public class ServerTest {
                         }
                     })
                     .regist("/key-value/get", new GetHandler())
-                    .regist("/key-value/set", new SetHandler());
+                    .regist("/key-value/set", new SetHandler())
+                    .regist("/redis/get", new com.nitian.socket.test.handler.redis.GetHandler())
+                    .regist("/redis/set", new com.nitian.socket.test.handler.redis.SetHandler());
 
             engineSocket.start();
         } catch (Exception e) {
