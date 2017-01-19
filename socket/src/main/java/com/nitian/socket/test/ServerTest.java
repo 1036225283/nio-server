@@ -9,6 +9,7 @@ import com.nitian.socket.core.Handler;
 import com.nitian.socket.test.handler.ExitHandler;
 import com.nitian.socket.test.handler.LoginHandler;
 import com.nitian.socket.test.handler.keyValue.GetHandler;
+import com.nitian.socket.test.handler.keyValue.InitHandler;
 import com.nitian.socket.test.handler.keyValue.SetHandler;
 import com.nitian.socket.util.protocol.read.ProtocolHttpReadHandler;
 import com.nitian.socket.util.protocol.read.ProtocolWebSocketReadHandler;
@@ -39,12 +40,12 @@ public class ServerTest {
             LogManager.setFileLog(true);
             LogManager.setIsConsole(true);
 
-            log.putType(LogType.debug.toString());
-            log.putType(LogType.error.toString());
-            log.putType(LogType.info.toString());
-            log.putType(LogType.warning.toString());
-
-            log.putType(LogType.time.toString());
+//            log.putType(LogType.debug.toString());
+//            log.putType(LogType.error.toString());
+//            log.putType(LogType.info.toString());
+//            log.putType(LogType.warning.toString());
+//
+//            log.putType(LogType.time.toString());
 
             EngineHandle engineHandle = new EngineHandle();
             EngineSocket engineSocket = new EngineSocketNIO(88);
@@ -93,7 +94,10 @@ public class ServerTest {
                     .regist("/key-value/get", new GetHandler())
                     .regist("/key-value/set", new SetHandler())
                     .regist("/redis/get", new com.nitian.socket.test.handler.redis.GetHandler())
-                    .regist("/redis/set", new com.nitian.socket.test.handler.redis.SetHandler());
+                    .regist("/redis/set", new com.nitian.socket.test.handler.redis.SetHandler())
+                    .regist("/redis/init", new InitHandler())
+
+            ;
 
             engineSocket.start();
         } catch (Exception e) {

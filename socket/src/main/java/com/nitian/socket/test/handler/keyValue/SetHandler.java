@@ -30,6 +30,7 @@ public class SetHandler extends Handler {
             map.put(CoreType.result.toString(), UtilResult.keyIsNull("value is null"));
             return;
         }
+
         Result result = keyValue.set(key, value);
         map.put(CoreType.result.toString(), UtilResult.success(key, value, Long.valueOf(result.getTime())));
     }
