@@ -3,19 +3,20 @@ package com.nitian.client.keyValue;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Map;
 
 /**
  * key-value系统的客户端，单线程，
  */
-public class KeyValueClient extends Thread {
+public class KeyValueClient {
 
 
     private Socket socket;
     private String ip;
     private int port;
+    private byte[] bytes = new byte[1024 * 8];
 
     public KeyValueClient setIp(String ip) {
         this.ip = ip;
@@ -37,52 +38,68 @@ public class KeyValueClient extends Thread {
         return this;
     }
 
-    public void set(String key, String value) {
+    public void close() {
+        try {
+            socket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
+
+    public void set(String key, String value) {
+        String writeString = UtilProtocol.write("key-value/set", key + "=" + value, ip, port);
+        this.write(writeString.getBytes());
+        String message = this.read();
+        Map<String, String> map = UtilProtocol.read(message);
+        System.out.println(map);
+    }
+
     public String get(String key) {
+
+        String writeString = UtilProtocol.write("key-value/get", "key=" + key, ip, port);
+        this.write(writeString.getBytes());
+        String message = this.read();
+        Map<String, String> map = UtilProtocol.read(message);
+        System.out.println(map);
         return null;
+
     }
 
     public void remove(String key) {
 
     }
 
-    public static void main(String[] args) throws IOException {
-        new KeyValueClient().start();
-    }
 
-
-    private int index = 0;
-
-    public KeyValueClient() throws IOException {
-        // TODO Auto-generated constructor stub
-        InetAddress inet = InetAddress.getByName("localhost");
-        socket = new Socket(inet.getHostAddress(), 88);
-
-        new Read(socket).start();
-    }
-
-    @Override
-    public void run() {
-        // TODO Auto-generated method stub
-        while (true) {
-            try {
-                sleep(5000);
-                index = index + 1;
-                OutputStream out = socket.getOutputStream();
-
-                PrintWriter writer = new PrintWriter(out);
-
-                String message = UtilProtocol.result("自定义协议，发送次数: " + index);
-                System.out.println("message = " + message);
-                writer.print(message);
-                writer.flush();
-            } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+    private void write(byte[] bytes) {
+        try {
+            OutputStream out = socket.getOutputStream();
+            out.write(bytes);
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    private String read() {
+        try {
+            int size = socket.getInputStream().read(bytes);
+            System.out.println("读取到的数据 = " + new String(bytes, 0, size));
+            return new String(bytes, 0, size);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void main(String[] args) throws IOException {
+        new KeyValueClient("www.1036225283.com", 88).get("1");
+    }
+
+    public KeyValueClient(String ip, int port) throws IOException {
+        // TODO Auto-generated constructor stub
+        this.setIp(ip).setPort(port).connection();
+    }
+
 }
