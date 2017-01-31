@@ -1,6 +1,9 @@
 package com.nitian.client.keyValue;
 
 
+import com.alibaba.fastjson.JSON;
+import com.nitian.socket.core.CoreType;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
@@ -62,8 +65,9 @@ public class KeyValueClient {
         this.write(writeString.getBytes());
         String message = this.read();
         Map<String, String> map = UtilProtocol.read(message);
-        System.out.println(map);
-        return null;
+        String param = map.get(CoreType.param.toString());
+        Map<String, String> map1 = (Map) JSON.parse(param);
+        return map1.get("value");
 
     }
 
@@ -85,7 +89,6 @@ public class KeyValueClient {
     private String read() {
         try {
             int size = socket.getInputStream().read(bytes);
-            System.out.println("读取到的数据 = " + new String(bytes, 0, size));
             return new String(bytes, 0, size);
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,7 +97,15 @@ public class KeyValueClient {
     }
 
     public static void main(String[] args) throws IOException {
-        new KeyValueClient("www.1036225283.com", 88).get("1323");
+        KeyValueClient client = new KeyValueClient("www.1036225283.com", 88);
+
+        for (int i = 0; i < 1000; i++) {
+            long start = System.nanoTime();
+            String value = client.get("" + i);
+
+            long end = System.nanoTime();
+            System.out.println((end - start) / 1000 + " " + i + " = " + value);
+        }
     }
 
     public KeyValueClient(String ip, int port) throws IOException {

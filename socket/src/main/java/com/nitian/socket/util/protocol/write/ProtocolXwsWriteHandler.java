@@ -1,6 +1,7 @@
 package com.nitian.socket.util.protocol.write;
 
 import com.nitian.socket.core.CoreType;
+import com.nitian.socket.util.parse.UtilParam;
 import com.nitian.util.log.LogManager;
 
 import java.util.Map;
@@ -19,16 +20,16 @@ public class ProtocolXwsWriteHandler extends ProtocolWriteHandler {
         StringBuffer sb = new StringBuffer();
         sb.append("XWS:XWS/1.1");
         sb.append("\r\n");
-        sb.append("Url:/love");
+        sb.append("Url:" + map.get(CoreType.url.toString()));
         sb.append("\r\n");
         sb.append("Server:XWS-Coyote/1.1");
         sb.append("\r\n");
         sb.append("Accept-Charset: utf-8");
         sb.append("\r\n");
-        sb.append("Content-Length:").append(result.length());
+        sb.append("Length:").append(result.length());
         sb.append("\r\n");
         sb.append("Content:");
-        sb.append(result);
+        sb.append(UtilParam.encode(result));
         map.put(CoreType.close.toString(), "false");
         return sb.toString().getBytes();
     }

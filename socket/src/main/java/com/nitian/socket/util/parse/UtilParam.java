@@ -1,6 +1,7 @@
 package com.nitian.socket.util.parse;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,14 +40,27 @@ public class UtilParam {
      * @param param String
      * @return String
      */
-    private static String decode(String param) {
-        String result;
+    public static String decode(String param) {
         try {
-            result = URLDecoder.decode(param, "UTF-8");
+            return URLDecoder.decode(param, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
-        return result;
+    }
+
+    /**
+     * 对参数进行编码
+     *
+     * @param param 参数
+     * @return string
+     */
+    public static String encode(String param) {
+        try {
+            return URLEncoder.encode(param, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

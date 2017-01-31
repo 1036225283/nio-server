@@ -50,7 +50,7 @@ public class UtilProtocol {
         map.put(CoreType.ip.toString(), ip);
         map.put(CoreType.port.toString(), port);
         map.put(CoreType.url.toString(), url);
-        map.put(CoreType.param.toString(), param);
+        map.put(CoreType.param.toString(), UtilProtocol.decode(param));
         map.put(CoreType.protocol.toString(), CoreProtocol.XWS.toString());
         map.put(CoreType.size.toString(), String.valueOf(message.length()));
         map.put(CoreType.close.toString(), "false");
