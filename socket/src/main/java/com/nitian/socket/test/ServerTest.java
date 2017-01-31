@@ -40,12 +40,12 @@ public class ServerTest {
             LogManager.setFileLog(true);
             LogManager.setIsConsole(true);
 
-//            log.putType(LogType.debug.toString());
-//            log.putType(LogType.error.toString());
-//            log.putType(LogType.info.toString());
-//            log.putType(LogType.warning.toString());
-//
-//            log.putType(LogType.time.toString());
+            log.putType(LogType.debug.toString());
+            log.putType(LogType.error.toString());
+            log.putType(LogType.info.toString());
+            log.putType(LogType.warning.toString());
+
+            log.putType(LogType.time.toString());
 
             EngineHandle engineHandle = new EngineHandle();
             EngineSocket engineSocket = new EngineSocketNIO(88);

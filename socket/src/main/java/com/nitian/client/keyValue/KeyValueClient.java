@@ -58,7 +58,7 @@ public class KeyValueClient {
 
     public String get(String key) {
 
-        String writeString = UtilProtocol.write("key-value/get", "key=" + key, ip, port);
+        String writeString = UtilProtocol.write("/key-value/get", "key=" + UtilProtocol.encode(key), ip, port);
         this.write(writeString.getBytes());
         String message = this.read();
         Map<String, String> map = UtilProtocol.read(message);
@@ -94,7 +94,7 @@ public class KeyValueClient {
     }
 
     public static void main(String[] args) throws IOException {
-        new KeyValueClient("www.1036225283.com", 88).get("1");
+        new KeyValueClient("www.1036225283.com", 88).get("1323");
     }
 
     public KeyValueClient(String ip, int port) throws IOException {

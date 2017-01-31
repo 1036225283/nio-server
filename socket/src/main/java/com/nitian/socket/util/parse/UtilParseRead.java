@@ -131,10 +131,8 @@ public class UtilParseRead {
      *
      * @param strings
      * @return
-     * @throws UnsupportedEncodingException
      */
-    private static String getPostParam(String[] strings)
-            throws UnsupportedEncodingException {
+    private static String getPostParam(String[] strings) {
         String result = "";
         int length = strings.length;
         if (strings[length - 2].equals("")) {

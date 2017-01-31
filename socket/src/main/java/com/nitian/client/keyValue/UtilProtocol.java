@@ -35,7 +35,7 @@ public class UtilProtocol {
         sb.append("Connection:keep-alive");
         sb.append("\r\n");
         sb.append("Content:");
-        sb.append(encode(message));
+        sb.append(message);
         return sb.toString();
     }
 
