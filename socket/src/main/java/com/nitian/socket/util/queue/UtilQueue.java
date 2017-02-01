@@ -1,6 +1,7 @@
 package com.nitian.socket.util.queue;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.nitian.util.log.LogManager;
@@ -10,7 +11,7 @@ public abstract class UtilQueue<T> implements Runnable {
 
     private boolean flag = false;
 
-    private List<T> list = new ArrayList<T>();// 消息队列
+    private List<T> list = new LinkedList<>();// 消息队列
 
     protected LogManager log = LogManager.getInstance();
 
@@ -42,7 +43,7 @@ public abstract class UtilQueue<T> implements Runnable {
                 flag = true;
                 T t;
                 synchronized (list) {
-                    t = list.remove(list.size() - 1);
+                    t = list.remove(0);
                 }
                 try {
                     handle(t);
