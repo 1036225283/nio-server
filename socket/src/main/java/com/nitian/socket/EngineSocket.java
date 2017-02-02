@@ -181,7 +181,7 @@ public class EngineSocket<T> {
     /**
      * 获取协议处理器
      *
-     * @return
+     * @return 协议处理器
      */
     public ProtocolReadFactory getProtocolReadFactory() {
         return protocolReadFactory;
