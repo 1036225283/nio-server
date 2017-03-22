@@ -48,7 +48,7 @@ public class ServerTest {
 //            log.putType(LogType.time.toString());
 
             EngineHandle engineHandle = new EngineHandle();
-            EngineSocket engineSocket = new EngineSocketNIO(88);
+            EngineSocket engineSocket = new EngineSocketNIO(8888);
             engineSocket.setEngineHandle(engineHandle);
 
             engineSocket.getProtocolReadFactory()
