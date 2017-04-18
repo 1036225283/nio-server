@@ -8,6 +8,7 @@ import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.test.handler.ExitHandler;
 import com.nitian.socket.test.handler.LoginHandler;
+import com.nitian.socket.test.handler.TestHandler;
 import com.nitian.socket.test.handler.keyValue.GetHandler;
 import com.nitian.socket.test.handler.keyValue.InitHandler;
 import com.nitian.socket.test.handler.keyValue.SetHandler;
@@ -70,12 +71,7 @@ public class ServerTest {
             engineHandle.getHandlerFactory()
                     .regist("/user/login", new LoginHandler())
                     .regist("/exit", new ExitHandler())
-                    .regist("/test", new Handler() {
-                        @Override
-                        public void handle(Map<String, String> map) {
-                            map.put(CoreType.result.toString(), "this is test");
-                        }
-                    })
+                    .regist("/test", new TestHandler())
                     .regist("/love", new Handler() {
                         @Override
                         public void handle(Map<String, String> map) {
