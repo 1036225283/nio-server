@@ -1,8 +1,7 @@
-package com.nitian.socket.test.handler.message;
+package com.nitian.handler.message;
 
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
-import com.nitian.socket.test.handler.UtilResult;
 import com.nitian.socket.util.parse.UtilParam;
 
 import java.util.Map;

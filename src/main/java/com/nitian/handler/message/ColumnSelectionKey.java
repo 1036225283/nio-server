@@ -1,4 +1,4 @@
-package com.nitian.socket.test.handler.message;
+package com.nitian.handler.message;
 
 import com.nitian.util.column.array.Column;
 

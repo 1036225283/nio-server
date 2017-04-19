@@ -1,4 +1,4 @@
-package com.nitian.socket.test.handler;
+package com.nitian.handler;
 
 import com.alibaba.fastjson.JSON;
 

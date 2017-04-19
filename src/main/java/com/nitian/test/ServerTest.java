@@ -1,17 +1,18 @@
-package com.nitian.socket.test;
+package com.nitian.test;
 
+import com.nitian.handler.tree.TreeGetHandler;
 import com.nitian.socket.EngineHandle;
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
-import com.nitian.socket.test.handler.ExitHandler;
-import com.nitian.socket.test.handler.LoginHandler;
-import com.nitian.socket.test.handler.TestHandler;
-import com.nitian.socket.test.handler.keyValue.GetHandler;
-import com.nitian.socket.test.handler.keyValue.InitHandler;
-import com.nitian.socket.test.handler.keyValue.SetHandler;
+import com.nitian.handler.ExitHandler;
+import com.nitian.handler.LoginHandler;
+import com.nitian.handler.TestHandler;
+import com.nitian.handler.keyValue.GetHandler;
+import com.nitian.handler.keyValue.InitHandler;
+import com.nitian.handler.keyValue.SetHandler;
 import com.nitian.socket.util.protocol.read.ProtocolHttpReadHandler;
 import com.nitian.socket.util.protocol.read.ProtocolWebSocketReadHandler;
 import com.nitian.socket.util.protocol.read.ProtocolWebSocketUpgradeReadHandler;
@@ -21,7 +22,6 @@ import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandle
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolXwsWriteHandler;
 import com.nitian.util.log.LogManager;
-import com.nitian.util.log.LogType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,10 +89,10 @@ public class ServerTest {
                     })
                     .regist("/key-value/get", new GetHandler())
                     .regist("/key-value/set", new SetHandler())
-                    .regist("/redis/get", new com.nitian.socket.test.handler.redis.GetHandler())
-                    .regist("/redis/set", new com.nitian.socket.test.handler.redis.SetHandler())
+                    .regist("/redis/get", new com.nitian.handler.redis.GetHandler())
+                    .regist("/redis/set", new com.nitian.handler.redis.SetHandler())
                     .regist("/redis/init", new InitHandler())
-
+                    .regist("/tree/get",new TreeGetHandler())
             ;
 
             engineSocket.start();

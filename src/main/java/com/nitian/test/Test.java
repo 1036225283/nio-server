@@ -1,4 +1,4 @@
-package com.nitian.socket.test;
+package com.nitian.test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +21,6 @@ import com.nitian.socket.util.websocket.UtilWebSocket;
 import com.nitian.util.encrypt.UtilBase64;
 import com.nitian.util.encrypt.UtilMd5;
 import com.nitian.util.java.UtilByte;
-import com.nitian.util.log.Log;
 
 public class Test {
 

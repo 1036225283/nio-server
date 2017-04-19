@@ -1,4 +1,4 @@
-package com.nitian.socket.test.handler;
+package com.nitian.handler;
 
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;

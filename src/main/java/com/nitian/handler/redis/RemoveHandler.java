@@ -1,4 +1,4 @@
-package com.nitian.socket.test.handler.keyValue;
+package com.nitian.handler.redis;
 
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class RemoveHandler extends Handler {
 
-
     private static KeyValue keyValue = KeyValue.getInstance();
+    private static Redis redis = Redis.getInstance();
 
 
     @Override

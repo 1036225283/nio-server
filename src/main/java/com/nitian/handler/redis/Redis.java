@@ -1,4 +1,4 @@
-package com.nitian.socket.test.handler.redis;
+package com.nitian.handler.redis;
 
 import redis.clients.jedis.Jedis;
 

@@ -1,11 +1,16 @@
-package com.nitian.socket.test.handler;
-
-import java.util.Map;
+package com.nitian.handler.keyValue;
 
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
+import com.nitian.util.keyvalue.KeyValue;
 
-public class LoginHandler extends Handler {
+import java.util.Map;
+
+public class RemoveHandler extends Handler {
+
+
+    private static KeyValue keyValue = KeyValue.getInstance();
+
 
     @Override
     public void handle(Map<String, String> map) {

@@ -1,4 +1,4 @@
-package com.nitian.socket.test;
+package com.nitian.test;
 
 import java.io.*;
 import java.net.*;
