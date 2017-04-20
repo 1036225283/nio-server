@@ -15,7 +15,6 @@ import com.nitian.util.column.tree.Tree;
  */
 public class TreeGetHandler extends Handler {
 
-	private static Redis redis = Redis.getInstance();
 	private static Tree<Integer, Integer> tree = TreeFactory.getInstance();
 
 	@Override

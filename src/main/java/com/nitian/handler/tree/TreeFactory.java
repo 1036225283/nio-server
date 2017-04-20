@@ -9,9 +9,15 @@ import sun.security.jca.GetInstance;
  */
 public class TreeFactory {
 
-	private static Tree<Integer, Integer> tree = new Tree<>();
+	private static Tree<Integer, Integer> tree;
 
 	public static Tree<Integer, Integer> getInstance() {
+		if (tree == null) {
+			tree = new Tree<>();
+			for (int i = 0; i < 10; i++) {
+				tree.put(i, i);
+			}
+		}
 		return tree;
 	}
 }
