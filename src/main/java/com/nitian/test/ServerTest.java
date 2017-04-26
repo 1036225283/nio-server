@@ -1,9 +1,6 @@
 package com.nitian.test;
 
-import com.nitian.handler.tree.AVLGetHandler;
-import com.nitian.handler.tree.AVLSetHandler;
-import com.nitian.handler.tree.TreeGetHandler;
-import com.nitian.handler.tree.TreeSetHandler;
+import com.nitian.handler.tree.*;
 import com.nitian.socket.EngineHandle;
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.EngineSocketNIO;
@@ -99,6 +96,7 @@ public class ServerTest {
                     .regist("/avl/get",new AVLGetHandler())
                     .regist("/avl/set",new AVLSetHandler())
                     .regist("/tree/set",new TreeSetHandler())
+                    .regist("/tree/clear",new TreeClearHandler())
             ;
 
             engineSocket.start();

@@ -8,11 +8,8 @@ import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
 import com.nitian.util.column.tree.Tree;
-import com.nitian.util.column.tree.demo1.AVLTree;
 
 public class TreeSetHandler extends Handler {
-
-	private static Tree<Integer, Integer> tree = new Tree<>();
 
 	@Override
 	public void handle(Map<String, String> map) {
@@ -30,6 +27,8 @@ public class TreeSetHandler extends Handler {
 			map.put(CoreType.result.toString(), UtilResult.keyIsNull("value is null"));
 			return;
 		}
+
+		Tree<Integer, Integer> tree = TreeFactory.getSelfAvl();
 		tree.put(Integer.valueOf(key), Integer.valueOf(value));
 
 		tree.eachLeft();
