@@ -25,175 +25,165 @@ import java.util.Map;
  */
 public class EngineSocket<T> {
 
-    public LogManager log = LogManager.getInstance();
+	public LogManager log = LogManager.getInstance();
 
+	private Map<T, String> socketMap;
 
-    private Map<T, String> socketMap;
+	/**
+	 * 业务引擎
+	 */
+	private EngineHandle engineHandle;
+	private Integer port;
+	private CountStore countStore;
+	private ServerSocket serverSocket;
+	private int poolMax = 800;
+	private int poolTotal = 200;
 
+	private ProtocolReadFactory protocolReadFactory;
+	private ProtocolWriteFactory protocolWriteFactory;
 
-    /**
-     * 业务引擎
-     */
-    private EngineHandle engineHandle;
-    private Integer port;
-    private CountStore countStore;
-    private ServerSocket serverSocket;
-    private int poolMax = 800;
-    private int poolTotal = 200;
+	private UtilQueue queueRead;
+	private UtilQueue queueWrite;
 
+	private UtilPoolBuffer poolBuffer;
+	private UtilPoolByte poolByte;
+	private UtilPoolMap poolMap;
 
-    private ProtocolReadFactory protocolReadFactory;
-    private ProtocolWriteFactory protocolWriteFactory;
+	public EngineSocket(int port) {
+		this.port = port;
+	}
 
-    private UtilQueue queueRead;
-    private UtilQueue queueWrite;
+	public EngineSocket() {
+	}
 
+	public void init() {
 
-    private UtilPoolBuffer poolBuffer;
-    private UtilPoolByte poolByte;
-    private UtilPoolMap poolMap;
+		Thread.currentThread().setName("线程:主轮询线程");
 
-    public EngineSocket(int port) {
-        this.port = port;
-    }
+		socketMap = new HashMap<>();
 
-    public EngineSocket() {
-    }
+		protocolReadFactory = new ProtocolReadFactory();
+		protocolWriteFactory = new ProtocolWriteFactory();
 
-    public void init() {
+		countStore = Factory.getCountStore(this.getClass().getName());
 
-        Thread.currentThread().setName("线程:主轮询线程");
-        System.out.println(this.getClass().getName());
+		poolBuffer = Factory.getPoolBuffer(this.getClass().getName(), this);
+		poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
+		poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
 
-        socketMap = new HashMap<>();
+		queueRead = Factory.getReadQueue(this.getClass().getName(), this);
+		queueWrite = Factory.getWriteQueue(this.getClass().getName(), this);
 
-        protocolReadFactory = new ProtocolReadFactory();
-        protocolWriteFactory = new ProtocolWriteFactory();
+		// 开启解析线程
+		new Thread(queueRead, "线程：读队列线程").start();
+		new Thread(queueWrite, "线程：写队列线程").start();
+	}
 
-        countStore = Factory.getCountStore(this.getClass().getName());
+	public void push(Map<String, String> map) {
+		queueWrite.push(map);
+	}
 
-        poolBuffer = Factory.getPoolBuffer(this.getClass().getName(), this);
-        poolByte = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
-        poolMap = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
+	public void start() throws IOException {
+		init();
+		if (port == null) {
+			port = 8080;
+		}
+		Thread.currentThread().setName("线程：服务主线程");
+		log.info(LogType.thread, this, Thread.currentThread().toString());
+		serverSocket = new ServerSocket(port);
+		log.info(LogType.debug, this, "server is start");
+		while (true) {
+			Socket socket = serverSocket.accept();
+			log.dateInfo(LogType.time, this, "____________________________________________________");
+			log.dateInfo(LogType.time, this, "第一步：接收socket开始");
+			queueRead.push(socket);
+			// applicationContext.getQueueRead().push(socket);
+			// WriteTest writeTest = new WriteTest(socket);
+			// writeTest.start();
+			log.dateInfo(LogType.time, this, "第一步：接收socket结束");
+		}
+	}
 
-        queueRead = Factory.getReadQueue(this.getClass().getName(), this);
-        queueWrite = Factory.getWriteQueue(this.getClass().getName(), this);
+	public void setEngineHandle(EngineHandle engineHandle) {
+		this.engineHandle = engineHandle;
+		engineHandle.setEngineSocket(this);
+	}
 
-        //开启解析线程
-        new Thread(queueRead, "线程：读队列线程").start();
-        new Thread(queueWrite, "线程：写队列线程").start();
-    }
+	public UtilPoolByte getPoolByte() {
+		return poolByte;
+	}
 
-    public void push(Map<String, String> map) {
-        queueWrite.push(map);
-    }
+	public UtilPoolBuffer getPoolBuffer() {
+		return poolBuffer;
+	}
 
-    public void start() throws IOException {
-        init();
-        if (port == null) {
-            port = 8080;
-        }
-        Thread.currentThread().setName("线程：服务主线程");
-        log.info(LogType.thread, this, Thread.currentThread().toString());
-        serverSocket = new ServerSocket(port);
-        log.info(LogType.debug, this, "server is start");
-        while (true) {
-            Socket socket = serverSocket.accept();
-            log.dateInfo(LogType.time, this, "____________________________________________________");
-            log.dateInfo(LogType.time, this, "第一步：接收socket开始");
-            queueRead.push(socket);
-//            applicationContext.getQueueRead().push(socket);
-//            WriteTest writeTest = new WriteTest(socket);
-//            writeTest.start();
-            log.dateInfo(LogType.time, this, "第一步：接收socket结束");
-        }
-    }
+	public CountStore getCountStore() {
+		return countStore;
+	}
 
+	public UtilListWebSocketThread getListWebSocketThread() {
+		return null;
+	}
 
-    public void setEngineHandle(EngineHandle engineHandle) {
-        this.engineHandle = engineHandle;
-        engineHandle.setEngineSocket(this);
-    }
+	public UtilPoolMap getPoolMap() {
+		return poolMap;
+	}
 
+	public UtilPoolThread getPoolWebSocketThread() {
+		return null;
+	}
 
-    public UtilPoolByte getPoolByte() {
-        return poolByte;
-    }
+	public EngineHandle getEngineHandle() {
+		return engineHandle;
+	}
 
-    public UtilPoolBuffer getPoolBuffer() {
-        return poolBuffer;
-    }
+	public void setPort(int port) {
+		this.port = port;
+	}
 
-    public CountStore getCountStore() {
-        return countStore;
-    }
+	public UtilQueue getQueueRead() {
+		return queueRead;
+	}
 
-    public UtilListWebSocketThread getListWebSocketThread() {
-        return null;
-    }
+	public Integer getPort() {
+		return port;
+	}
 
-    public UtilPoolMap getPoolMap() {
-        return poolMap;
-    }
+	public int getPoolMax() {
+		return poolMax;
+	}
 
-    public UtilPoolThread getPoolWebSocketThread() {
-        return null;
-    }
+	public int getPoolTotal() {
+		return poolTotal;
+	}
 
+	/**
+	 * 系统回调处理
+	 *
+	 * @param object
+	 */
+	public synchronized void callback(Object object) {
+	}
 
-    public EngineHandle getEngineHandle() {
-        return engineHandle;
-    }
+	public synchronized Map<T, String> getSocketMap() {
+		return socketMap;
+	}
 
-    public void setPort(int port) {
-        this.port = port;
-    }
+	/**
+	 * 获取协议处理器
+	 *
+	 * @return 协议处理器
+	 */
+	public ProtocolReadFactory getProtocolReadFactory() {
+		return protocolReadFactory;
+	}
 
-    public UtilQueue getQueueRead() {
-        return queueRead;
-    }
+	public ProtocolWriteFactory getProtocolWriteFactory() {
+		return protocolWriteFactory;
+	}
 
-    public Integer getPort() {
-        return port;
-    }
-
-    public int getPoolMax() {
-        return poolMax;
-    }
-
-    public int getPoolTotal() {
-        return poolTotal;
-    }
-
-
-    /**
-     * 系统回调处理
-     *
-     * @param object
-     */
-    public synchronized void callback(Object object) {
-    }
-
-    public synchronized Map<T, String> getSocketMap() {
-        return socketMap;
-    }
-
-    /**
-     * 获取协议处理器
-     *
-     * @return 协议处理器
-     */
-    public ProtocolReadFactory getProtocolReadFactory() {
-        return protocolReadFactory;
-    }
-
-    public ProtocolWriteFactory getProtocolWriteFactory() {
-        return protocolWriteFactory;
-    }
-
-//    public void setProtocolWriteFactory(ProtocolWriteFactory protocolWriteFactory) {
-//        this.protocolWriteFactory = protocolWriteFactory;
-//    }
+	// public void setProtocolWriteFactory(ProtocolWriteFactory
+	// protocolWriteFactory) {
+	// this.protocolWriteFactory = protocolWriteFactory;
+	// }
 }
-
-

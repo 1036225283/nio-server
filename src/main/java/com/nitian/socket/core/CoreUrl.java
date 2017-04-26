@@ -7,20 +7,19 @@ package com.nitian.socket.core;
  */
 public enum CoreUrl {
 
-    PING("/ping"), PONG("/pong"), CLOSE("/close");
+	PING("/ping"), PONG("/pong"), CLOSE("/close");
 
-    private String value;
+	private String value;
 
-    CoreUrl(String value) {
-        this.value = value;
-    }
+	CoreUrl(String value) {
+		this.value = value;
+	}
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
+	@Override
+	public String toString() {
+		return this.value;
+	}
 
-    public static void main(String[] args) {
-        System.out.println(CoreUrl.PONG);
-    }
+	public static void main(String[] args) {
+	}
 }

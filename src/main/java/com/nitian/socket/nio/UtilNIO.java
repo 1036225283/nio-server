@@ -17,7 +17,6 @@ public class UtilNIO {
 			channel.read(buffer);
 			byte[] data = buffer.array();
 			String msg = new String(data).trim();
-			System.out.println("服务端收到信息：" + msg);
 			ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
 			channel.write(outBuffer);// 将消息回送给客户端
 		} catch (IOException e) {
