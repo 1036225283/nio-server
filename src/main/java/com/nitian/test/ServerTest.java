@@ -97,6 +97,7 @@ public class ServerTest {
                     .regist("/avl/set",new AVLSetHandler())
                     .regist("/tree/set",new TreeSetHandler())
                     .regist("/tree/clear",new TreeClearHandler())
+                    .regist("/tree/view",new TreeViewHandler())
             ;
 
             engineSocket.start();

@@ -10,7 +10,7 @@ import com.nitian.socket.util.parse.UtilParam;
 import com.nitian.util.column.tree.Tree;
 import com.nitian.util.keyvalue.Result;
 
-public class TreeSetHandler extends Handler {
+public class TreeViewHandler extends Handler {
 
 	@Override
 	public void handle(Map<String, String> map) {
@@ -30,10 +30,9 @@ public class TreeSetHandler extends Handler {
 		}
 
 		Tree<Integer, Integer> tree = TreeFactory.getSelfAvl();
-		long startTime = System.nanoTime();
 		tree.put(Integer.valueOf(key), Integer.valueOf(value));
-		long endTime = System.nanoTime();
-		map.put(CoreType.result.toString(), UtilResult.success(key, value, endTime - startTime));
+		tree.eachLeft();
+		map.put(CoreType.result.toString(), JSON.toJSON(tree).toString());
 	}
 
 }
