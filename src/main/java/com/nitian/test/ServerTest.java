@@ -92,10 +92,15 @@ public class ServerTest {
                     .regist("/redis/get", new com.nitian.handler.redis.GetHandler())
                     .regist("/redis/set", new com.nitian.handler.redis.SetHandler())
                     .regist("/redis/init", new InitHandler())
-                    .regist("/tree/get",new TreeGetHandler())
+
                     .regist("/avl/get",new AVLGetHandler())
                     .regist("/avl/set",new AVLSetHandler())
+                    .regist("/avl/clear",new AVLClearHandler())
+                    .regist("/avl/view",new AVLViewHandler())
+                    .regist("/avl/remove",new AVLRemoveHandler())
+
                     .regist("/tree/set",new TreeSetHandler())
+                    .regist("/tree/get",new TreeGetHandler())
                     .regist("/tree/clear",new TreeClearHandler())
                     .regist("/tree/view",new TreeViewHandler())
             ;

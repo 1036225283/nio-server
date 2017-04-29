@@ -8,7 +8,7 @@ import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
 
-public class AVLSetHandler extends Handler {
+public class AVLViewHandler extends Handler {
 
 	@Override
 	public void handle(Map<String, String> map) {

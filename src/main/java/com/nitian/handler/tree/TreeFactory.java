@@ -10,7 +10,7 @@ import com.nitian.util.column.tree.demo1.AVLTree;
 public class TreeFactory {
 
 	private static Tree<Integer, Integer> tree;
-	private static AVLTree<Integer> avl;
+	private static AVLTree<Integer> avl = new AVLTree<>();
 	private static Tree<Integer, Integer> selfAvl = new Tree<>();
 
 	public static Tree<Integer, Integer> getInstance() {
@@ -26,13 +26,12 @@ public class TreeFactory {
 	}
 
 	public static AVLTree<Integer> getAVL() {
-		// if (avl == null) {
-		// avl = new AVLTree<>();
-		// for (int i = 0; i < 100; i++) {
-		// avl.insert(i);
-		// }
-		// }
 		return avl;
+	}
+
+	public static void setAvl(AVLTree<Integer> avlTree) {
+		avl = avlTree;
+
 	}
 
 	public static Tree<Integer, Integer> getSelfAvl() {
