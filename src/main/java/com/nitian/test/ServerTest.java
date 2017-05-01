@@ -103,6 +103,7 @@ public class ServerTest {
                     .regist("/tree/get",new TreeGetHandler())
                     .regist("/tree/clear",new TreeClearHandler())
                     .regist("/tree/view",new TreeViewHandler())
+                    .regist("/tree/remove",new TreeRemoveHandler())
             ;
 
             engineSocket.start();
