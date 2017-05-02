@@ -104,6 +104,12 @@ public class ServerTest {
                     .regist("/tree/clear",new TreeClearHandler())
                     .regist("/tree/view",new TreeViewHandler())
                     .regist("/tree/remove",new TreeRemoveHandler())
+
+                    .regist("/rbt/set",new RBTSetHandler())
+                    .regist("/rbt/get",new RBTGetHandler())
+                    .regist("/rbt/clear",new RBTClearHandler())
+                    .regist("/rbt/view",new RBTViewHandler())
+                    .regist("/rbt/remove",new RBTRemoveHandler())
             ;
 
             engineSocket.start();
