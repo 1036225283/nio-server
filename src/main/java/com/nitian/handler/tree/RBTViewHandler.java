@@ -31,7 +31,7 @@ public class RBTViewHandler extends Handler {
         RBTree<Integer, Integer> tree = TreeFactory.getRbTree();
         tree.put(Integer.valueOf(key), Integer.valueOf(value));
         tree.eachLeft();
-        map.put(CoreType.result.toString(), JSON.toJSON(tree).toString());
+        map.put(CoreType.result.toString(), JSON.toJSONString(tree));
     }
 
 }
