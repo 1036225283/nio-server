@@ -28,7 +28,7 @@ public class RBTRemoveHandler extends Handler {
             return;
         }
         TreeFactory.getRbTree().remove(Integer.valueOf(key));
-        map.put(CoreType.result.toString(), JSON.toJSON(TreeFactory.getRbTree()).toString());
+        map.put(CoreType.result.toString(), JSON.toJSONString(TreeFactory.getRbTree()));
     }
 
 }

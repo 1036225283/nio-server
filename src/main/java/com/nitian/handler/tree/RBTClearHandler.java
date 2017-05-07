@@ -14,7 +14,7 @@ public class RBTClearHandler extends Handler {
         // TODO Auto-generated method stub
 
         TreeFactory.setRbTree(new RBTree<>());
-        map.put(CoreType.result.toString(), JSON.toJSON(TreeFactory.getRbTree()).toString());
+        map.put(CoreType.result.toString(), JSON.toJSONString(TreeFactory.getRbTree()));
     }
 
 }
