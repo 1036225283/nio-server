@@ -7,7 +7,7 @@ package com.nitian.socket.core;
  */
 public enum CoreProtocol {
 
-    HTTP("HTTP"), WEBSOCKET("WEBSOCKET"), WEBSOCKETUPGRADE("WEBSOCKETUPGRADE"), XWS("XWS");
+    HTTP("HTTP"), WEBSOCKET("WEBSOCKET"), WEBSOCKETUPGRADE("WEBSOCKETUPGRADE"), XWS("XWS"), HTTPS("HTTPS");
 
     private String value;
 

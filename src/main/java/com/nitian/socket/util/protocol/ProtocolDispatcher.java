@@ -1,8 +1,11 @@
 package com.nitian.socket.util.protocol;
 
 import com.nitian.socket.core.CoreProtocol;
+import com.nitian.util.java.UtilByte;
 import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
 
+import java.io.EOFException;
 import java.nio.ByteBuffer;
 
 /**
@@ -21,6 +24,10 @@ public class ProtocolDispatcher {
             int length = buffer.remaining();
             buffer.get(bs, 0, length);
             String request = new String(bs, 0, length);
+            log.info(LogType.debug, "----HTTP分发数据 = " + request);
+
+            SSL.test(bs, length);
+
             if (request.startsWith("XWS")) {
                 return CoreProtocol.XWS.toString();
             } else if (request.contains("Upgrade: websocket")) {
@@ -28,7 +35,7 @@ public class ProtocolDispatcher {
             } else if (request.startsWith("GET") || request.startsWith("POST") || request.startsWith("DELETE") || request.startsWith("UPDATE")) {
                 return CoreProtocol.HTTP.toString();
             } else {
-                return null;
+                return CoreProtocol.HTTPS.toString();
             }
         } catch (Exception e) {
             log.error(e, "鉴定协议出问题了!哈哈哈");

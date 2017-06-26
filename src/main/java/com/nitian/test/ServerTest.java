@@ -13,15 +13,13 @@ import com.nitian.handler.TestHandler;
 import com.nitian.handler.keyValue.GetHandler;
 import com.nitian.handler.keyValue.InitHandler;
 import com.nitian.handler.keyValue.SetHandler;
-import com.nitian.socket.util.protocol.read.ProtocolHttpReadHandler;
-import com.nitian.socket.util.protocol.read.ProtocolWebSocketReadHandler;
-import com.nitian.socket.util.protocol.read.ProtocolWebSocketUpgradeReadHandler;
-import com.nitian.socket.util.protocol.read.ProtocolXwsReadHandler;
+import com.nitian.socket.util.protocol.read.*;
 import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolXwsWriteHandler;
 import com.nitian.util.log.LogManager;
+import com.nitian.util.log.LogType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +55,7 @@ public class ServerTest {
                     .regist(CoreProtocol.WEBSOCKETUPGRADE.toString(), new ProtocolWebSocketUpgradeReadHandler())
                     .regist(CoreProtocol.XWS.toString(), new ProtocolXwsReadHandler())
                     .regist(CoreProtocol.WEBSOCKET.toString(), new ProtocolWebSocketReadHandler())
+                    .regist(CoreProtocol.HTTPS.toString(), new ProtocolHttpsReadHandler())
             ;
 
             engineSocket.getProtocolWriteFactory()
@@ -64,6 +63,7 @@ public class ServerTest {
                     .regist(CoreProtocol.WEBSOCKETUPGRADE.toString(), new ProtocolWebSocketUpgradeWriteHandler())
                     .regist(CoreProtocol.XWS.toString(), new ProtocolXwsWriteHandler())
                     .regist(CoreProtocol.WEBSOCKET.toString(), new ProtocolWebSocketWriteHandler())
+                    .regist(CoreProtocol.HTTPS.toString(), new ProtocolHttpWriteHandler())
             ;
 
             countMap.put("count", 0L);
@@ -93,23 +93,23 @@ public class ServerTest {
                     .regist("/redis/set", new com.nitian.handler.redis.SetHandler())
                     .regist("/redis/init", new InitHandler())
 
-                    .regist("/avl/get",new AVLGetHandler())
-                    .regist("/avl/set",new AVLSetHandler())
-                    .regist("/avl/clear",new AVLClearHandler())
-                    .regist("/avl/view",new AVLViewHandler())
-                    .regist("/avl/remove",new AVLRemoveHandler())
+                    .regist("/avl/get", new AVLGetHandler())
+                    .regist("/avl/set", new AVLSetHandler())
+                    .regist("/avl/clear", new AVLClearHandler())
+                    .regist("/avl/view", new AVLViewHandler())
+                    .regist("/avl/remove", new AVLRemoveHandler())
 
-                    .regist("/tree/set",new TreeSetHandler())
-                    .regist("/tree/get",new TreeGetHandler())
-                    .regist("/tree/clear",new TreeClearHandler())
-                    .regist("/tree/view",new TreeViewHandler())
-                    .regist("/tree/remove",new TreeRemoveHandler())
+                    .regist("/tree/set", new TreeSetHandler())
+                    .regist("/tree/get", new TreeGetHandler())
+                    .regist("/tree/clear", new TreeClearHandler())
+                    .regist("/tree/view", new TreeViewHandler())
+                    .regist("/tree/remove", new TreeRemoveHandler())
 
-                    .regist("/rbt/set",new RBTSetHandler())
-                    .regist("/rbt/get",new RBTGetHandler())
-                    .regist("/rbt/clear",new RBTClearHandler())
-                    .regist("/rbt/view",new RBTViewHandler())
-                    .regist("/rbt/remove",new RBTRemoveHandler())
+                    .regist("/rbt/set", new RBTSetHandler())
+                    .regist("/rbt/get", new RBTGetHandler())
+                    .regist("/rbt/clear", new RBTClearHandler())
+                    .regist("/rbt/view", new RBTViewHandler())
+                    .regist("/rbt/remove", new RBTRemoveHandler())
             ;
 
             engineSocket.start();
