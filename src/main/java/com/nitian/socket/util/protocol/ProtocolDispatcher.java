@@ -25,8 +25,7 @@ public class ProtocolDispatcher {
             buffer.get(bs, 0, length);
             String request = new String(bs, 0, length);
             log.info(LogType.debug, "----HTTP分发数据 = " + request);
-
-            SSL.test(bs, length);
+//            SSL.test(bs, length);
 
             if (request.startsWith("XWS")) {
                 return CoreProtocol.XWS.toString();

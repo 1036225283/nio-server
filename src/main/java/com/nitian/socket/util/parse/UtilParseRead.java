@@ -155,4 +155,17 @@ public class UtilParseRead {
         result = URLDecoder.decode(param, "UTF-8");
         return result;
     }
+
+    public static String getSession(String[] strings, String key) {
+        String head = find(strings, "Cookie");
+        String[] keyValue = head.split(":");
+        String[] values = keyValue[1].split(";");
+        for (String value : values) {
+            String[] session = value.split("=");
+            if (session[0].contains(key)) {
+                return session[1];
+            }
+        }
+        return null;
+    }
 }

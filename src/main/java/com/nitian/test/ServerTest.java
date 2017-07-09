@@ -39,7 +39,7 @@ public class ServerTest {
             LogManager.setFileLog(true);
             LogManager.setIsConsole(true);
 
-//            log.putType(LogType.debug.toString());
+            log.putType(LogType.debug.toString());
 //            log.putType(LogType.error.toString());
 //            log.putType(LogType.info.toString());
 //            log.putType(LogType.warning.toString());
@@ -93,17 +93,11 @@ public class ServerTest {
                     .regist("/redis/set", new com.nitian.handler.redis.SetHandler())
                     .regist("/redis/init", new InitHandler())
 
-                    .regist("/avl/get", new AVLGetHandler())
-                    .regist("/avl/set", new AVLSetHandler())
-                    .regist("/avl/clear", new AVLClearHandler())
-                    .regist("/avl/view", new AVLViewHandler())
-                    .regist("/avl/remove", new AVLRemoveHandler())
-
-                    .regist("/tree/set", new TreeSetHandler())
-                    .regist("/tree/get", new TreeGetHandler())
-                    .regist("/tree/clear", new TreeClearHandler())
-                    .regist("/tree/view", new TreeViewHandler())
-                    .regist("/tree/remove", new TreeRemoveHandler())
+                    .regist("/tree/set", new AVLSetHandler())
+                    .regist("/tree/get", new AVLGetHandler())
+                    .regist("/tree/clear", new AVLClearHandler())
+                    .regist("/tree/view", new AVLViewHandler())
+                    .regist("/tree/remove", new AVLRemoveHandler())
 
                     .regist("/rbt/set", new RBTSetHandler())
                     .regist("/rbt/get", new RBTGetHandler())

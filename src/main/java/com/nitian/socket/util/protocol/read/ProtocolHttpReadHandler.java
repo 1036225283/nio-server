@@ -2,6 +2,7 @@ package com.nitian.socket.util.protocol.read;
 
 import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
+import com.nitian.socket.core.Session;
 import com.nitian.socket.util.parse.UtilParseRead;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
@@ -32,6 +33,12 @@ public class ProtocolHttpReadHandler extends ProtocolReadHandler {
             String url = UtilParseRead.getUrl(strings);
             String param = UtilParseRead.getParam(strings);
             String method = UtilParseRead.getMethod(strings);
+            String sessionId = UtilParseRead.getSession(strings, "JSESSIONID");
+            if (sessionId == null) {
+                sessionId = Session.createSessionId();
+            } else {
+                Session.updateTime(sessionId);
+            }
             map.put(CoreType.ip.toString(), ip);
             map.put(CoreType.port.toString(), port);
             map.put(CoreType.url.toString(), url);
@@ -39,6 +46,7 @@ public class ProtocolHttpReadHandler extends ProtocolReadHandler {
             map.put(CoreType.method.toString(), method);
             map.put(CoreType.protocol.toString(), CoreProtocol.HTTP.toString());
             map.put(CoreType.size.toString(), String.valueOf(request.length()));
+            map.put(CoreType.sessionId.toString(), sessionId);
             map.put(CoreType.close.toString(), CoreType.close.toString());
             return true;
         } catch (Exception e) {

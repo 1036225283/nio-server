@@ -1,26 +1,39 @@
 package com.nitian.socket.core;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import com.nitian.util.random.UtilRandom;
 
 public class Session {
 
-	private static Map<String, Map<String, Object>> sessionMap = new HashMap<String, Map<String, Object>>();
 
-	/**
-	 * 创建sessionId
-	 * 
-	 * @return
-	 */
-	public static String createSessionId() {
-		String sessionId = UtilRandom.createUUID();
-		while (sessionMap.containsKey(sessionId)) {
-			sessionId = UtilRandom.createUUID();
-		}
-		sessionMap.put(sessionId, new HashMap<String, Object>());
-		return sessionId;
-	}
+    static Map<String, Map<String, Object>> session = new HashMap<>();
+
+    //获取session
+    public static Map<String, Object> get(String key) {
+        return session.get(key);
+    }
+
+    //更新session时间
+    public static void updateTime(String sessionId) {
+        Map<String, Object> map = session.get(sessionId);
+        if (map != null) {
+            map.put("dtUpdateTime", new Date());
+        }
+    }
+
+    //创建sessionId
+    public static String createSessionId() {
+        String uuid = UUID.randomUUID().toString();
+        uuid = uuid.replace("-", "");
+        Map<String, Object> value = new HashMap<>();
+        value.put("dtUpdateTime", new Date());
+        session.put(uuid, value);
+        return uuid;
+    }
+
 
 }
