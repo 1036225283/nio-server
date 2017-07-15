@@ -91,6 +91,7 @@ public class ServerTest {
                     .regist("/key-value/set", new SetHandler())
                     .regist("/redis/get", new com.nitian.handler.redis.GetHandler())
                     .regist("/redis/set", new com.nitian.handler.redis.SetHandler())
+                    .regist("/redis/del", new com.nitian.handler.redis.RemoveHandler())
                     .regist("/redis/init", new InitHandler())
 
                     .regist("/tree/set", new AVLSetHandler())

@@ -8,33 +8,32 @@ import redis.clients.jedis.Jedis;
  */
 public class Redis {
 
-	private Jedis jedis = new Jedis("localhost", 6379);
+    private Jedis jedis = new Jedis("www.1036225283.com", 6379);
 
-	private static Redis instance = new Redis();
+    private static Redis instance = new Redis();
 
-	public static Redis getInstance() {
-		return instance;
-	}
+    public static Redis getInstance() {
+        return instance;
+    }
 
-	private Redis() {
+    private Redis() {
+        jedis.auth("xws@123%789^asd");
+    }
 
-	}
+    public String set(String key, String value) {
+        return jedis.set(key, value);
+    }
 
-	public String set(String key, String value) {
-		return jedis.set(key, value);
-	}
+    public String get(String key) {
+        return jedis.get(key);
+    }
 
-	public String get(String key) {
-		return jedis.get(key);
-	}
+    public long del(String key) {
+        return jedis.del(key);
+    }
 
-	public static long getTime() {
-		return System.nanoTime();
-	}
+    public static long getTime() {
+        return System.nanoTime();
+    }
 
-	public static void main(String[] args) {
-		Jedis jedis = new Jedis("localhost", 6379);
-		// jedis.auth("xws");
-		jedis.set("xws", "xws");
-	}
 }

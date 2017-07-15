@@ -158,6 +158,9 @@ public class UtilParseRead {
 
     public static String getSession(String[] strings, String key) {
         String head = find(strings, "Cookie");
+        if (head == null) {
+            return null;
+        }
         String[] keyValue = head.split(":");
         String[] values = keyValue[1].split(";");
         for (String value : values) {
