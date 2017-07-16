@@ -1,18 +1,19 @@
-package com.nitian.handler.tree;
+package com.nitian.handler.tree.view;
 
 import com.nitian.handler.UtilResult;
+import com.nitian.handler.tree.TreeFactory;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
-import com.nitian.util.column.tree.avl.AVLTree;
-import com.nitian.util.column.tree.avl.Node;
+import com.nitian.util.column.tree.rbt.Node;
+import com.nitian.util.column.tree.rbt.RBTree;
 
 import java.util.Map;
 
 /**
  * get(tree)
  */
-public class AVLGetHandler extends Handler {
+public class RBTViewGetHandler extends Handler {
 
     @Override
     public void handle(Map<String, String> map) {
@@ -26,11 +27,9 @@ public class AVLGetHandler extends Handler {
             return;
         }
 
-        String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilAVL.getAVL(sessionId);
-
+        RBTree<Integer, Integer> tree = TreeFactory.getRbTree();
         long startTime = System.nanoTime();
-        Node<String, String> node = avl.get(key);
+        Node<Integer, Integer> node = tree.get(Integer.valueOf(key));
         long endTime = System.nanoTime();
 
         String value = "value not find";

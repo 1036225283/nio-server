@@ -1,6 +1,8 @@
 package com.nitian.test;
 
 import com.nitian.handler.tree.*;
+import com.nitian.handler.tree.data.AVLDataGetHandler;
+import com.nitian.handler.tree.data.AVLDataSetHandler;
 import com.nitian.socket.EngineHandle;
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.EngineSocketNIO;
@@ -94,17 +96,19 @@ public class ServerTest {
                     .regist("/redis/del", new com.nitian.handler.redis.RemoveHandler())
                     .regist("/redis/init", new InitHandler())
 
-                    .regist("/tree/set", new AVLSetHandler())
-                    .regist("/tree/get", new AVLGetHandler())
-                    .regist("/tree/clear", new AVLClearHandler())
-                    .regist("/tree/view", new AVLViewHandler())
-                    .regist("/tree/remove", new AVLRemoveHandler())
+                    .regist("/avl/set", new AVLDataSetHandler())
+                    .regist("/avl/get", new AVLDataGetHandler())
+                    .regist("/avl/del", new AVLRemoveHandler())
 
                     .regist("/rbt/set", new RBTSetHandler())
                     .regist("/rbt/get", new RBTGetHandler())
+                    .regist("/rbt/del", new RBTRemoveHandler())
+
+
+                    .regist("/avl/clear", new AVLClearHandler())
+                    .regist("/avl/view", new AVLViewHandler())
                     .regist("/rbt/clear", new RBTClearHandler())
                     .regist("/rbt/view", new RBTViewHandler())
-                    .regist("/rbt/remove", new RBTRemoveHandler())
             ;
 
             engineSocket.start();

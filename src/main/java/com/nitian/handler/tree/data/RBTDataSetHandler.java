@@ -1,18 +1,15 @@
-package com.nitian.handler.tree;
+package com.nitian.handler.tree.data;
 
 import com.nitian.handler.UtilResult;
+import com.nitian.handler.tree.TreeFactory;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
-import com.nitian.util.column.tree.avl.AVLTree;
-import com.nitian.util.column.tree.avl.Node;
+import com.nitian.util.column.tree.rbt.RBTree;
 
 import java.util.Map;
 
-/**
- * get(tree)
- */
-public class AVLGetHandler extends Handler {
+public class RBTDataSetHandler extends Handler {
 
     @Override
     public void handle(Map<String, String> map) {
@@ -25,20 +22,17 @@ public class AVLGetHandler extends Handler {
             map.put(CoreType.result.toString(), UtilResult.keyIsNull("key is null"));
             return;
         }
-
-        String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilAVL.getAVL(sessionId);
-
-        long startTime = System.nanoTime();
-        Node<String, String> node = avl.get(key);
-        long endTime = System.nanoTime();
-
-        String value = "value not find";
-        if (node != null) {
-            value = node.getValue() + "";
+        String value = paramMap.get("value");
+        if (value == null) {
+            map.put(CoreType.result.toString(), UtilResult.keyIsNull("value is null"));
+            return;
         }
-        map.put(CoreType.result.toString(), UtilResult.success(key, value, endTime - startTime));
 
+        RBTree<Integer, Integer> tree = TreeFactory.getRbTree();
+        long startTime = System.nanoTime();
+        tree.put(Integer.valueOf(key), Integer.valueOf(value));
+        long endTime = System.nanoTime();
+        map.put(CoreType.result.toString(), UtilResult.success(key, value, endTime - startTime));
     }
 
 }

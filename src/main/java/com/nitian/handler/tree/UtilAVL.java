@@ -14,9 +14,10 @@ public class UtilAVL {
 
     public static AVLTree getAVL(String sessionId) {
         Map<String, Object> session = Session.get(sessionId);
-        AVLTree<Integer, Integer> avl = (AVLTree<Integer, Integer>) session.get("avl");
+        AVLTree<String, String> avl = (AVLTree<String, String>) session.get("avl");
         if (avl == null) {
             avl = new AVLTree<>();
+            session.put("avl", avl);
         }
         return avl;
     }
