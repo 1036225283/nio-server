@@ -4,8 +4,6 @@ import com.nitian.handler.UtilResult;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
-import com.nitian.util.keyvalue.KeyValue;
-import com.nitian.util.keyvalue.Result;
 
 import java.util.Map;
 
@@ -27,10 +25,16 @@ public class GetHandler extends Handler {
             map.put(CoreType.result.toString(), UtilResult.keyIsNull("key is null"));
             return;
         }
-        Result result = keyValue.get(key);
 
-        long nanosecond = Long.valueOf(result.getTime());
-        map.put(CoreType.result.toString(), UtilResult.success(key, result.getValue(), nanosecond));
+
+        String value;
+        long startTime = KeyValue.getTime();
+        value = keyValue.get(key);
+        long endTime = KeyValue.getTime();
+
+        long nanosecond = endTime - startTime;
+
+        map.put(CoreType.result.toString(), UtilResult.success(key, value, nanosecond));
 
     }
 

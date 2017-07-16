@@ -21,7 +21,7 @@ public class KeyValue {
         try {
             client = new KeyValueClient("www.1036225283.com", 9999);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -31,6 +31,10 @@ public class KeyValue {
 
     public String get(String key) {
         return client.get(key);
+    }
+
+    public void del(String key) {
+        client.remove(key);
     }
 
     public static long getTime() {

@@ -1,11 +1,10 @@
 package com.nitian.handler.keyValue;
 
 import com.nitian.handler.UtilResult;
+import com.nitian.handler.redis.Redis;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
-import com.nitian.util.keyvalue.KeyValue;
-import com.nitian.util.keyvalue.Result;
 
 import java.util.Map;
 
@@ -31,8 +30,11 @@ public class SetHandler extends Handler {
             return;
         }
 
-        Result result = keyValue.set(key, value);
-        map.put(CoreType.result.toString(), UtilResult.success(key, value, Long.valueOf(result.getTime())));
+        long startTime = KeyValue.getTime();
+        keyValue.set(key, value);
+        long endTime = Redis.getTime();
+        long nanosecond = endTime - startTime;
+        map.put(CoreType.result.toString(), UtilResult.success(key, value, nanosecond));
     }
 
 }
