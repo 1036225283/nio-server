@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.nitian.util.random.UtilRandom;
-
 public class Session {
 
 
@@ -22,6 +20,9 @@ public class Session {
         Map<String, Object> map = session.get(sessionId);
         if (map != null) {
             map.put("dtUpdateTime", new Date());
+        } else {
+            map = new HashMap<>();
+            session.put(sessionId, map);
         }
     }
 

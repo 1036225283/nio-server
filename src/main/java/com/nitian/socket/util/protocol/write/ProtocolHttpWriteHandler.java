@@ -24,7 +24,9 @@ public class ProtocolHttpWriteHandler extends ProtocolWriteHandler {
         if (sessionId != null) {
             sb.append("Set-Cookie: JSESSIONID=" + sessionId + "; Path=/; HttpOnly").append("\r\n");
         }
-        sb.append("Access-Control-Allow-Origin: *").append("\r\n");
+        sb.append("Access-Control-Allow-Credentials: true").append("\r\n");
+
+        sb.append("Access-Control-Allow-Origin: www.1036225283.com").append("\r\n");
         sb.append("Accept-Charset: utf-8").append("\r\n");
         sb.append("Content-Type: text/html;charset=UTF-8").append("\r\n");
         if (result == null) {
