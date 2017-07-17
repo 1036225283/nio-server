@@ -13,11 +13,13 @@ public class UtilParseHttp {
 
     private String url;
 
+    private String param = "";
+
     private int bodyIndex;
 
-    private Map<String, String> headler = new HashMap<>();
+    private Map<String, String> header = new HashMap<>();
 
-    private String body;
+    private String body = "";
 
     private static String CRLF = "\r\n";
 
@@ -25,19 +27,29 @@ public class UtilParseHttp {
     public UtilParseHttp(String string) {
         int methodIndex = string.indexOf(CRLF);
         int bodyIndex = string.indexOf(CRLF + CRLF);
-        method = string.substring(0, methodIndex);
+        String method = string.substring(0, methodIndex);
+        String[] first = method.split(" ");
+        this.method = first[0];
+        String[] urls = first[1].split("[?]");
+        this.url = urls[0];
+        if (urls.length == 2) {
+            this.param = this.param + urls[1];
+        }
         String head = string.substring(methodIndex + 2, bodyIndex);
         String[] heads = head.split(CRLF);
         for (String s : heads) {
             String[] value = s.split(":");
-            headler.put(value[0], value[1]);
+            header.put(value[0], value[1]);
         }
-
-        body = null;
+        body = string.substring(bodyIndex + 4, string.length());
     }
 
     public String getHeader(String key) {
-        return headler.get(key);
+        return header.get(key);
+    }
+
+    public String getParam() {
+        return this.param + "&" + this.body;
     }
 
 }
