@@ -31,13 +31,12 @@ public class ProtocolHttpReadHandler extends ProtocolReadHandler {
 
             UtilParseHttp http = new UtilParseHttp(request);
 
-            String[] strings = request.split("\r\n");
-            String ip = UtilParseRead.getIp(strings);
-            String port = UtilParseRead.getPort(strings);
-            String url = UtilParseRead.getUrl(strings);
-            String param = UtilParseRead.getParam(strings);
-            String method = UtilParseRead.getMethod(strings);
-            String sessionId = UtilParseRead.getSession(strings, "JSESSIONID");
+            String ip = http.getIp();
+            String port = http.getPort();
+            String url = http.getUrl();
+            String param = http.getParam();
+            String method = http.getMethod();
+            String sessionId = http.getSessionId();
             if (sessionId == null) {
                 sessionId = Session.createSessionId();
             } else {

@@ -15,6 +15,12 @@ public class UtilParseHttp {
 
     private String param = "";
 
+    private String ip;
+
+    private String port;
+
+    private String sessionId;
+
     private int bodyIndex;
 
     private Map<String, String> header = new HashMap<>();
@@ -38,10 +44,15 @@ public class UtilParseHttp {
         String head = string.substring(methodIndex + 2, bodyIndex);
         String[] heads = head.split(CRLF);
         for (String s : heads) {
-            String[] value = s.split(":");
+            String[] value = s.split(": ");
             header.put(value[0], value[1]);
         }
         body = string.substring(bodyIndex + 4, string.length());
+        //获取ip
+        String Host = header.get("Host");
+        String[] hosts = Host.split(":");
+        this.ip = hosts[0];
+        this.port = hosts[1];
     }
 
     public String getHeader(String key) {
@@ -52,4 +63,35 @@ public class UtilParseHttp {
         return this.param + "&" + this.body;
     }
 
+    public String getIp() {
+        return ip;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public String getSessionId() {
+
+        String Cookie = header.get("Cookie");
+        if (Cookie == null) {
+            return null;
+        }
+        String[] Cookies = Cookie.split(";");
+        for (String value : Cookies) {
+            String[] session = value.split("=");
+            if (session[0].contains("JSESSIONID")) {
+                return session[1];
+            }
+        }
+        return sessionId;
+    }
 }
