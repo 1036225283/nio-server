@@ -53,6 +53,7 @@ public class UtilParseHttp {
         String[] hosts = Host.split(":");
         this.ip = hosts[0];
         this.port = hosts[1];
+        header.put(CoreType.url.toString(), this.url);
         header.put(CoreType.ip.toString(), hosts[0]);
         header.put(CoreType.port.toString(), hosts[1]);
         header.put(CoreType.param.toString(), this.param + "&" + this.body);

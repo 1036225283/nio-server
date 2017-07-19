@@ -1,8 +1,11 @@
 package com.nitian.test;
 
 import com.nitian.handler.tree.*;
+import com.nitian.handler.tree.RBTViewHandler;
 import com.nitian.handler.tree.data.AVLDataGetHandler;
+import com.nitian.handler.tree.data.AVLDataRemoveHandler;
 import com.nitian.handler.tree.data.AVLDataSetHandler;
+import com.nitian.handler.tree.view.*;
 import com.nitian.socket.EngineHandle;
 import com.nitian.socket.EngineSocket;
 import com.nitian.socket.EngineSocketNIO;
@@ -98,11 +101,20 @@ public class ServerTest {
 
                     .regist("/avl/set", new AVLDataSetHandler())
                     .regist("/avl/get", new AVLDataGetHandler())
-                    .regist("/avl/del", new AVLRemoveHandler())
+                    .regist("/avl/del", new AVLDataRemoveHandler())
+
+                    .regist("/avl/view/insert", new AVLViewInsertHandler())
+                    .regist("/avl/view/remove", new AVLViewRemoveHandler())
+                    .regist("/avl/view/delete", new AVLViewClearHandler())
+
 
                     .regist("/rbt/set", new RBTSetHandler())
                     .regist("/rbt/get", new RBTGetHandler())
                     .regist("/rbt/del", new RBTRemoveHandler())
+
+                    .regist("/rbt/view/insert", new RBTViewSetHandler())
+                    .regist("/rbt/view/remove", new RBTViewRemoveHandler())
+                    .regist("/rbt/view/delete", new RBTViewClearHandler())
 
 
                     .regist("/avl/clear", new AVLClearHandler())
