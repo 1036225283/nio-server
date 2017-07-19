@@ -1,6 +1,7 @@
 package com.nitian.socket.util.parse;
 
-import java.util.HashMap;
+import com.nitian.socket.core.CoreType;
+
 import java.util.Map;
 
 /**
@@ -23,19 +24,18 @@ public class UtilParseHttp {
 
     private int bodyIndex;
 
-    private Map<String, String> header = new HashMap<>();
-
     private String body = "";
 
     private static String CRLF = "\r\n";
 
 
-    public UtilParseHttp(String string) {
+    public UtilParseHttp(String string, Map<String, String> header) {
         int methodIndex = string.indexOf(CRLF);
         int bodyIndex = string.indexOf(CRLF + CRLF);
         String method = string.substring(0, methodIndex);
         String[] first = method.split(" ");
         this.method = first[0];
+        header.put(CoreType.method.toString(), first[0]);
         String[] urls = first[1].split("[?]");
         this.url = urls[0];
         if (urls.length == 2) {
@@ -53,33 +53,16 @@ public class UtilParseHttp {
         String[] hosts = Host.split(":");
         this.ip = hosts[0];
         this.port = hosts[1];
+        header.put(CoreType.ip.toString(), hosts[0]);
+        header.put(CoreType.port.toString(), hosts[1]);
+        header.put(CoreType.param.toString(), this.param + "&" + this.body);
+
+        header.put(CoreType.sessionId.toString(), getSessionId(header));
+
     }
 
-    public String getHeader(String key) {
-        return header.get(key);
-    }
 
-    public String getParam() {
-        return this.param + "&" + this.body;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public String getPort() {
-        return port;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public String getSessionId() {
+    public String getSessionId(Map<String, String> header) {
 
         String Cookie = header.get("Cookie");
         if (Cookie == null) {

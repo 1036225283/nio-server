@@ -4,7 +4,6 @@ import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Session;
 import com.nitian.socket.util.parse.UtilParseHttp;
-import com.nitian.socket.util.parse.UtilParseRead;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -29,24 +28,14 @@ public class ProtocolHttpReadHandler extends ProtocolReadHandler {
             String request = new String(bs, 0, length);
             log.info(LogType.debug, "----HTTP读取数据 = " + request);
 
-            UtilParseHttp http = new UtilParseHttp(request);
+            new UtilParseHttp(request, map);
 
-            String ip = http.getIp();
-            String port = http.getPort();
-            String url = http.getUrl();
-            String param = http.getParam();
-            String method = http.getMethod();
-            String sessionId = http.getSessionId();
+            String sessionId = map.get(CoreType.sessionId.toString());
             if (sessionId == null) {
                 sessionId = Session.createSessionId();
             } else {
                 Session.updateTime(sessionId);
             }
-            map.put(CoreType.ip.toString(), ip);
-            map.put(CoreType.port.toString(), port);
-            map.put(CoreType.url.toString(), url);
-            map.put(CoreType.param.toString(), param);
-            map.put(CoreType.method.toString(), method);
             map.put(CoreType.protocol.toString(), CoreProtocol.HTTP.toString());
             map.put(CoreType.size.toString(), String.valueOf(request.length()));
             map.put(CoreType.sessionId.toString(), sessionId);
