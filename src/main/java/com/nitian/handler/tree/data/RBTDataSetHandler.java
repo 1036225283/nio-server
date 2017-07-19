@@ -1,7 +1,7 @@
 package com.nitian.handler.tree.data;
 
 import com.nitian.handler.UtilResult;
-import com.nitian.handler.tree.TreeFactory;
+import com.nitian.handler.tree.UtilTREE;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
@@ -28,9 +28,10 @@ public class RBTDataSetHandler extends Handler {
             return;
         }
 
-        RBTree<Integer, Integer> tree = TreeFactory.getRbTree();
+        String sessionId = map.get(CoreType.sessionId.toString());
+        RBTree<String, String> rbt = UtilTREE.getRBT(sessionId);
         long startTime = System.nanoTime();
-        tree.put(Integer.valueOf(key), Integer.valueOf(value));
+        rbt.put(key, value);
         long endTime = System.nanoTime();
         map.put(CoreType.result.toString(), UtilResult.success(key, value, endTime - startTime));
     }

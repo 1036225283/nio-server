@@ -29,12 +29,12 @@ public class AVLViewHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<Integer, Integer> avl = UtilAVL.getAVL(sessionId);
+//        AVLTree<Integer, Integer> avl = UtilTREE.getAVL(sessionId);
 
 
-        avl.put(Integer.valueOf(key), Integer.valueOf(value));
-        avl.eachLeft();
-        map.put(CoreType.result.toString(), JSON.toJSON(avl).toString());
+//        avl.put(Integer.valueOf(key), Integer.valueOf(value));
+//        avl.eachLeft();
+//        map.put(CoreType.result.toString(), JSON.toJSON(avl).toString());
     }
 
 }

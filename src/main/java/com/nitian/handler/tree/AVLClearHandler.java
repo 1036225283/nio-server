@@ -14,7 +14,7 @@ public class AVLClearHandler extends Handler {
         // TODO Auto-generated method stub
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilAVL.getAVL(sessionId);
+        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
         avl = new AVLTree<>();
         map.put(CoreType.result.toString(), JSON.toJSON(avl).toString());
     }

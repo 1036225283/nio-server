@@ -1,7 +1,7 @@
 package com.nitian.handler.tree.view;
 
 import com.nitian.handler.UtilResult;
-import com.nitian.handler.tree.UtilAVL;
+import com.nitian.handler.tree.UtilTREE;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
@@ -30,10 +30,10 @@ public class AVLViewSetHandler extends Handler {
 
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<Integer, Integer> avl = UtilAVL.getAVL(sessionId);
+        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
 
         long startTime = System.nanoTime();
-        avl.put(Integer.valueOf(key), Integer.valueOf(value));
+        avl.put(key,value);
         long endTime = System.nanoTime();
         map.put(CoreType.result.toString(), UtilResult.success(key, value, endTime - startTime));
     }

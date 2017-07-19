@@ -27,7 +27,7 @@ public class AVLGetHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilAVL.getAVL(sessionId);
+        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
 
         long startTime = System.nanoTime();
         Node<String, String> node = avl.get(key);

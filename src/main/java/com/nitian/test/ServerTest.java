@@ -1,10 +1,12 @@
 package com.nitian.test;
 
-import com.nitian.handler.tree.*;
-import com.nitian.handler.tree.RBTViewHandler;
-import com.nitian.handler.tree.data.AVLDataGetHandler;
-import com.nitian.handler.tree.data.AVLDataRemoveHandler;
-import com.nitian.handler.tree.data.AVLDataSetHandler;
+import com.nitian.handler.ExitHandler;
+import com.nitian.handler.LoginHandler;
+import com.nitian.handler.TestHandler;
+import com.nitian.handler.keyValue.GetHandler;
+import com.nitian.handler.keyValue.InitHandler;
+import com.nitian.handler.keyValue.SetHandler;
+import com.nitian.handler.tree.data.*;
 import com.nitian.handler.tree.view.*;
 import com.nitian.socket.EngineHandle;
 import com.nitian.socket.EngineSocket;
@@ -12,12 +14,6 @@ import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
-import com.nitian.handler.ExitHandler;
-import com.nitian.handler.LoginHandler;
-import com.nitian.handler.TestHandler;
-import com.nitian.handler.keyValue.GetHandler;
-import com.nitian.handler.keyValue.InitHandler;
-import com.nitian.handler.keyValue.SetHandler;
 import com.nitian.socket.util.protocol.read.*;
 import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandler;
@@ -108,19 +104,19 @@ public class ServerTest {
                     .regist("/avl/view/delete", new AVLViewClearHandler())
 
 
-                    .regist("/rbt/set", new RBTSetHandler())
-                    .regist("/rbt/get", new RBTGetHandler())
-                    .regist("/rbt/del", new RBTRemoveHandler())
+                    .regist("/rbt/set", new RBTDataSetHandler())
+                    .regist("/rbt/get", new RBTDataGetHandler())
+                    .regist("/rbt/del", new RBTDataRemoveHandler())
 
                     .regist("/rbt/view/insert", new RBTViewSetHandler())
                     .regist("/rbt/view/remove", new RBTViewRemoveHandler())
                     .regist("/rbt/view/delete", new RBTViewClearHandler())
 
 
-                    .regist("/avl/clear", new AVLClearHandler())
-                    .regist("/avl/view", new AVLViewHandler())
-                    .regist("/rbt/clear", new RBTClearHandler())
-                    .regist("/rbt/view", new RBTViewHandler())
+//                    .regist("/avl/clear", new AVLClearHandler())
+//                    .regist("/avl/view", new AVLViewHandler())
+//                    .regist("/rbt/clear", new RBTClearHandler())
+//                    .regist("/rbt/view", new RBTViewHandler())
             ;
 
             engineSocket.start();

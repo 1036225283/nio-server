@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.nitian.handler.UtilResult;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
-import com.nitian.socket.core.Session;
 import com.nitian.socket.util.parse.UtilParam;
 import com.nitian.util.column.tree.avl.AVLTree;
 
@@ -31,7 +30,7 @@ public class AVLRemoveHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilAVL.getAVL(sessionId);
+        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
 
         avl.remove(key);
         map.put(CoreType.result.toString(), JSON.toJSON(avl).toString());

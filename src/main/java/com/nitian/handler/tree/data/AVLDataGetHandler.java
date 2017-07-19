@@ -1,7 +1,7 @@
 package com.nitian.handler.tree.data;
 
 import com.nitian.handler.UtilResult;
-import com.nitian.handler.tree.UtilAVL;
+import com.nitian.handler.tree.UtilTREE;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
@@ -28,7 +28,7 @@ public class AVLDataGetHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilAVL.getAVL(sessionId);
+        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
 
         long startTime = System.nanoTime();
         Node<String, String> node = avl.get(key);
