@@ -24,11 +24,6 @@ public class AVLViewRemoveHandler extends Handler {
             map.put(CoreType.result.toString(), UtilResult.keyIsNull("key is null"));
             return;
         }
-        String value = paramMap.get("value");
-        if (value == null) {
-            map.put(CoreType.result.toString(), UtilResult.keyIsNull("value is null"));
-            return;
-        }
 
         String sessionId = map.get(CoreType.sessionId.toString());
         AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
