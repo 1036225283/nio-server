@@ -23,19 +23,13 @@ public class AVLViewInsertHandler extends Handler {
             map.put(CoreType.result.toString(), UtilResult.keyIsNull("key is null"));
             return;
         }
-        String value = paramMap.get("value");
-        if (value == null) {
-            map.put(CoreType.result.toString(), UtilResult.keyIsNull("value is null"));
-            return;
-        }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-//        AVLTree<Integer, Integer> avl = UtilTREE.getAVL(sessionId);
+        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
 
-
-//        avl.put(Integer.valueOf(key), Integer.valueOf(value));
-//        avl.eachLeft();
-//        map.put(CoreType.result.toString(), JSON.toJSON(avl).toString());
+        avl.put(key, key);
+        avl.eachLeft();
+        map.put(CoreType.result.toString(), JSON.toJSON(avl).toString());
     }
 
 }

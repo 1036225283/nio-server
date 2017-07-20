@@ -112,11 +112,6 @@ public class ServerTest {
                     .regist("/rbt/view/remove", new RBTViewRemoveHandler())
                     .regist("/rbt/view/delete", new RBTViewClearHandler())
 
-
-//                    .regist("/avl/clear", new AVLClearHandler())
-//                    .regist("/avl/view", new AVLViewHandler())
-//                    .regist("/rbt/clear", new RBTClearHandler())
-//                    .regist("/rbt/view", new RBTViewHandler())
             ;
 
             engineSocket.start();
