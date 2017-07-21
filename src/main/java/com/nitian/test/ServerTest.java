@@ -108,7 +108,7 @@ public class ServerTest {
                     .regist("/rbt/get", new RBTDataGetHandler())
                     .regist("/rbt/del", new RBTDataRemoveHandler())
 
-                    .regist("/rbt/view/insert", new RBTViewSetHandler())
+                    .regist("/rbt/view/insert", new RBTViewInsertHandler())
                     .regist("/rbt/view/remove", new RBTViewRemoveHandler())
                     .regist("/rbt/view/delete", new RBTViewClearHandler())
 
