@@ -25,9 +25,9 @@ public class AVLViewInsertHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
+        AVLTree<Integer, Integer> avl = UtilTREE.getAVL(sessionId);
 
-        avl.put(key, key);
+        avl.put(Integer.valueOf(key), Integer.valueOf(key));
         avl.eachLeft();
         map.put(CoreType.result.toString(), JSON.toJSON(avl).toString());
     }

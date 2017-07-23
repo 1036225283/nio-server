@@ -29,9 +29,9 @@ public class RBTDataSetHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        RBTree<String, String> rbt = UtilTREE.getRBT(sessionId);
+        RBTree<Integer, Integer> rbt = UtilTREE.getRBT(sessionId);
         long startTime = System.nanoTime();
-        rbt.put(key, value);
+        rbt.put(Integer.valueOf(key), Integer.valueOf(value));
         long endTime = System.nanoTime();
         map.put(CoreType.result.toString(), UtilResult.success(key, value, endTime - startTime));
     }

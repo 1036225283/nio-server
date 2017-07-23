@@ -30,10 +30,10 @@ public class AVLDataSetHandler extends Handler {
 
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
+        AVLTree<Integer, Integer> avl = UtilTREE.getAVL(sessionId);
 
         long startTime = System.nanoTime();
-        avl.put(key,value);
+        avl.put(Integer.valueOf(key), Integer.valueOf(value));
         long endTime = System.nanoTime();
         map.put(CoreType.result.toString(), UtilResult.success(key, value, endTime - startTime));
     }

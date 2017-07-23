@@ -30,11 +30,11 @@ public class AVLDataRemoveHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
+        AVLTree<Integer, Integer> avl = UtilTREE.getAVL(sessionId);
 
 
         long startTime = System.nanoTime();
-        avl.remove(key);
+        avl.remove(Integer.valueOf(key));
         long endTime = System.nanoTime();
 
         map.put(CoreType.result.toString(), UtilResult.success(key, value, endTime - startTime));

@@ -12,9 +12,9 @@ import java.util.Map;
  */
 public class UtilTREE {
 
-    public static AVLTree<String, String> getAVL(String sessionId) {
+    public static AVLTree<Integer, Integer> getAVL(String sessionId) {
         Map<String, Object> session = Session.get(sessionId);
-        AVLTree<String, String> avl = (AVLTree<String, String>) session.get("avl");
+        AVLTree<Integer, Integer> avl = (AVLTree<Integer, Integer>) session.get("avl");
         if (avl == null) {
             avl = new AVLTree<>();
             session.put("avl", avl);
@@ -23,13 +23,14 @@ public class UtilTREE {
     }
 
 
-    public static RBTree<String, String> getRBT(String sessionId) {
+    public static RBTree<Integer, Integer> getRBT(String sessionId) {
         Map<String, Object> session = Session.get(sessionId);
-        RBTree<String, String> rbt = (RBTree<String, String>) session.get("rbt");
+        RBTree<Integer, Integer> rbt = (RBTree<Integer, Integer>) session.get("rbt");
         if (rbt == null) {
             rbt = new RBTree<>();
             session.put("rbt", rbt);
         }
         return rbt;
     }
+
 }

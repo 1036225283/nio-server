@@ -16,7 +16,7 @@ public class AVLViewClearHandler extends Handler {
 
         String sessionId = map.get(CoreType.sessionId.toString());
         Map<String, Object> session = Session.get(sessionId);
-        AVLTree<String, String> avl = new AVLTree<>();
+        AVLTree<Integer, Integer> avl = new AVLTree<>();
         session.put("avl", avl);
         map.put(CoreType.result.toString(), JSON.toJSON(avl).toString());
     }

@@ -25,9 +25,9 @@ public class RBTViewInsertHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        RBTree<String, String> rbt = UtilTREE.getRBT(sessionId);
+        RBTree<Integer, Integer> rbt = UtilTREE.getRBT(sessionId);
 
-        rbt.put(key, key);
+        rbt.put(Integer.valueOf(key), Integer.valueOf(key));
         rbt.eachLeft();
         map.put(CoreType.result.toString(), JSON.toJSONString(rbt));
     }

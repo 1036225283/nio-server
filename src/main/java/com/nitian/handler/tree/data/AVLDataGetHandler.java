@@ -28,10 +28,10 @@ public class AVLDataGetHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
+        AVLTree<Integer, Integer> avl = UtilTREE.getAVL(sessionId);
 
         long startTime = System.nanoTime();
-        Node<String, String> node = avl.get(key);
+        Node<Integer, Integer> node = avl.get(Integer.valueOf(key));
         long endTime = System.nanoTime();
 
         String value = "value not find";

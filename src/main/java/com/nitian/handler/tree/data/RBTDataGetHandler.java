@@ -27,10 +27,10 @@ public class RBTDataGetHandler extends Handler {
             return;
         }
         String sessionId = map.get(CoreType.sessionId.toString());
-        RBTree<String, String> rbt = UtilTREE.getRBT(sessionId);
+        RBTree<Integer, Integer> rbt = UtilTREE.getRBT(sessionId);
 
         long startTime = System.nanoTime();
-        Node<String, String> node = rbt.get(key);
+        Node<Integer, Integer> node = rbt.get(Integer.valueOf(key));
         long endTime = System.nanoTime();
 
         String value = "value not find";

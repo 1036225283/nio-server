@@ -25,9 +25,9 @@ public class RBTDataRemoveHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        RBTree<String, String> rbt = UtilTREE.getRBT(sessionId);
+        RBTree<Integer, Integer> rbt = UtilTREE.getRBT(sessionId);
         long startTime = System.nanoTime();
-        rbt.remove(key);
+        rbt.remove(Integer.valueOf(key));
         long endTime = System.nanoTime();
         map.put(CoreType.result.toString(), UtilResult.success(key, "OK", endTime - startTime));
 

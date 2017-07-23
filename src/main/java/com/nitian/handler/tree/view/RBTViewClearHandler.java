@@ -16,7 +16,7 @@ public class RBTViewClearHandler extends Handler {
 
         String sessionId = map.get(CoreType.sessionId.toString());
         Map<String, Object> session = Session.get(sessionId);
-        RBTree<String, String> rbt = new RBTree<>();
+        RBTree<Integer, Integer> rbt = new RBTree<>();
         session.put("rbt", rbt);
         map.put(CoreType.result.toString(), JSON.toJSON(rbt).toString());
     }

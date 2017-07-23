@@ -26,9 +26,9 @@ public class RBTViewRemoveHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        RBTree<String, String> rbt = UtilTREE.getRBT(sessionId);
+        RBTree<Integer, Integer> rbt = UtilTREE.getRBT(sessionId);
 
-        rbt.remove(key);
+        rbt.remove(Integer.valueOf(key));
         map.put(CoreType.result.toString(), JSON.toJSONString(rbt));
     }
 

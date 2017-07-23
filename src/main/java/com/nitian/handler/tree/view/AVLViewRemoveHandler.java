@@ -26,9 +26,9 @@ public class AVLViewRemoveHandler extends Handler {
         }
 
         String sessionId = map.get(CoreType.sessionId.toString());
-        AVLTree<String, String> avl = UtilTREE.getAVL(sessionId);
+        AVLTree<Integer, Integer> avl = UtilTREE.getAVL(sessionId);
 
-        avl.remove(key);
+        avl.remove(Integer.valueOf(key));
         map.put(CoreType.result.toString(), JSON.toJSON(avl).toString());
     }
 
