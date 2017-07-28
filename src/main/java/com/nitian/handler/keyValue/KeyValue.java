@@ -19,7 +19,8 @@ public class KeyValue {
 
     private KeyValue() {
         try {
-            client = new KeyValueClient("www.1036225283.com", 9999);
+            client = new KeyValueClient("localhost", 9999);
+            client.auth("xwsKeyValue@#$");
         } catch (Exception e) {
             e.printStackTrace();
         }

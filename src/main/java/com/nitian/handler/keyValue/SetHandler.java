@@ -30,9 +30,9 @@ public class SetHandler extends Handler {
             return;
         }
 
-        long startTime = KeyValue.getTime();
+        long startTime = System.nanoTime();
         keyValue.set(key, value);
-        long endTime = Redis.getTime();
+        long endTime = System.nanoTime();
         long nanosecond = endTime - startTime;
         map.put(CoreType.result.toString(), UtilResult.success(key, value, nanosecond));
     }

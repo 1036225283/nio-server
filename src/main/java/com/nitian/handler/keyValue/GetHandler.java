@@ -28,9 +28,9 @@ public class GetHandler extends Handler {
 
 
         String value;
-        long startTime = KeyValue.getTime();
+        long startTime = System.nanoTime();
         value = keyValue.get(key);
-        long endTime = KeyValue.getTime();
+        long endTime = System.nanoTime();
 
         long nanosecond = endTime - startTime;
 

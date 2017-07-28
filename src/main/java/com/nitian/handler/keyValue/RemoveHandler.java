@@ -1,7 +1,6 @@
 package com.nitian.handler.keyValue;
 
 import com.nitian.handler.UtilResult;
-import com.nitian.handler.redis.Redis;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
@@ -26,9 +25,9 @@ public class RemoveHandler extends Handler {
         }
 
 
-        long startTime = Redis.getTime();
+        long startTime = System.nanoTime();
         keyValue.del(key);
-        long endTime = Redis.getTime();
+        long endTime = System.nanoTime();
 
         long nanosecond = endTime - startTime;
 
