@@ -42,7 +42,7 @@
 
         <dependency>
             <groupId>1036225283.com</groupId>
-            <artifactId>keyValue.server</artifactId>
+            <artifactId>keyvalue.server</artifactId>
             <version>1.0.0</version>
         </dependency>
 
