@@ -42,6 +42,12 @@
 
         <dependency>
             <groupId>1036225283.com</groupId>
+            <artifactId>keyvalue.client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>1036225283.com</groupId>
             <artifactId>keyvalue.server</artifactId>
             <version>1.0.0</version>
         </dependency>
