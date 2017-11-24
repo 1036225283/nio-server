@@ -1,4 +1,4 @@
-package com.nitian.socket.util.protocol;
+package com.nitian.socket.util.protocol.ssl;
 
 import com.nitian.util.java.UtilByte;
 
@@ -6,10 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * ssl
+ * ssl client hello
  * Created by xws on 6/25/17.
  */
-public class SSL {
+public class SSLClientHello {
 
     // bs[0]:(22):   change_cipher_spec(20) alert(21) handshake(22) application_data(23)
     // bs[1] bs[2]:(0x0301):version
@@ -23,13 +23,16 @@ public class SSL {
 
         System.out.println(UtilByte.toHex(bs,length));
 
-        int ch0 = bs[0];
+        int bHandshakeContentType = bs[0];
+        int nHandshakeVersion = SSL.getHandshakeVersion(bs);
+        int nHandshakeLength = SSL.getHandshakeLength(bs);
+        int bClientHello = bs[6];
         int ch1 = bs[1];
         int ch2 = bs[2];
         int ch3 = bs[3];
         int ch4 = bs[4];
 
-        if (ch0 == 22) {
+        if (bHandshakeContentType == 22) {
             System.out.println("this is handshake");
         }
 
