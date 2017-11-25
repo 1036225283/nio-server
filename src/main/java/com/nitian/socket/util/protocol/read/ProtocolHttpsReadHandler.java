@@ -27,17 +27,6 @@ public class ProtocolHttpsReadHandler extends ProtocolReadHandler {
             String request = new String(bs, 0, length);
 
             log.info(LogType.debug, "----HTTP读取数据 = " + request);
-//            String[] strings = request.split("\r\n");
-//            String ip = UtilParseRead.getIp(strings);
-//            String port = UtilParseRead.getPort(strings);
-//            String url = UtilParseRead.getUrl(strings);
-//            String param = UtilParseRead.getParam(strings);
-//            String method = UtilParseRead.getMethod(strings);
-//            map.put(CoreType.ip.toString(), ip);
-//            map.put(CoreType.port.toString(), port);
-//            map.put(CoreType.url.toString(), url);
-//            map.put(CoreType.param.toString(), param);
-//            map.put(CoreType.method.toString(), method);
             map.put(CoreType.protocol.toString(), CoreProtocol.HTTPS.toString());
             map.put(CoreType.size.toString(), String.valueOf(request.length()));
 //            map.put(CoreType.close.toString(), CoreType.close.toString());

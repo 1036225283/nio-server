@@ -1,11 +1,10 @@
 package com.nitian.socket.util.protocol;
 
 import com.nitian.socket.core.CoreProtocol;
-import com.nitian.util.java.UtilByte;
+import com.nitian.socket.util.protocol.ssl.SSL;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
-import java.io.EOFException;
 import java.nio.ByteBuffer;
 
 /**
@@ -23,9 +22,15 @@ public class ProtocolDispatcher {
             buffer.flip();
             int length = buffer.remaining();
             buffer.get(bs, 0, length);
+
+            int value = SSL.getHandshakeContentType(bs);
+            if (value == 22) {
+                return CoreProtocol.HTTPS.toString();
+            }
+
             String request = new String(bs, 0, length);
             log.dateInfo(LogType.debug, log, "----HTTP分发数据 = " + request);
-//            SSL.test(bs, length);
+
 
             if (request.startsWith("XWS")) {
                 return CoreProtocol.XWS.toString();
@@ -33,8 +38,6 @@ public class ProtocolDispatcher {
                 return CoreProtocol.WEBSOCKETUPGRADE.toString();
             } else if (request.startsWith("GET") || request.startsWith("POST") || request.startsWith("DELETE") || request.startsWith("UPDATE")) {
                 return CoreProtocol.HTTP.toString();
-            } else {
-                return CoreProtocol.HTTPS.toString();
             }
         } catch (Exception e) {
             log.error(e, "鉴定协议出问题了!哈哈哈");

@@ -69,6 +69,10 @@ public class SSL {
 
     }
 
+    //get handshake ContentType
+    public static int getHandshakeContentType(byte[] bs) {
+        return bs[0];
+    }
 
     //get handshake version
     public static int getHandshakeVersion(byte[] bs) {
