@@ -1,8 +1,9 @@
-package com.nitian.socket.util.protocol.read;
+package com.nitian.socket.util.protocol.ssl;
 
 import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseRead;
+import com.nitian.socket.util.protocol.read.ProtocolReadHandler;
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
 
@@ -24,6 +25,14 @@ public class ProtocolHttpsReadHandler extends ProtocolReadHandler {
             buffer.flip();
             int length = buffer.remaining();
             buffer.get(bs, 0, length);
+            //先判断是什么协议
+            int nHandshakeType = SSL.getHandshakeProtocol(bs);
+            if(nHandshakeType == SSL.SSLHandshake){
+
+            }else if(nHandshakeType ==SSL.SSHApplicationData){
+
+            }
+
             String request = new String(bs, 0, length);
 
             log.info(LogType.debug, "----HTTP读取数据 = " + request);

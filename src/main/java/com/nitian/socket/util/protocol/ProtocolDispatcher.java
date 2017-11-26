@@ -23,7 +23,7 @@ public class ProtocolDispatcher {
             int length = buffer.remaining();
             buffer.get(bs, 0, length);
 
-            int value = SSL.getHandshakeContentType(bs);
+            int value = SSL.getHandshakeProtocol(bs);
             if (value == 22) {
                 return CoreProtocol.HTTPS.toString();
             }

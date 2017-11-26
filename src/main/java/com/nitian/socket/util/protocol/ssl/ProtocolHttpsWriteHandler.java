@@ -1,6 +1,7 @@
-package com.nitian.socket.util.protocol.write;
+package com.nitian.socket.util.protocol.ssl;
 
 import com.nitian.socket.core.CoreType;
+import com.nitian.socket.util.protocol.write.ProtocolWriteHandler;
 import com.nitian.util.log.LogManager;
 
 import java.util.Date;

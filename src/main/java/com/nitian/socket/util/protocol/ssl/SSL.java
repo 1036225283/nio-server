@@ -20,6 +20,14 @@ public class SSL {
     // bs[10]-bs[42]:random
     // bs[43]-bs[45]:session id
     // bs[46]+68:cipher
+
+    public static int SSLHandshake = 22;
+    public static int SSHApplicationData = 23;
+
+    public static int SSLClientHello = 1;
+    public static int SSLClientKeyChange = 16;
+    public static int SSLServerHello = 23;
+
     public static void test(byte[] bs, int length) {
 
         System.out.println(UtilByte.toHex(bs, length));
@@ -69,24 +77,31 @@ public class SSL {
 
     }
 
-    //get handshake ContentType
-    public static int getHandshakeContentType(byte[] bs) {
+    //get handshake protocol
+    public static int getHandshakeProtocol(byte[] bs) {
         return bs[0];
     }
 
-    //get handshake version
-    public static int getHandshakeVersion(byte[] bs) {
+    //get handshake protocol version
+    public static int getHandshakeProtocolVersion(byte[] bs) {
         int high = bs[1];
         int low = bs[2];
         return (high << 8) + low;
     }
 
     //get handshake data length
-    public static int getHandshakeLength(byte[] bs) {
+    public static int getHandshakeProtocolLength(byte[] bs) {
         int high = bs[4];
         int low = bs[5];
         return (high << 8) + low;
     }
+
+
+    //get handshake type
+    public static int getHandshakeType(byte[] bs) {
+        return bs[8];
+    }
+
 
     //get client hello length
     public static long getClientHelloLength(byte[] bs) {

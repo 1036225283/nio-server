@@ -7,5 +7,6 @@ package com.nitian.socket.core;
  */
 public enum SSLType {
 
-    handshakeType, handshakeRandomTime, handshakeRandom
+    handshakeProtocol,handshakeProtocolVersion,handshakeProtocolLength,
+    handshakeType,
 }
