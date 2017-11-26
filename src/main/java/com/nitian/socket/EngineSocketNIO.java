@@ -155,7 +155,7 @@ public class EngineSocketNIO {
 
         long applicationId = this.COUNT_STORE.put(socketChannel);
 
-        Map<String, String> map = this.POOL_MAP.lend();
+        Map<String, Object> map = this.POOL_MAP.lend();
         if (map == null) {
         }
         map.put(CoreType.applicationId.toString(), String.valueOf(applicationId));

@@ -19,7 +19,7 @@ public class ProtocolWebSocketReadHandler extends ProtocolReadHandler {
     protected static LogManager log = LogManager.getInstance();
 
     @Override
-    public boolean handle(Map<String, String> map, ByteBuffer buffer, byte[] bs) {
+    public boolean handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
         try {
 //            int RSV = 1 << 2;
 //            int OPCODE = 1 << 3;

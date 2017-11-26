@@ -8,7 +8,7 @@ import java.util.Map;
 public class TestHandler extends Handler {
 
 	@Override
-	public void handle(Map<String, String> map) {
+	public void handle(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		long start = System.nanoTime();
 		int a[] = new int[100000];

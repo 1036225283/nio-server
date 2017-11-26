@@ -17,7 +17,7 @@ public class ProtocolXwsReadHandler extends ProtocolReadHandler {
     protected static LogManager log = LogManager.getInstance();
 
     @Override
-    public boolean handle(Map<String, String> map, ByteBuffer buffer, byte[] bs) {
+    public boolean handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
         try {
 
             buffer.flip();

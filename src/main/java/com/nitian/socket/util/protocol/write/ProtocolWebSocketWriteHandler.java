@@ -15,7 +15,7 @@ public class ProtocolWebSocketWriteHandler extends ProtocolWriteHandler {
 	protected static LogManager log = LogManager.getInstance();
 
 	@Override
-	public byte[] handle(Map<String, String> map) {
+	public byte[] handle(Map<String, Object> map) {
 
 		map.get(CoreType.sessionId.toString());
 		StringBuffer sb = new StringBuffer();
@@ -23,7 +23,7 @@ public class ProtocolWebSocketWriteHandler extends ProtocolWriteHandler {
 		sb.append("Server: XWS-Coyote/1.1").append("\r\n");
 		sb.append("Upgrade: websocket").append("\r\n");
 		sb.append("Connection: upgrade").append("\r\n");
-		String secWebSocketAccept = map.get(CoreType.sec_websocket_accept.toString());
+		String secWebSocketAccept = map.get(CoreType.sec_websocket_accept.toString()).toString();
 		sb.append("Sec-WebSocket-Accept: ").append(secWebSocketAccept).append("\r\n");
 		sb.append("Sec-WebSocket-Extensions: permessage-deflate").append("\r\n");
 		sb.append("Date: ").append(new Date().toString()).append("\r\n").append("\r\n");

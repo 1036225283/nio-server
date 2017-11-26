@@ -37,7 +37,7 @@ public class EngineHandle {
 
     }
 
-    public void push(Map<String, String> map) {
+    public void push(Map<String, Object> map) {
         queueHandle.push(map);
     }
 

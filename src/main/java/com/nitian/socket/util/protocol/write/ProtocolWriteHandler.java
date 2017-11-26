@@ -14,19 +14,19 @@ public abstract class ProtocolWriteHandler {
 
     }
 
-    public abstract byte[] handle(Map<String, String> map);
+    public abstract byte[] handle(Map<String, Object> map);
 
 
-    private Map<String, String> map;
+    private Map<String, Object> map;
 
 
     private EngineSocketNIO engineSocket;
 
-    public Map<String, String> getMap() {
+    public Map<String, Object> getMap() {
         return map;
     }
 
-    public void setMap(Map<String, String> map) {
+    public void setMap(Map<String, Object> map) {
         this.map = map;
     }
 

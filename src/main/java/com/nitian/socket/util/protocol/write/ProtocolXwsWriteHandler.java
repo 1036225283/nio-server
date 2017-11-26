@@ -15,8 +15,8 @@ public class ProtocolXwsWriteHandler extends ProtocolWriteHandler {
     protected static LogManager log = LogManager.getInstance();
 
     @Override
-    public byte[] handle(Map<String, String> map) {
-        String result = map.get(CoreType.result.toString());
+    public byte[] handle(Map<String, Object> map) {
+        String result = map.get(CoreType.result.toString()).toString();
         StringBuffer sb = new StringBuffer();
         sb.append("XWS:XWS/1.1");
         sb.append("\r\n");

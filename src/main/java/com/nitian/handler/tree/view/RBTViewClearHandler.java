@@ -11,10 +11,10 @@ import java.util.Map;
 public class RBTViewClearHandler extends Handler {
 
     @Override
-    public void handle(Map<String, String> map) {
+    public void handle(Map<String, Object> map) {
         // TODO Auto-generated method stub
 
-        String sessionId = map.get(CoreType.sessionId.toString());
+        String sessionId = map.get(CoreType.sessionId.toString()).toString();
         Map<String, Object> session = Session.get(sessionId);
         RBTree<Integer, Integer> rbt = new RBTree<>();
         session.put("rbt", rbt);

@@ -11,10 +11,10 @@ import java.util.Map;
 public class AVLViewClearHandler extends Handler {
 
     @Override
-    public void handle(Map<String, String> map) {
+    public void handle(Map<String, Object> map) {
         // TODO Auto-generated method stub
 
-        String sessionId = map.get(CoreType.sessionId.toString());
+        String sessionId = map.get(CoreType.sessionId.toString()).toString();
         Map<String, Object> session = Session.get(sessionId);
         AVLTree<Integer, Integer> avl = new AVLTree<>();
         session.put("avl", avl);

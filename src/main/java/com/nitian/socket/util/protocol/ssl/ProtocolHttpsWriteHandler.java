@@ -16,9 +16,9 @@ public class ProtocolHttpsWriteHandler extends ProtocolWriteHandler {
 	protected static LogManager log = LogManager.getInstance();
 
 	@Override
-	public byte[] handle(Map<String, String> map) {
+	public byte[] handle(Map<String, Object> map) {
 		map.get(CoreType.sessionId.toString());
-		String result = map.get(CoreType.result.toString());
+		String result = map.get(CoreType.result.toString()).toString();
 		StringBuffer sb = new StringBuffer();
 		sb.append("HTTP/1.1 200 OK").append("\r\n");
 		sb.append("Server: Apache-Coyote/1.1").append("\r\n");

@@ -75,7 +75,7 @@ public class ServerTest {
                     .regist("/test", new TestHandler())
                     .regist("/love", new Handler() {
                         @Override
-                        public void handle(Map<String, String> map) {
+                        public void handle(Map<String, Object> map) {
                             long count = countMap.get("count");
                             map.put(CoreType.result.toString(), "l love you " + count + " days !!!");
                             count = count + 1;
@@ -84,7 +84,7 @@ public class ServerTest {
                     })
                     .regist("/fuck", new Handler() {
                         @Override
-                        public void handle(Map<String, String> map) {
+                        public void handle(Map<String, Object> map) {
                             map.put(CoreType.result.toString(), "l fuck you !!!");
                         }
                     })

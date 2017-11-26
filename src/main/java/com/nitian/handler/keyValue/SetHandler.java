@@ -1,7 +1,6 @@
 package com.nitian.handler.keyValue;
 
 import com.nitian.handler.UtilResult;
-import com.nitian.handler.redis.Redis;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
@@ -15,9 +14,9 @@ public class SetHandler extends Handler {
 
 
     @Override
-    public void handle(Map<String, String> map) {
+    public void handle(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        String param = map.get(CoreType.param.toString());
+        String param = map.get(CoreType.param.toString()).toString();
         Map<String, String> paramMap = UtilParam.getParam(param);
         String key = paramMap.get("key");
         if (key == null) {

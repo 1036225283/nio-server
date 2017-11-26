@@ -62,7 +62,7 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
                 return;
             }
 
-            Map<String, String> map = engineSocket.POOL_MAP.lend();
+            Map<String, Object> map = engineSocket.POOL_MAP.lend();
             if (!protocolReadHandler.handle(map, buffer, bs)) {
                 EngineSocketNIO.POOL_BYTE.repay(bs);
                 EngineSocketNIO.POOL_BUFFER.repay(buffer);

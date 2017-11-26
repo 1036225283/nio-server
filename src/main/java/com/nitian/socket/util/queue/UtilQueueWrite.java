@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * @author 1036225283
  */
-public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
+public class UtilQueueWrite extends UtilQueue<Map<String, Object>> {
 
 
     private EngineSocketNIO engineSocket;
@@ -29,12 +29,12 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
     }
 
     @Override
-    public synchronized void handle(Map<String, String> map) {
+    public synchronized void handle(Map<String, Object> map) {
         // TODO Auto-generated method stub
         log.dateInfo(LogType.time, this, "写消息开始处理");
 
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
-                .toString()));
+                .toString()).toString());
         SelectionKey key = (SelectionKey) engineSocket.COUNT_STORE.remove(
                 applicationId);
         SocketChannel socketChannel = (SocketChannel) key.channel();
@@ -47,7 +47,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
         ByteBuffer byteBuffer = null;
         byte[] bs;
 
-        String protocol = map.get(CoreType.protocol.toString());
+        String protocol = map.get(CoreType.protocol.toString()).toString();
         ProtocolWriteHandler protocolWriteHandler = engineSocket.protocolWriteFactory.get(protocol);
         if (protocolWriteHandler == null) {
             UtilSelectionKey.cancel(key);

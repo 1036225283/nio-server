@@ -29,7 +29,7 @@ public class UtilParseHttp {
     private static String CRLF = "\r\n";
 
 
-    public UtilParseHttp(String string, Map<String, String> header) {
+    public UtilParseHttp(String string, Map<String, Object> header) {
         int methodIndex = string.indexOf(CRLF);
         int bodyIndex = string.indexOf(CRLF + CRLF);
         String method = string.substring(0, methodIndex);
@@ -49,7 +49,7 @@ public class UtilParseHttp {
         }
         body = string.substring(bodyIndex + 4, string.length());
         //获取ip
-        String Host = header.get("Host");
+        String Host = header.get("Host").toString();
         String[] hosts = Host.split(":");
         this.ip = hosts[0];
         this.port = hosts[1];
@@ -63,9 +63,9 @@ public class UtilParseHttp {
     }
 
 
-    public String getSessionId(Map<String, String> header) {
+    public String getSessionId(Map<String, Object> header) {
 
-        String Cookie = header.get("Cookie");
+        String Cookie = header.get("Cookie").toString();
         if (Cookie == null) {
             return null;
         }

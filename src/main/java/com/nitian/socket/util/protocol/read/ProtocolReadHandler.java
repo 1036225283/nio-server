@@ -15,7 +15,7 @@ public abstract class ProtocolReadHandler {
 
     }
 
-    public abstract boolean handle(Map<String, String> map, ByteBuffer buffer, byte[] bs);
+    public abstract boolean handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs);
 
 
     private Map<String, String> map;

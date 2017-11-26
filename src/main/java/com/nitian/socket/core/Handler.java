@@ -11,21 +11,21 @@ public abstract class Handler {
 
     }
 
-    public abstract void handle(Map<String, String> map);
+    public abstract void handle(Map<String, Object> map);
 
     private EngineHandle engineHandle;
 
-    private Map<String, String> map;
+    private Map<String, Object> map;
 
     public void afterHandle() {
         EngineSocketNIO.QUEUE_WRITE.push(map);
     }
 
-    public Map<String, String> getMap() {
+    public Map<String, Object> getMap() {
         return map;
     }
 
-    public void setMap(Map<String, String> map) {
+    public void setMap(Map<String, Object> map) {
         this.map = map;
     }
 

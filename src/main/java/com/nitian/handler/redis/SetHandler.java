@@ -1,8 +1,8 @@
 package com.nitian.handler.redis;
 
+import com.nitian.handler.UtilResult;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
-import com.nitian.handler.UtilResult;
 import com.nitian.socket.util.parse.UtilParam;
 
 import java.util.Map;
@@ -13,9 +13,9 @@ public class SetHandler extends Handler {
 
 
     @Override
-    public void handle(Map<String, String> map) {
+    public void handle(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        String param = map.get(CoreType.param.toString());
+        String param = map.get(CoreType.param.toString()).toString();
         Map<String, String> paramMap = UtilParam.getParam(param);
 
         String key = paramMap.get("key");

@@ -11,7 +11,7 @@ public class InitHandler extends Handler {
 	private static KeyValue keyValue = KeyValue.getInstance();
 
 	@Override
-	public void handle(Map<String, String> map) {
+	public void handle(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 
 		for (int i = 0; i < 800000; i++) {

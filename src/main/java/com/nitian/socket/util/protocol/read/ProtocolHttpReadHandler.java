@@ -19,7 +19,7 @@ public class ProtocolHttpReadHandler extends ProtocolReadHandler {
     protected static LogManager log = LogManager.getInstance();
 
     @Override
-    public boolean handle(Map<String, String> map, ByteBuffer buffer, byte[] bs) {
+    public boolean handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
         try {
 
             buffer.flip();
@@ -30,7 +30,7 @@ public class ProtocolHttpReadHandler extends ProtocolReadHandler {
 
             new UtilParseHttp(request, map);
 
-            String sessionId = map.get(CoreType.sessionId.toString());
+            String sessionId = map.get(CoreType.sessionId.toString()).toString();
             if (sessionId == null) {
                 sessionId = Session.createSessionId();
             } else {

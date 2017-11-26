@@ -48,7 +48,7 @@ public class ThreadWebSocket implements Runnable {
                     long applicationId = engineSocket
                             .COUNT_STORE.put(socket);
                     log.info(LogType.debug, this, "size=" + size);
-                    Map<String, String> map = engineSocket.POOL_MAP
+                    Map<String, Object> map = engineSocket.POOL_MAP
                             .lend();
                     map.put(CoreType.applicationId.toString(),
                             String.valueOf(applicationId));

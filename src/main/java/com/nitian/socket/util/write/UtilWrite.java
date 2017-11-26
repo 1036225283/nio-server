@@ -12,5 +12,5 @@ public abstract class UtilWrite {
 
     protected static LogManager log = LogManager.getInstance();
 
-    public abstract void write(Map<String, String> map, EngineSocketNIO engineSocket);
+    public abstract void write(Map<String, Object> map, EngineSocketNIO engineSocket);
 }

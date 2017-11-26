@@ -7,7 +7,7 @@ import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.util.log.LogType;
 
-public class UtilQueueHandle extends UtilQueue<Map<String, String>> {
+public class UtilQueueHandle extends UtilQueue<Map<String, Object>> {
 
 
     private EngineHandle engineHandle;
@@ -18,10 +18,10 @@ public class UtilQueueHandle extends UtilQueue<Map<String, String>> {
     }
 
     @Override
-    public synchronized void handle(Map<String, String> t) {
+    public synchronized void handle(Map<String, Object> t) {
         // TODO Auto-generated method stub
         log.dateInfo(LogType.time, this, "第三步：开始处理消息");
-        String url = t.get(CoreType.url.toString());
+        String url = t.get(CoreType.url.toString()).toString();
 
         Handler handler = engineHandle.getHandlerFactory()
                 .get(url);

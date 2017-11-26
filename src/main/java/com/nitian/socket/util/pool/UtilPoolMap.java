@@ -9,7 +9,7 @@ import java.util.Map;
  * @author 1036225283
  *
  */
-public class UtilPoolMap extends UtilPool<Map<String, String>> {
+public class UtilPoolMap extends UtilPool<Map<String, Object>> {
 
 	public UtilPoolMap(Integer max, Integer total) {
 		// TODO Auto-generated constructor stub
@@ -18,13 +18,13 @@ public class UtilPoolMap extends UtilPool<Map<String, String>> {
 	}
 
 	@Override
-	protected synchronized Map<String, String> factory() {
+	protected synchronized Map<String, Object> factory() {
 		// TODO Auto-generated method stub
-		return new HashMap<String, String>();
+		return new HashMap<String, Object>();
 	}
 
 	@Override
-	protected synchronized void initValue(Map<String, String> t) {
+	protected synchronized void initValue(Map<String, Object> t) {
 		// TODO Auto-generated method stub
 		t.clear();
 	}

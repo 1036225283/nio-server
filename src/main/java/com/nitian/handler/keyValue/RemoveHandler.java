@@ -14,9 +14,9 @@ public class RemoveHandler extends Handler {
 
 
     @Override
-    public void handle(Map<String, String> map) {
+    public void handle(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        String param = map.get(CoreType.param.toString());
+        String param = map.get(CoreType.param.toString()).toString();
         Map<String, String> paramMap = UtilParam.getParam(param);
         String key = paramMap.get("key");
         if (key == null) {

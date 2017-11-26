@@ -16,9 +16,9 @@ public class UtilWebSocketWriteSocket extends UtilWrite {
 
     protected static LogManager log = LogManager.getInstance();
 
-    public synchronized void write(Map<String, String> map, EngineSocketNIO engineSocket) {
+    public synchronized void write(Map<String, Object> map, EngineSocketNIO engineSocket) {
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
-                .toString()));
+                .toString()).toString());
         Socket socket = (Socket)
                 EngineSocketNIO.COUNT_STORE
                         .remove(

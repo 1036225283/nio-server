@@ -16,9 +16,9 @@ import java.util.Map;
 public class AVLDataGetHandler extends Handler {
 
     @Override
-    public void handle(Map<String, String> map) {
+    public void handle(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        String param = map.get(CoreType.param.toString());
+        String param = map.get(CoreType.param.toString()).toString();
         Map<String, String> paramMap = UtilParam.getParam(param);
 
         String key = paramMap.get("key");
@@ -27,7 +27,7 @@ public class AVLDataGetHandler extends Handler {
             return;
         }
 
-        String sessionId = map.get(CoreType.sessionId.toString());
+        String sessionId = map.get(CoreType.sessionId.toString()).toString();
         AVLTree<Integer, Integer> avl = UtilTREE.getAVL(sessionId);
 
         long startTime = System.nanoTime();

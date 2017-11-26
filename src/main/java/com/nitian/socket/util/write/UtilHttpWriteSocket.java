@@ -16,9 +16,9 @@ public class UtilHttpWriteSocket extends UtilWrite {
 
     protected static LogManager log = LogManager.getInstance();
 
-    public synchronized void write(Map<String, String> map, EngineSocketNIO engineSocket) {
+    public synchronized void write(Map<String, Object> map, EngineSocketNIO engineSocket) {
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
-                .toString()));
+                .toString()).toString());
         Socket socket = (Socket) engineSocket.COUNT_STORE.remove(
                 applicationId);
         byte[] bs = new ProtocolHttpWriteHandler().handle(map);

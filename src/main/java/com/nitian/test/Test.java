@@ -1,19 +1,5 @@
 package com.nitian.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.queue.UtilQueueHandle;
@@ -21,6 +7,14 @@ import com.nitian.socket.util.websocket.UtilWebSocket;
 import com.nitian.util.encrypt.UtilBase64;
 import com.nitian.util.encrypt.UtilMd5;
 import com.nitian.util.java.UtilByte;
+
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class Test {
 
@@ -125,7 +119,7 @@ public class Test {
     public static void testQueueRead() {
         UtilQueueHandle queueRead = new UtilQueueHandle(null);
         for (int i = 0; i < 10000; i++) {
-            queueRead.push(new HashMap<String, String>());
+            queueRead.push(new HashMap<String, Object>());
         }
     }
 
@@ -173,7 +167,7 @@ public class Test {
             poolMap.lend();
         }
 
-        Map<String, String> m = poolMap.lend();
+        Map<String, Object> m = poolMap.lend();
         System.out.println(m);
         m.put("hello", "world");
         System.out.println(m.get("hello"));

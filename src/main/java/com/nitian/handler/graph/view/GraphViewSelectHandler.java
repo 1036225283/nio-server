@@ -13,12 +13,12 @@ import java.util.Map;
 public class GraphViewSelectHandler extends Handler {
 
     @Override
-    public void handle(Map<String, String> map) {
+    public void handle(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        String param = map.get(CoreType.param.toString());
+        String param = map.get(CoreType.param.toString()).toString();
 
 
-        String sessionId = map.get(CoreType.sessionId.toString());
+        String sessionId = map.get(CoreType.sessionId.toString()).toString();
         AVLTree<Integer, Integer> avl = UtilTREE.getAVL(sessionId);
 
         avl.eachLeft();
