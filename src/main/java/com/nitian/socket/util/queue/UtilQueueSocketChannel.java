@@ -131,10 +131,6 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
             return null;
         }
 
-        //偿还资源
-
-//        return new String(bs, 0, size, "UTF-8");
-
         return null;
     }
 

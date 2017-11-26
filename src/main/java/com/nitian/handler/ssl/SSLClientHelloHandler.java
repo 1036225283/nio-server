@@ -5,6 +5,7 @@ import com.nitian.handler.keyValue.KeyValue;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.socket.util.parse.UtilParam;
+import com.nitian.socket.util.protocol.ssl.SSLClientHello;
 
 import java.util.Map;
 
@@ -19,7 +20,8 @@ public class SSLClientHelloHandler extends Handler {
     @Override
     public void handle(Map<String, Object> map) {
         // TODO Auto-generated method stub
-//        SSLClientHello hello  = (SSLClientHello) map.get("");
+        SSLClientHello hello  = (SSLClientHello) map.get("hello");
+
         String param = map.get(CoreType.param.toString()).toString();
         Map<String, String> paramMap = UtilParam.getParam(param);
         String key = paramMap.get("key");

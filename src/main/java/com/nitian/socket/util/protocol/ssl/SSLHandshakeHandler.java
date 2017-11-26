@@ -1,6 +1,7 @@
 package com.nitian.socket.util.protocol.ssl;
 
 /**
+ * ssl handshake handler
  * Created by xws on 11/25/17.
  */
 public class SSLHandshakeHandler {
@@ -28,7 +29,7 @@ public class SSLHandshakeHandler {
 
     //get action
     public static int getAction(byte[] bs) {
-        return bs[8];
+        return bs[5];
     }
 
 

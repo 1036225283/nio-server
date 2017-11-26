@@ -8,7 +8,7 @@ public class SSLClientHello {
 
     private int version;
     private String time;
-    private String random;
+    private byte[] random;
 
 
     public int getVersion() {
@@ -27,11 +27,11 @@ public class SSLClientHello {
         this.time = time;
     }
 
-    public String getRandom() {
+    public byte[] getRandom() {
         return random;
     }
 
-    public void setRandom(String random) {
+    public void setRandom(byte[] random) {
         this.random = random;
     }
 }

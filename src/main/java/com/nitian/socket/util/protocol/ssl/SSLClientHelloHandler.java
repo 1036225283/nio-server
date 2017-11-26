@@ -1,12 +1,9 @@
 package com.nitian.socket.util.protocol.ssl;
 
 import com.nitian.util.java.UtilByte;
-import com.nitian.util.time.UtilTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * ssl client hello
@@ -36,17 +33,18 @@ public class SSLClientHelloHandler {
         nHandshakeProtocolVersion = getHandshakeProtocolVersion(bs);
         nHandshakeType = getHandshakeType(bs);
         nHandshakeVersion = getClientHelloVersion(bs);
-        strHandshakeRandom = getClientHelloRandom(bs);
         strHandshakeRandomTime = getClientHelloRandomTime(bs);
     }
 
     //处理client hello
     public static SSLClientHello handler(byte[] bs) {
         SSLClientHello hello = new SSLClientHello();
-        String strRandom = getClientHelloRandomTime(bs);
-        hello.setRandom(strRandom);
+
         String strRandomTime = getClientHelloRandomTime(bs);
         hello.setTime(strRandomTime);
+
+        byte[] bsRandom = getClientHelloRandom(bs);
+        hello.setRandom(bsRandom);
         return hello;
     }
 
@@ -93,19 +91,22 @@ public class SSLClientHelloHandler {
 
     //get client hello random time
     public static String getClientHelloRandomTime(byte[] bs) {
-        long bit1 = bs[12];
-        long bit2 = bs[13];
-        long bit3 = bs[14];
-        long bit4 = bs[15];
+        long bit1 = bs[10];
+        long bit2 = bs[11];
+        long bit3 = bs[12];
+        long bit4 = bs[13];
         long time = (bit1 << 24) + (bit2 << 16) + (bit3 << 8) + bit4;
-
-        System.out.println(UtilTime.dateToyyyyMMddHHmmss(new Date(time)));
-        return UtilTime.dateToyyyyMMddHHmmss(new Date(time));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strTime = simpleDateFormat.format(new Date(time));
+        System.out.println(strTime);
+        return strTime;
     }
 
 
     //get client hello random
-    public String getClientHelloRandom(byte[] bs) {
-        return new String(bs, 16, 28);
+    public static byte[] getClientHelloRandom(byte[] bs) {
+        byte[] bs1 = new byte[28];
+        UtilByte.copy(bs, 14, bs1, 0);
+        return bs1;
     }
 }
