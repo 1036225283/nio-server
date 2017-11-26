@@ -1,6 +1,6 @@
 package com.nitian.socket.util.queue;
 
-import com.nitian.socket.EngineSocket;
+import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.key.UtilSelectionKey;
 import com.nitian.socket.util.protocol.ProtocolDispatcher;
@@ -22,10 +22,10 @@ import java.util.Map;
 public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
 
 
-    private EngineSocket engineSocket;
+    private EngineSocketNIO engineSocket;
     protected LogManager log = LogManager.getInstance();
 
-    public UtilQueueSocketChannel(EngineSocket engineSocket) {
+    public UtilQueueSocketChannel(EngineSocketNIO engineSocket) {
         // TODO Auto-generated constructor stub
         this.engineSocket = engineSocket;
     }
@@ -41,39 +41,40 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
             if (buffer == null) {
                 return;
             }
-            byte[] bs = engineSocket.getPoolByte().lend();
+            byte[] bs = EngineSocketNIO.POOL_BYTE.lend();
+
 
             //进行socket获取socketChannel的判断，如果存在协议，就调用协议处理器
             //如果不存在，就另行处理
             String protocol;
 //            System.out.println("协议存储 = " + engineSocket.getSocketMap());
-            if (engineSocket.getSocketMap().containsKey(selectionKey)) {
-                protocol = engineSocket.getSocketMap().get(selectionKey).toString();
+            if (engineSocket.SOCKET_MAP.containsKey(selectionKey)) {
+                protocol = engineSocket.SOCKET_MAP.get(selectionKey).toString();
             } else {
                 protocol = ProtocolDispatcher.dispatcher(buffer, bs);
             }
 
-            ProtocolReadHandler protocolReadHandler = engineSocket.getProtocolReadFactory().get(protocol);
+            ProtocolReadHandler protocolReadHandler = engineSocket.protocolReadFactory.get(protocol);
             if (protocolReadHandler == null) {
-                engineSocket.getPoolByte().repay(bs);
-                engineSocket.getPoolBuffer().repay(buffer);
+                EngineSocketNIO.POOL_BYTE.repay(bs);
+                EngineSocketNIO.POOL_BUFFER.repay(buffer);
                 UtilSelectionKey.cancel(selectionKey);
                 return;
             }
 
-            Map<String, String> map = engineSocket.getPoolMap().lend();
+            Map<String, String> map = engineSocket.POOL_MAP.lend();
             if (!protocolReadHandler.handle(map, buffer, bs)) {
-                engineSocket.getPoolByte().repay(bs);
-                engineSocket.getPoolBuffer().repay(buffer);
+                EngineSocketNIO.POOL_BYTE.repay(bs);
+                EngineSocketNIO.POOL_BUFFER.repay(buffer);
                 selectionKey.channel().close();
                 return;
             }
             if (!map.containsKey(CoreType.close.toString())) {
-                engineSocket.getSocketMap().put(selectionKey, protocol.replace("UPGRADE", ""));
-                log.dateInfo(LogType.time, this, "<SocketChannel,String>的数量 = " + engineSocket.getSocketMap().size());
+                engineSocket.SOCKET_MAP.put(selectionKey, protocol.replace("UPGRADE", ""));
+                log.dateInfo(LogType.time, this, "<SocketChannel,String>的数量 = " + engineSocket.SOCKET_MAP.size());
             }
-            engineSocket.getPoolByte().repay(bs);
-            engineSocket.getPoolBuffer().repay(buffer);
+            EngineSocketNIO.POOL_BYTE.repay(bs);
+            EngineSocketNIO.POOL_BUFFER.repay(buffer);
             log.dateInfo(LogType.time, this, "解析协议结束");
             if (map.containsKey(CoreType.stop.toString())) {
                 log.dateInfo(LogType.time, this, "没有进入业务流程，直接返回了");
@@ -81,10 +82,10 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
                 return;
             }
             //存放异步标识
-            long applicationId = engineSocket.getCountStore().put(selectionKey);
+            long applicationId = engineSocket.COUNT_STORE.put(selectionKey);
             map.put(CoreType.applicationId.toString(),
                     String.valueOf(applicationId));
-            engineSocket.getEngineHandle().push(map);
+            engineSocket.engineHandle.push(map);
 
         } catch (Exception e) {
             log.error(e, "read线程异常");
@@ -98,7 +99,7 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
     public synchronized ByteBuffer read(SelectionKey key) throws IOException {
         //首先，借取资源
 
-        ByteBuffer buffer = engineSocket.getPoolBuffer().lend();
+        ByteBuffer buffer = EngineSocketNIO.POOL_BUFFER.lend();
 
         SocketChannel socketChannel = (SocketChannel) key.channel();
 
@@ -110,7 +111,7 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
         } catch (IOException e) {
             UtilSelectionKey.cancel(key);
             log.error(e, "远程客户端关闭了");
-            engineSocket.getPoolBuffer().repay(buffer);
+            EngineSocketNIO.POOL_BUFFER.repay(buffer);
             return null;
         }
 
@@ -120,12 +121,12 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
 //            buffer.flip();
 //            buffer.get(bs, 0, size);
         } else if (size == 0) {
-            engineSocket.getPoolBuffer().repay(buffer);
+            EngineSocketNIO.POOL_BUFFER.repay(buffer);
             log.dateInfo(LogType.time, this, "读取的数据长度为0，需要释放key和其他资源");
             return null;
         } else if (size == -1) {
             UtilSelectionKey.cancel(key);
-            engineSocket.getPoolBuffer().repay(buffer);
+            EngineSocketNIO.POOL_BUFFER.repay(buffer);
             log.dateInfo(LogType.time, this, "读取的数据长度为-1，需要释放key和其他资源");
             return null;
         }

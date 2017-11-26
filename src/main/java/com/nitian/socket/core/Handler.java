@@ -1,6 +1,7 @@
 package com.nitian.socket.core;
 
 import com.nitian.socket.EngineHandle;
+import com.nitian.socket.EngineSocketNIO;
 
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public abstract class Handler {
     private Map<String, String> map;
 
     public void afterHandle() {
-        engineHandle.getEngineSocket().push(map);
+        EngineSocketNIO.QUEUE_WRITE.push(map);
     }
 
     public Map<String, String> getMap() {

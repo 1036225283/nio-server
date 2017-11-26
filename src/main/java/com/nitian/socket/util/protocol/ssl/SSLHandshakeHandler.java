@@ -15,7 +15,7 @@ public class SSLHandshakeHandler {
 
         int action = getAction(bs);
         if (action == ClientHello) {
-
+            SSLClientHello hello = SSLClientHelloHandler.handler(bs);
         } else if (action == ClientKeyExchange) {
 
         } else if (action == ServerHello) {

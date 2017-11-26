@@ -1,16 +1,15 @@
 package com.nitian.socket.util.factory;
 
-import com.nitian.socket.EngineSocket;
 import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.util.pool.UtilPoolBuffer;
 import com.nitian.socket.util.queue.UtilQueue;
-import com.nitian.socket.util.queue.UtilQueueSocket;
-import com.nitian.socket.util.queue.UtilQueueSocketChannel;
-import com.nitian.socket.util.queue.UtilQueueWrite;
 import com.nitian.socket.util.store.CountStore;
-import com.nitian.socket.util.store.CountStoreSocket;
 import com.nitian.socket.util.store.CountStoreSelectionKey;
-import com.nitian.socket.util.write.*;
+import com.nitian.socket.util.store.CountStoreSocket;
+import com.nitian.socket.util.write.UtilHttpWriteSocket;
+import com.nitian.socket.util.write.UtilWebSocketWriteSocket;
+import com.nitian.socket.util.write.UtilWebSocketWriteSocketChannel;
+import com.nitian.socket.util.write.UtilWrite;
 
 /**
  * Created by 1036225283 on 2016/11/20.
@@ -25,7 +24,7 @@ public class Factory {
 	 * @return
 	 */
 	public static CountStore getCountStore(String className) {
-		if (className.equals(EngineSocket.class.getName())) {
+		if (className.equals(EngineSocketNIO.class.getName())) {
 			return new CountStoreSocket();
 		} else if (className.equals(EngineSocketNIO.class.getName())) {
 			return new CountStoreSelectionKey();
@@ -40,11 +39,11 @@ public class Factory {
 	 * @param engineSocket
 	 * @return
 	 */
-	public static UtilQueue getReadQueue(String className, EngineSocket engineSocket) {
-		if (className.equals(EngineSocket.class.getName())) {
-			return new UtilQueueSocket(engineSocket);
+	public static UtilQueue getReadQueue(String className, EngineSocketNIO engineSocket) {
+		if (className.equals(EngineSocketNIO.class.getName())) {
+//			return new UtilQueueSocket(engineSocket);
 		} else if (className.equals(EngineSocketNIO.class.getName())) {
-			return new UtilQueueSocketChannel(engineSocket);
+//			return new UtilQueueSocketChannel(engineSocket);
 		}
 		return null;
 
@@ -57,16 +56,16 @@ public class Factory {
 	 * @param engineSocket
 	 * @return
 	 */
-	public static UtilQueue getWriteQueue(String className, EngineSocket engineSocket) {
-		System.out.println("------------------------------------" + className);
-		if (className.equals(EngineSocket.class.getName())) {
-			return new UtilQueueWrite(engineSocket);
-		} else if (className.equals(EngineSocketNIO.class.getName())) {
-			return new UtilQueueWrite(engineSocket);
-		}
-		return null;
-
-	}
+//	public static UtilQueue getWriteQueue(String className, EngineSocket engineSocket) {
+//		System.out.println("------------------------------------" + className);
+//		if (className.equals(EngineSocket.class.getName())) {
+//			return new UtilQueueWrite(engineSocket);
+//		} else if (className.equals(EngineSocketNIO.class.getName())) {
+//			return new UtilQueueWrite(engineSocket);
+//		}
+//		return null;
+//
+//	}
 
 	/**
 	 * 获取buffer池
@@ -74,11 +73,11 @@ public class Factory {
 	 * @param className
 	 * @return
 	 */
-	public static UtilPoolBuffer getPoolBuffer(String className, EngineSocket engineSocket) {
-		if (className.equals(EngineSocket.class.getName())) {
+	public static UtilPoolBuffer getPoolBuffer(String className, EngineSocketNIO engineSocket) {
+		if (className.equals(EngineSocketNIO.class.getName())) {
 			return null;
 		} else if (className.equals(EngineSocketNIO.class.getName())) {
-			return new UtilPoolBuffer(engineSocket.getPoolMax(), engineSocket.getPoolTotal(), null);
+//			return new UtilPoolBuffer(engineSocket.getPoolMax(), engineSocket.getPoolTotal(), null);
 		}
 		return null;
 
@@ -92,7 +91,7 @@ public class Factory {
 	 */
 	public static UtilWrite getUtilHttpWrite(String className) {
 		System.out.println("------------------------------------" + className);
-		if (className.equals(EngineSocket.class.getName())) {
+		if (className.equals(EngineSocketNIO.class.getName())) {
 			return new UtilHttpWriteSocket();
 		} else if (className.equals(EngineSocketNIO.class.getName())) {
 			return new UtilHttpWriteSocket();
@@ -107,7 +106,7 @@ public class Factory {
 	 * @return
 	 */
 	public static UtilWrite getUtilWebSocketWrite(String className) {
-		if (className.equals(EngineSocket.class.getName())) {
+		if (className.equals(EngineSocketNIO.class.getName())) {
 			return new UtilWebSocketWriteSocket();
 		} else if (className.equals(EngineSocketNIO.class.getName())) {
 			return new UtilWebSocketWriteSocketChannel();

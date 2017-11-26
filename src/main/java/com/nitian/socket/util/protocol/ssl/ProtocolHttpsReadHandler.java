@@ -27,9 +27,9 @@ public class ProtocolHttpsReadHandler extends ProtocolReadHandler {
             buffer.get(bs, 0, length);
             //先判断是什么协议
             int nHandshakeType = SSL.getHandshakeProtocol(bs);
-            if(nHandshakeType == SSL.SSLHandshake){
-
-            }else if(nHandshakeType ==SSL.SSHApplicationData){
+            if (nHandshakeType == SSL.SSLHandshake) {
+                SSLHandshakeHandler.hander(bs);
+            } else if (nHandshakeType == SSL.SSHApplicationData) {
 
             }
 

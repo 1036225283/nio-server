@@ -1,6 +1,6 @@
 package com.nitian.socket.util.write;
 
-import com.nitian.socket.EngineSocket;
+import com.nitian.socket.EngineSocketNIO;
 import com.nitian.util.log.LogManager;
 
 import java.util.Map;
@@ -12,5 +12,5 @@ public abstract class UtilWrite {
 
     protected static LogManager log = LogManager.getInstance();
 
-    public abstract void write(Map<String, String> map, EngineSocket engineSocket);
+    public abstract void write(Map<String, String> map, EngineSocketNIO engineSocket);
 }

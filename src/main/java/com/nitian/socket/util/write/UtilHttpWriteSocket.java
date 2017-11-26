@@ -1,6 +1,6 @@
 package com.nitian.socket.util.write;
 
-import com.nitian.socket.EngineSocket;
+import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
 import com.nitian.util.log.LogManager;
@@ -16,10 +16,10 @@ public class UtilHttpWriteSocket extends UtilWrite {
 
     protected static LogManager log = LogManager.getInstance();
 
-    public synchronized void write(Map<String, String> map, EngineSocket engineSocket) {
+    public synchronized void write(Map<String, String> map, EngineSocketNIO engineSocket) {
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
                 .toString()));
-        Socket socket = (Socket) engineSocket.getCountStore().remove(
+        Socket socket = (Socket) engineSocket.COUNT_STORE.remove(
                 applicationId);
         byte[] bs = new ProtocolHttpWriteHandler().handle(map);
         try {
@@ -28,7 +28,7 @@ public class UtilHttpWriteSocket extends UtilWrite {
             // TODO Auto-generated catch block
             log.error(e, "");
         } finally {
-            engineSocket.getPoolMap().repay(map);
+            engineSocket.POOL_MAP.repay(map);
             try {
                 socket.close();
             } catch (IOException e) {

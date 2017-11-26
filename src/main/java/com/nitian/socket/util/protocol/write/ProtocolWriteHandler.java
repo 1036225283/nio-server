@@ -1,6 +1,7 @@
 package com.nitian.socket.util.protocol.write;
 
-import com.nitian.socket.EngineSocket;
+
+import com.nitian.socket.EngineSocketNIO;
 
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public abstract class ProtocolWriteHandler {
     private Map<String, String> map;
 
 
-    private EngineSocket engineSocket;
+    private EngineSocketNIO engineSocket;
 
     public Map<String, String> getMap() {
         return map;
@@ -30,11 +31,11 @@ public abstract class ProtocolWriteHandler {
     }
 
 
-    public void setEngineSocket(EngineSocket engineSocket) {
+    public void setEngineSocket(EngineSocketNIO engineSocket) {
         this.engineSocket = engineSocket;
     }
 
-    public EngineSocket getEngineSocket() {
+    public EngineSocketNIO getEngineSocket() {
         return engineSocket;
     }
 

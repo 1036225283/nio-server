@@ -1,6 +1,6 @@
 package com.nitian.socket.util.queue;
 
-import com.nitian.socket.EngineSocket;
+import com.nitian.socket.EngineSocketNIO;
 import com.nitian.util.log.LogManager;
 
 import java.util.Iterator;
@@ -13,10 +13,10 @@ import java.util.Iterator;
 public class UtilQueueIterator extends UtilQueue<Iterator> {
 
 
-    private EngineSocket engineSocket;
+    private EngineSocketNIO engineSocket;
     protected LogManager log = LogManager.getInstance();
 
-    public UtilQueueIterator(EngineSocket engineSocket) {
+    public UtilQueueIterator(EngineSocketNIO engineSocket) {
         // TODO Auto-generated constructor stub
         this.engineSocket = engineSocket;
     }

@@ -1,11 +1,10 @@
 package com.nitian.socket.util.queue;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.nitian.util.log.LogManager;
 import com.nitian.util.log.LogType;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class UtilQueue<T> implements Runnable {
 

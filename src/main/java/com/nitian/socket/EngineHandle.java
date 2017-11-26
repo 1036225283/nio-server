@@ -18,7 +18,7 @@ public class EngineHandle {
     private UtilQueueHandle queueHandle;
 
 
-    private EngineSocket engineSocket;
+    private EngineSocketNIO engineSocket;
 
     public EngineHandle() {
         init();
@@ -47,11 +47,11 @@ public class EngineHandle {
     }
 
 
-    public void setEngineSocket(EngineSocket engineSocket) {
+    public void setEngineSocket(EngineSocketNIO engineSocket) {
         this.engineSocket = engineSocket;
     }
 
-    public EngineSocket getEngineSocket() {
+    public EngineSocketNIO getEngineSocket() {
         return engineSocket;
     }
 }

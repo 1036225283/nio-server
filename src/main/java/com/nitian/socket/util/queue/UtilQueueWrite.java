@@ -1,10 +1,9 @@
 package com.nitian.socket.util.queue;
 
-import com.nitian.socket.EngineSocket;
+import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.key.UtilSelectionKey;
 import com.nitian.socket.util.protocol.write.ProtocolWriteHandler;
-import com.nitian.util.java.UtilByte;
 import com.nitian.util.log.LogType;
 
 import java.io.IOException;
@@ -21,10 +20,10 @@ import java.util.Map;
 public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 
 
-    private EngineSocket engineSocket;
+    private EngineSocketNIO engineSocket;
 
 
-    public UtilQueueWrite(EngineSocket engineSocket) {
+    public UtilQueueWrite(EngineSocketNIO engineSocket) {
         // TODO Auto-generated constructor stub
         this.engineSocket = engineSocket;
     }
@@ -36,7 +35,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
 
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
                 .toString()));
-        SelectionKey key = (SelectionKey) engineSocket.getCountStore().remove(
+        SelectionKey key = (SelectionKey) engineSocket.COUNT_STORE.remove(
                 applicationId);
         SocketChannel socketChannel = (SocketChannel) key.channel();
 
@@ -49,7 +48,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
         byte[] bs;
 
         String protocol = map.get(CoreType.protocol.toString());
-        ProtocolWriteHandler protocolWriteHandler = engineSocket.getProtocolWriteFactory().get(protocol);
+        ProtocolWriteHandler protocolWriteHandler = engineSocket.protocolWriteFactory.get(protocol);
         if (protocolWriteHandler == null) {
             UtilSelectionKey.cancel(key);
             return;
@@ -58,7 +57,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
         }
 
         try {
-            byteBuffer = engineSocket.getPoolBuffer().lend();
+            byteBuffer = engineSocket.POOL_BUFFER.lend();
             byteBuffer.put(bs);
             byteBuffer.flip();
             socketChannel.write(byteBuffer);
@@ -71,8 +70,8 @@ public class UtilQueueWrite extends UtilQueue<Map<String, String>> {
             } else {
                 this.engineSocket.callback(key);
             }
-            engineSocket.getPoolMap().repay(map);
-            engineSocket.getPoolBuffer().repay(byteBuffer);
+            engineSocket.POOL_MAP.repay(map);
+            engineSocket.POOL_BUFFER.repay(byteBuffer);
         }
         log.info(LogType.thread, this, Thread.currentThread().toString());
         log.dateInfo(LogType.time, this, "写消息队列处理结束");

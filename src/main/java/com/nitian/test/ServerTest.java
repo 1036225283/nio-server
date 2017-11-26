@@ -3,18 +3,18 @@ package com.nitian.test;
 import com.nitian.handler.ExitHandler;
 import com.nitian.handler.LoginHandler;
 import com.nitian.handler.TestHandler;
-import com.nitian.handler.keyValue.GetHandler;
-import com.nitian.handler.keyValue.InitHandler;
-import com.nitian.handler.keyValue.SetHandler;
 import com.nitian.handler.tree.data.*;
 import com.nitian.handler.tree.view.*;
 import com.nitian.socket.EngineHandle;
-import com.nitian.socket.EngineSocket;
 import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
-import com.nitian.socket.util.protocol.read.*;
+import com.nitian.socket.util.protocol.read.ProtocolHttpReadHandler;
+import com.nitian.socket.util.protocol.read.ProtocolWebSocketReadHandler;
+import com.nitian.socket.util.protocol.read.ProtocolWebSocketUpgradeReadHandler;
+import com.nitian.socket.util.protocol.read.ProtocolXwsReadHandler;
+import com.nitian.socket.util.protocol.ssl.ProtocolHttpsReadHandler;
 import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketWriteHandler;
@@ -48,10 +48,10 @@ public class ServerTest {
 //            log.putType(LogType.time.toString());
 
             EngineHandle engineHandle = new EngineHandle();
-            EngineSocket engineSocket = new EngineSocketNIO(8888);
-            engineSocket.setEngineHandle(engineHandle);
+            EngineSocketNIO engineSocket = new EngineSocketNIO(8888);
+            engineSocket.engineHandle = engineHandle;
 
-            engineSocket.getProtocolReadFactory()
+            engineSocket.protocolReadFactory
                     .regist(CoreProtocol.HTTP.toString(), new ProtocolHttpReadHandler())
                     .regist(CoreProtocol.WEBSOCKETUPGRADE.toString(), new ProtocolWebSocketUpgradeReadHandler())
                     .regist(CoreProtocol.XWS.toString(), new ProtocolXwsReadHandler())
@@ -59,7 +59,7 @@ public class ServerTest {
                     .regist(CoreProtocol.HTTPS.toString(), new ProtocolHttpsReadHandler())
             ;
 
-            engineSocket.getProtocolWriteFactory()
+            engineSocket.protocolWriteFactory
                     .regist(CoreProtocol.HTTP.toString(), new ProtocolHttpWriteHandler())
                     .regist(CoreProtocol.WEBSOCKETUPGRADE.toString(), new ProtocolWebSocketUpgradeWriteHandler())
                     .regist(CoreProtocol.XWS.toString(), new ProtocolXwsWriteHandler())
@@ -88,12 +88,12 @@ public class ServerTest {
                             map.put(CoreType.result.toString(), "l fuck you !!!");
                         }
                     })
-                    .regist("/key-value/get", new GetHandler())
-                    .regist("/key-value/set", new SetHandler())
-                    .regist("/redis/get", new com.nitian.handler.redis.GetHandler())
-                    .regist("/redis/set", new com.nitian.handler.redis.SetHandler())
-                    .regist("/redis/del", new com.nitian.handler.redis.RemoveHandler())
-                    .regist("/redis/init", new InitHandler())
+//                    .regist("/key-value/get", new GetHandler())
+//                    .regist("/key-value/set", new SetHandler())
+//                    .regist("/redis/get", new com.nitian.handler.redis.GetHandler())
+//                    .regist("/redis/set", new com.nitian.handler.redis.SetHandler())
+//                    .regist("/redis/del", new com.nitian.handler.redis.RemoveHandler())
+//                    .regist("/redis/init", new InitHandler())
 
                     .regist("/avl/set", new AVLDataSetHandler())
                     .regist("/avl/get", new AVLDataGetHandler())
