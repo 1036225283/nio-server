@@ -1,5 +1,9 @@
 package com.nitian.socket.util.protocol.ssl;
 
+import com.nitian.socket.util.UtilSession;
+
+import java.util.Map;
+
 /**
  * ssl handshake handler
  * Created by xws on 11/25/17.
@@ -16,7 +20,14 @@ public class SSLHandshakeHandler {
 
         int action = getAction(bs);
         if (action == ClientHello) {
+            //解析clientHello
             SSLClientHello hello = SSLClientHelloHandler.handler(bs);
+            //构造serverHello
+            String strSessionId = UtilSession.createSessionId();
+            Map<String, Object> map = UtilSession.get(strSessionId);
+            map.put("clientHello", hello);
+            UtilSession.updateTime(strSessionId);
+
         } else if (action == ClientKeyExchange) {
 
         } else if (action == ServerHello) {

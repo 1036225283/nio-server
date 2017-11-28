@@ -46,6 +46,8 @@ public class UtilSession {
         return strSessionId;
     }
 
+
+
     //更新session时间
     public static void updateTime(String strSessionId) {
         Map<String, Object> tmp = map.get(strSessionId);
