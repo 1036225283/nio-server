@@ -1,6 +1,7 @@
 package com.nitian.socket.util.protocol.ssl;
 
 import com.nitian.socket.util.UtilSession;
+import com.nitian.util.java.ByteList;
 
 import java.util.Map;
 
@@ -23,6 +24,29 @@ public class SSLHandshakeHandler {
             //解析clientHello
             SSLClientHello hello = SSLClientHelloHandler.handler(bs);
             //构造serverHello
+            ByteList byteList = new ByteList();
+            byteList.add((byte)22);//content type handshake(22)
+            byteList.add((byte)3);//version tls(0x0303)
+            byteList.add((byte)3);
+            byteList.add((byte)0);//length
+            byteList.add((byte)0);
+            byteList.add((byte)2);//server hello
+
+            byteList.add((byte)0);//server hello length
+            byteList.add((byte)0);
+            byteList.add((byte)0);
+
+            byteList.add((byte)3);//version tls(0x0303)
+            byteList.add((byte)3);
+
+            byteList.add(new byte[4]);//random time
+            byteList.add(new byte[28]);//random byte
+
+
+
+
+
+
             String strSessionId = UtilSession.createSessionId();
             Map<String, Object> map = UtilSession.get(strSessionId);
             map.put("clientHello", hello);
