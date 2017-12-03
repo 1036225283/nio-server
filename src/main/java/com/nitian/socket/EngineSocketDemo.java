@@ -1,5 +1,6 @@
 package com.nitian.socket;
 
+import com.nitian.socket.util.WriteTest;
 import com.nitian.socket.util.pool.UtilPoolBuffer;
 import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
@@ -13,6 +14,7 @@ import com.nitian.util.log.LogManager;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -22,10 +24,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * 服务器
  * Created by 1036225283 on 2016/11/17.
  */
-public class EngineSocketNIO {
+public class EngineSocketDemo {
 
 
     public LogManager log = LogManager.getInstance();
@@ -95,6 +96,7 @@ public class EngineSocketNIO {
                         // System.out.println("connect...");
                         // System.out.println(UtilByte.toBin((byte)
                         // key.interestOps()));
+                        this.connect(key);
                     } else if (key.isReadable()) {
                         // System.out.println("read...");
                         // System.out.println(UtilByte.toBin((byte)
@@ -115,6 +117,61 @@ public class EngineSocketNIO {
 
     }
 
+    //the method is used for test demo
+    private synchronized void read(SelectionKey key) throws IOException {
+        // 服务器可读取消息:得到事件发生的Socket通道
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+        byte[] bs = EngineSocketDemo.POOL_BYTE.lend();
+        // 创建读取的缓冲区
+        // ByteBuffer buffer = this.getPoolBuffer().lend();
+        ByteBuffer buffer = ByteBuffer.allocate(64 * 1024);
+        int size;
+
+        try {
+            size = socketChannel.read(buffer);
+        } catch (IOException e) {
+            // The remote forcibly closed the connection, cancel the selection
+            // key and close the channel.
+            key.cancel();
+            socketChannel.close();
+            log.error(e, "");
+            return;
+        }
+
+        if (size > 0) {
+            buffer.flip();
+            buffer.get(bs, 0, size);
+        } else if (size == 0) {
+            return;
+        } else if (size == -1) {
+            // Remote entity shut the socket down cleanly. Do the same from our
+            // end and cancel the channel.
+            key.channel().close();
+            key.cancel();
+            return;
+        }
+        EngineSocketDemo.POOL_BYTE.repay(bs);
+        EngineSocketDemo.POOL_BUFFER.repay(buffer);
+    }
+
+    private void write(SocketChannel socketChannel, String value) throws IOException {
+        byte[] bytes = WriteTest.getString("").getBytes();
+        ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length);
+        byteBuffer.put(bytes);
+        byteBuffer.flip();
+        socketChannel.write(byteBuffer);
+        // socketChannel.close();
+
+    }
+
+    /**
+     * 获取socketChannel的状态
+     *
+     * @param socketChannel
+     */
+    private void state(SocketChannel socketChannel) {
+    }
+
     private void accept(SelectionKey key) throws IOException {
         count = count + 1;
 
@@ -129,12 +186,15 @@ public class EngineSocketNIO {
         }
     }
 
+    private void connect(SelectionKey key) {
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+    }
 
-    public EngineSocketNIO() {
+    public EngineSocketDemo() {
         init();
     }
 
-    public EngineSocketNIO(int port) {
+    public EngineSocketDemo(int port) {
         this.port = port;
         init();
     }
@@ -159,8 +219,8 @@ public class EngineSocketNIO {
         POOL_BYTE = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
         POOL_MAP = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
 
-        QUEUE_READ = new UtilQueueSocketChannel(this);
-        QUEUE_WRITE = new UtilQueueWrite(this);
+        QUEUE_READ = new UtilQueueSocketChannel(null);
+        QUEUE_WRITE = new UtilQueueWrite(null);
 
         // 开启解析线程
         new Thread(QUEUE_READ, "线程：读队列线程").start();

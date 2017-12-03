@@ -13,19 +13,18 @@ import java.util.Map;
 public class EngineHandle {
 
 
+    // handler factory:register handler
     private HandlerFactory handlerFactory;
     // 业务消息队列
     private UtilQueueHandle queueHandle;
 
-
-    private EngineSocketNIO engineSocket;
 
     public EngineHandle() {
         init();
     }
 
 
-    public void init() {
+    private void init() {
 
         handlerFactory = new HandlerFactory();
         handlerFactory.regist("default", new DefaultHandler());
@@ -46,12 +45,4 @@ public class EngineHandle {
         return handlerFactory;
     }
 
-
-    public void setEngineSocket(EngineSocketNIO engineSocket) {
-        this.engineSocket = engineSocket;
-    }
-
-    public EngineSocketNIO getEngineSocket() {
-        return engineSocket;
-    }
 }

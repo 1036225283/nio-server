@@ -1,12 +1,13 @@
 package com.nitian.socket.util.queue;
 
-import java.util.Map;
-
 import com.nitian.socket.EngineHandle;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
 import com.nitian.util.log.LogType;
 
+import java.util.Map;
+
+//业务处理对列
 public class UtilQueueHandle extends UtilQueue<Map<String, Object>> {
 
 

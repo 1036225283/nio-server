@@ -35,8 +35,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, Object>> {
 
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
                 .toString()).toString());
-        SelectionKey key = (SelectionKey) EngineSocketNIO.COUNT_STORE.remove(
-                applicationId);
+        SelectionKey key = EngineSocketNIO.COUNT_STORE.remove(applicationId);
         SocketChannel socketChannel = (SocketChannel) key.channel();
 
         if (!socketChannel.isConnected()) {
