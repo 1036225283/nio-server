@@ -82,10 +82,10 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
                 return;
             }
             //存放异步标识
-            long applicationId = engineSocket.COUNT_STORE.put(selectionKey);
+            long applicationId = EngineSocketNIO.COUNT_STORE.put(selectionKey);
             map.put(CoreType.applicationId.toString(),
                     String.valueOf(applicationId));
-            engineSocket.engineHandle.push(map);
+            EngineSocketNIO.engineHandle.push(map);
 
         } catch (Exception e) {
             log.error(e, "read线程异常");

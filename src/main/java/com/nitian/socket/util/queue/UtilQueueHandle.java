@@ -26,7 +26,6 @@ public class UtilQueueHandle extends UtilQueue<Map<String, Object>> {
         Handler handler = engineHandle.getHandlerFactory()
                 .get(url);
         if (handler != null) {
-            handler.setEngineHandle(engineHandle);
             handler.setMap(t);
             handler.handle(t);
             handler.afterHandle();

@@ -35,7 +35,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, Object>> {
 
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
                 .toString()).toString());
-        SelectionKey key = (SelectionKey) engineSocket.COUNT_STORE.remove(
+        SelectionKey key = (SelectionKey) EngineSocketNIO.COUNT_STORE.remove(
                 applicationId);
         SocketChannel socketChannel = (SocketChannel) key.channel();
 
@@ -48,7 +48,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, Object>> {
         byte[] bs;
 
         String protocol = map.get(CoreType.protocol.toString()).toString();
-        ProtocolWriteHandler protocolWriteHandler = engineSocket.protocolWriteFactory.get(protocol);
+        ProtocolWriteHandler protocolWriteHandler = EngineSocketNIO.protocolWriteFactory.get(protocol);
         if (protocolWriteHandler == null) {
             UtilSelectionKey.cancel(key);
             return;
@@ -57,7 +57,7 @@ public class UtilQueueWrite extends UtilQueue<Map<String, Object>> {
         }
 
         try {
-            byteBuffer = engineSocket.POOL_BUFFER.lend();
+            byteBuffer = EngineSocketNIO.POOL_BUFFER.lend();
             byteBuffer.put(bs);
             byteBuffer.flip();
             socketChannel.write(byteBuffer);
@@ -65,13 +65,18 @@ public class UtilQueueWrite extends UtilQueue<Map<String, Object>> {
             // TODO Auto-generated catch block
             log.error(e, "");
         } finally {
-            if (map.get(CoreType.close.toString()).equals("true")) {
-                UtilSelectionKey.cancel(key);
+            if (map.containsKey(CoreType.close.toString())) {
+                String close = map.get(CoreType.close.toString()).toString();
+                if ("true".equals(close)) {
+                    UtilSelectionKey.cancel(key);
+                } else {
+                    this.engineSocket.callback(key);
+                }
             } else {
                 this.engineSocket.callback(key);
             }
-            engineSocket.POOL_MAP.repay(map);
-            engineSocket.POOL_BUFFER.repay(byteBuffer);
+            EngineSocketNIO.POOL_MAP.repay(map);
+            EngineSocketNIO.POOL_BUFFER.repay(byteBuffer);
         }
         log.info(LogType.thread, this, Thread.currentThread().toString());
         log.dateInfo(LogType.time, this, "写消息队列处理结束");

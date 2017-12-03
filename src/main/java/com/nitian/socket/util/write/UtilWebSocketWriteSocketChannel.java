@@ -19,9 +19,9 @@ public class UtilWebSocketWriteSocketChannel extends UtilWrite {
     public synchronized void write(Map<String, Object> map, EngineSocketNIO engineSocket) {
         long applicationId = Long.valueOf(map.get(CoreType.applicationId
                 .toString()).toString());
-        Socket socket = (Socket)
-                EngineSocketNIO.COUNT_STORE.remove(
-                        applicationId);
+        Socket socket = null;
+//                EngineSocketNIO.COUNT_STORE.remove(
+//                        applicationId);
         byte[] bs = new ProtocolWebSocketUpgradeWriteHandler().handle(map);
         try {
             socket.getOutputStream().write(bs);

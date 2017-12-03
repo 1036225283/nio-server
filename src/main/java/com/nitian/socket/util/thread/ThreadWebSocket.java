@@ -45,8 +45,8 @@ public class ThreadWebSocket implements Runnable {
                 int size = socket.getInputStream().read(bs);
                 if (size != -1) {
                     UtilParseWebSocketData.parse(bs, size);
-                    long applicationId = engineSocket
-                            .COUNT_STORE.put(socket);
+                    long applicationId = 0;
+//                            engineSocket.COUNT_STORE.put(socket);
                     log.info(LogType.debug, this, "size=" + size);
                     Map<String, Object> map = engineSocket.POOL_MAP
                             .lend();

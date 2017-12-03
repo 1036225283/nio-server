@@ -7,10 +7,8 @@ import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.protocol.read.ProtocolReadFactory;
 import com.nitian.socket.util.protocol.write.ProtocolWriteFactory;
-import com.nitian.socket.util.queue.UtilQueue;
 import com.nitian.socket.util.queue.UtilQueueSocketChannel;
 import com.nitian.socket.util.queue.UtilQueueWrite;
-import com.nitian.socket.util.store.CountStore;
 import com.nitian.socket.util.store.CountStoreSelectionKey;
 import com.nitian.util.log.LogManager;
 
@@ -41,7 +39,7 @@ public class EngineSocketNIO {
      */
     public static EngineHandle engineHandle;
     private Integer port;
-    public static CountStore COUNT_STORE;
+    public static CountStoreSelectionKey COUNT_STORE;
     private ServerSocket serverSocket;
     private int poolMax = 800;
     private int poolTotal = 200;
@@ -49,9 +47,9 @@ public class EngineSocketNIO {
     public static ProtocolReadFactory protocolReadFactory;
     public static ProtocolWriteFactory protocolWriteFactory;
 
-    public static UtilQueue QUEUE_READ;
+    public static UtilQueueSocketChannel QUEUE_READ;
 
-    public static UtilQueue QUEUE_WRITE;
+    public static UtilQueueWrite QUEUE_WRITE;
 
     public static UtilPoolBuffer POOL_BUFFER;
     public static UtilPoolByte POOL_BYTE;
@@ -120,7 +118,7 @@ public class EngineSocketNIO {
 
     }
 
-    public synchronized void read(SelectionKey key) throws IOException {
+    public synchronized void reads(SelectionKey key) throws IOException {
         // 服务器可读取消息:得到事件发生的Socket通道
         SocketChannel socketChannel = (SocketChannel) key.channel();
         byte[] bs = this.POOL_BYTE.lend();
@@ -153,7 +151,7 @@ public class EngineSocketNIO {
             return;
         }
 
-        long applicationId = this.COUNT_STORE.put(socketChannel);
+        long applicationId = EngineSocketNIO.COUNT_STORE.put(null);
 
         Map<String, Object> map = this.POOL_MAP.lend();
         if (map == null) {
@@ -164,9 +162,9 @@ public class EngineSocketNIO {
         String request = new String(bs, 0, size, "UTF-8");
         map.put(CoreType.request.toString(), request);
         buffer.clear();
-        this.POOL_BYTE.repay(bs);
-        this.POOL_BUFFER.repay(buffer);
-        QUEUE_READ.push(map);
+        EngineSocketNIO.POOL_BYTE.repay(bs);
+        EngineSocketNIO.POOL_BUFFER.repay(buffer);
+//        QUEUE_READ.push(map);
     }
 
     public void write(SocketChannel socketChannel, String value) throws IOException {

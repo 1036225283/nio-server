@@ -1,6 +1,5 @@
 package com.nitian.socket.core;
 
-import com.nitian.socket.EngineHandle;
 import com.nitian.socket.EngineSocketNIO;
 
 import java.util.Map;
@@ -13,7 +12,6 @@ public abstract class Handler {
 
     public abstract void handle(Map<String, Object> map);
 
-    private EngineHandle engineHandle;
 
     private Map<String, Object> map;
 
@@ -30,8 +28,5 @@ public abstract class Handler {
     }
 
 
-    public void setEngineHandle(EngineHandle engineHandle) {
-        this.engineHandle = engineHandle;
-    }
 
 }
