@@ -19,7 +19,7 @@ public class ProtocolWebSocketReadHandler extends ProtocolReadHandler {
     protected static LogManager log = LogManager.getInstance();
 
     @Override
-    public boolean handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
+    public void handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
         try {
 //            int RSV = 1 << 2;
 //            int OPCODE = 1 << 3;
@@ -75,27 +75,23 @@ public class ProtocolWebSocketReadHandler extends ProtocolReadHandler {
                     log.info(LogType.debug, "----web socket textValue" + textValue);
                     log.info(LogType.debug, "----web socket OPCODE = 1");
                     map.put(CoreType.stop.toString(), CoreType.stop.toString());
-                    return true;
                 } else if (OPCODE == 2) {// 字节帧
                     map.put(CoreType.stop.toString(), CoreType.stop.toString());
                     log.info(LogType.debug, "----web socket OPCODE = 2");
-                    return true;
                 } else if (OPCODE == 8) {// 关闭帧
                     map.put(CoreType.stop.toString(), CoreType.stop.toString());
                     log.info(LogType.debug, "----web socket OPCODE = 8");
-                    return true;
                 } else if (OPCODE == 9) {// PING帧
                     map.put(CoreType.stop.toString(), CoreType.stop.toString());
                     log.info(LogType.debug, "----web socket OPCODE = 9");
-                    return true;
                 } else if (OPCODE == 10) {// PONG帧
                     map.put(CoreType.stop.toString(), CoreType.stop.toString());
                     log.info(LogType.debug, "----web socket OPCODE = 10");
-                    return true;
                 }
 
             } catch (Exception e) {
-                return false;
+                e.printStackTrace();
+                log.dateInfo(e.getMessage());
             }
 
             String request = new String(bs, 0, length);
@@ -110,10 +106,8 @@ public class ProtocolWebSocketReadHandler extends ProtocolReadHandler {
             map.put(CoreType.sec_websocket_accept.toString(), secWebSocketAccept);
             map.put(CoreType.protocol.toString(), CoreProtocol.WEBSOCKETUPGRADE.toString());
             map.put(CoreType.size.toString(), String.valueOf(request.length()));
-            return true;
         } catch (Exception e) {
             log.error(e, "解析HTTP协议出错了!!!");
-            return false;
         }
     }
 }

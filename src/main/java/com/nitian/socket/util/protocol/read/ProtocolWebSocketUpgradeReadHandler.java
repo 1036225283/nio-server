@@ -19,7 +19,7 @@ public class ProtocolWebSocketUpgradeReadHandler extends ProtocolReadHandler {
     protected static LogManager log = LogManager.getInstance();
 
     @Override
-    public boolean handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
+    public void handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
         try {
             buffer.flip();
             int length = buffer.remaining();
@@ -36,10 +36,8 @@ public class ProtocolWebSocketUpgradeReadHandler extends ProtocolReadHandler {
             map.put(CoreType.sec_websocket_accept.toString(), secWebSocketAccept);
             map.put(CoreType.protocol.toString(), CoreProtocol.WEBSOCKETUPGRADE.toString());
             map.put(CoreType.size.toString(), String.valueOf(request.length()));
-            return true;
         } catch (Exception e) {
             log.error(e, "解析HTTP协议出错了!!!");
-            return false;
         }
     }
 }

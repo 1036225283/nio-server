@@ -17,7 +17,7 @@ public class ProtocolXwsReadHandler extends ProtocolReadHandler {
     protected static LogManager log = LogManager.getInstance();
 
     @Override
-    public boolean handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
+    public void handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
         try {
 
             buffer.flip();
@@ -37,10 +37,8 @@ public class ProtocolXwsReadHandler extends ProtocolReadHandler {
             map.put(CoreType.protocol.toString(), CoreProtocol.XWS.toString());
             map.put(CoreType.size.toString(), String.valueOf(request.length()));
             map.put(CoreType.close.toString(), "false");
-            return true;
         } catch (Exception e) {
             log.error(e, "解析XWS协议出错了!!!");
-            return false;
         }
     }
 

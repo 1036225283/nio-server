@@ -4,11 +4,13 @@ import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.core.CoreProtocol;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.UtilSession;
+import com.nitian.socket.util.key.UtilSelectionKey;
 import com.nitian.socket.util.protocol.read.ProtocolReadHandler;
 import com.nitian.util.java.ByteList;
 import com.nitian.util.log.LogManager;
 
 import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
 import java.util.Map;
 
 /**
@@ -31,7 +33,11 @@ public class ProtocolHttpsReadHandler extends ProtocolReadHandler {
 
 
     @Override
-    public boolean handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
+    public void handle(Map<String, Object> map, ByteBuffer buffer, byte[] bs) {
+
+        SelectionKey selectionKey = null;
+        long applicationId = 0;
+
         try {
 
             buffer.flip();
@@ -83,6 +89,16 @@ public class ProtocolHttpsReadHandler extends ProtocolReadHandler {
                     EngineSocketNIO.QUEUE_WRITE.push(map);
 
 
+                    selectionKey = (SelectionKey) map.get("selectionKey");
+                    //存放异步标识
+                    applicationId = EngineSocketNIO.COUNT_STORE.put(selectionKey);
+                    map.put(CoreType.applicationId.toString(),
+                            String.valueOf(applicationId));
+                    EngineSocketNIO.POOL_BYTE.repay(bs);
+                    EngineSocketNIO.POOL_BUFFER.repay(buffer);
+                    EngineSocketNIO.engineHandle.push(map);
+
+
                 } else if (nHandshakeType == SSL.SSHApplicationData) {
 
                 }
@@ -90,11 +106,11 @@ public class ProtocolHttpsReadHandler extends ProtocolReadHandler {
                 map.put(CoreType.protocol.toString(), CoreProtocol.HTTPS.toString());
             }
         } catch (Exception e) {
-            log.error(e, "解析HTTP协议出错了!!!");
-            return false;
+            UtilSelectionKey.cancel(selectionKey);
+            EngineSocketNIO.COUNT_STORE.remove(applicationId);
+            log.error(e, "解析HTTPS协议出错了!!!");
         }
 
-        return false;
     }
 
 
