@@ -19,16 +19,11 @@ import java.util.Map;
  *
  * @author 1036225283
  */
-public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
+public class UtilQueueRead extends UtilQueue<SelectionKey> {
 
 
-    private EngineSocketNIO engineSocket;
     protected LogManager log = LogManager.getInstance();
 
-    public UtilQueueSocketChannel(EngineSocketNIO engineSocket) {
-        // TODO Auto-generated constructor stub
-        this.engineSocket = engineSocket;
-    }
 
     @Override
     public synchronized void handle(SelectionKey selectionKey) {
@@ -37,7 +32,7 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
 
         try {
 
-            ByteBuffer buffer = read(selectionKey);
+            ByteBuffer buffer = UtilSelectionKey.read(selectionKey);
             if (buffer == null) {
                 return;
             }
@@ -48,13 +43,14 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
             //如果不存在，就另行处理
             String protocol;
 //            System.out.println("协议存储 = " + engineSocket.getSocketMap());
-            if (engineSocket.SOCKET_MAP.containsKey(selectionKey)) {
-                protocol = engineSocket.SOCKET_MAP.get(selectionKey).toString();
+            if (EngineSocketNIO.SOCKET_MAP.containsKey(selectionKey)) {
+                protocol = EngineSocketNIO.SOCKET_MAP.get(selectionKey);
             } else {
                 protocol = ProtocolDispatcher.dispatcher(buffer, bs);
             }
 
-            ProtocolReadHandler protocolReadHandler = engineSocket.protocolReadFactory.get(protocol);
+            ProtocolReadHandler protocolReadHandler =
+                    EngineSocketNIO.protocolReadFactory.get(protocol);
             if (protocolReadHandler == null) {
                 EngineSocketNIO.POOL_BYTE.repay(bs);
                 EngineSocketNIO.POOL_BUFFER.repay(buffer);
@@ -62,7 +58,8 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
                 return;
             }
 
-            Map<String, Object> map = engineSocket.POOL_MAP.lend();
+            Map<String, Object> map = EngineSocketNIO.POOL_MAP.lend();
+            map.put("selectionKey", selectionKey);
             if (!protocolReadHandler.handle(map, buffer, bs)) {
                 EngineSocketNIO.POOL_BYTE.repay(bs);
                 EngineSocketNIO.POOL_BUFFER.repay(buffer);
@@ -70,8 +67,8 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
                 return;
             }
             if (!map.containsKey(CoreType.close.toString())) {
-                engineSocket.SOCKET_MAP.put(selectionKey, protocol.replace("UPGRADE", ""));
-                log.dateInfo(LogType.time, this, "<SocketChannel,String>的数量 = " + engineSocket.SOCKET_MAP.size());
+                EngineSocketNIO.SOCKET_MAP.put(selectionKey, protocol.replace("UPGRADE", ""));
+                log.dateInfo(LogType.time, this, "<SocketChannel,String>的数量 = " + EngineSocketNIO.SOCKET_MAP.size());
             }
             EngineSocketNIO.POOL_BYTE.repay(bs);
             EngineSocketNIO.POOL_BUFFER.repay(buffer);
@@ -95,43 +92,5 @@ public class UtilQueueSocketChannel extends UtilQueue<SelectionKey> {
 
     }
 
-
-    public synchronized ByteBuffer read(SelectionKey key) throws IOException {
-        //首先，借取资源
-
-        ByteBuffer buffer = EngineSocketNIO.POOL_BUFFER.lend();
-
-        SocketChannel socketChannel = (SocketChannel) key.channel();
-
-
-        int size;
-
-        try {
-            size = socketChannel.read(buffer);
-        } catch (IOException e) {
-            UtilSelectionKey.cancel(key);
-            log.error(e, "远程客户端关闭了");
-            EngineSocketNIO.POOL_BUFFER.repay(buffer);
-            return null;
-        }
-
-
-        if (size > 0) {
-            return buffer;
-//            buffer.flip();
-//            buffer.get(bs, 0, size);
-        } else if (size == 0) {
-            EngineSocketNIO.POOL_BUFFER.repay(buffer);
-            log.dateInfo(LogType.time, this, "读取的数据长度为0，需要释放key和其他资源");
-            return null;
-        } else if (size == -1) {
-            UtilSelectionKey.cancel(key);
-            EngineSocketNIO.POOL_BUFFER.repay(buffer);
-            log.dateInfo(LogType.time, this, "读取的数据长度为-1，需要释放key和其他资源");
-            return null;
-        }
-
-        return null;
-    }
 
 }

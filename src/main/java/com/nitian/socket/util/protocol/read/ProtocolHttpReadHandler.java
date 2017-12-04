@@ -40,6 +40,9 @@ public class ProtocolHttpReadHandler extends ProtocolReadHandler {
             map.put(CoreType.size.toString(), String.valueOf(request.length()));
             map.put(CoreType.sessionId.toString(), sessionId);
             map.put(CoreType.close.toString(), CoreType.close.toString());
+
+
+
             return true;
         } catch (Exception e) {
             log.error(e, "解析HTTP协议出错了!!!");

@@ -5,14 +5,13 @@ import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.protocol.read.ProtocolReadFactory;
 import com.nitian.socket.util.protocol.write.ProtocolWriteFactory;
-import com.nitian.socket.util.queue.UtilQueueSocketChannel;
+import com.nitian.socket.util.queue.UtilQueueRead;
 import com.nitian.socket.util.queue.UtilQueueWrite;
 import com.nitian.socket.util.store.CountStoreSelectionKey;
 import com.nitian.util.log.LogManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -30,6 +29,7 @@ public class EngineSocketNIO {
 
     public LogManager log = LogManager.getInstance();
 
+    //<SelectionKey,Protocol>
     public static Map<SelectionKey, String> SOCKET_MAP;
 
     /**
@@ -38,15 +38,13 @@ public class EngineSocketNIO {
     public static EngineHandle engineHandle;
     private Integer port;
     public static CountStoreSelectionKey COUNT_STORE;
-    private ServerSocket serverSocket;
     private int poolMax = 800;
     private int poolTotal = 200;
 
     public static ProtocolReadFactory protocolReadFactory;
     public static ProtocolWriteFactory protocolWriteFactory;
 
-    public static UtilQueueSocketChannel QUEUE_READ;
-
+    public static UtilQueueRead QUEUE_READ;
     public static UtilQueueWrite QUEUE_WRITE;
 
     public static UtilPoolBuffer POOL_BUFFER;
@@ -55,7 +53,7 @@ public class EngineSocketNIO {
 
 
     // 通道管理器
-    private Selector selector;
+    private static Selector selector;
 
     int count = 0;
 
@@ -159,7 +157,7 @@ public class EngineSocketNIO {
         POOL_BYTE = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
         POOL_MAP = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
 
-        QUEUE_READ = new UtilQueueSocketChannel(this);
+        QUEUE_READ = new UtilQueueRead();
         QUEUE_WRITE = new UtilQueueWrite(this);
 
         // 开启解析线程

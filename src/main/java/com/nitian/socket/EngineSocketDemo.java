@@ -6,7 +6,7 @@ import com.nitian.socket.util.pool.UtilPoolByte;
 import com.nitian.socket.util.pool.UtilPoolMap;
 import com.nitian.socket.util.protocol.read.ProtocolReadFactory;
 import com.nitian.socket.util.protocol.write.ProtocolWriteFactory;
-import com.nitian.socket.util.queue.UtilQueueSocketChannel;
+import com.nitian.socket.util.queue.UtilQueueRead;
 import com.nitian.socket.util.queue.UtilQueueWrite;
 import com.nitian.socket.util.store.CountStoreSelectionKey;
 import com.nitian.util.log.LogManager;
@@ -46,7 +46,7 @@ public class EngineSocketDemo {
     public static ProtocolReadFactory protocolReadFactory;
     public static ProtocolWriteFactory protocolWriteFactory;
 
-    public static UtilQueueSocketChannel QUEUE_READ;
+    public static UtilQueueRead QUEUE_READ;
 
     public static UtilQueueWrite QUEUE_WRITE;
 
@@ -219,7 +219,7 @@ public class EngineSocketDemo {
         POOL_BYTE = new UtilPoolByte(poolMax, poolTotal, null);// socket读取缓冲区(lend:replay)
         POOL_MAP = new UtilPoolMap(poolMax, poolTotal);// 解析数据缓冲区(lend:)
 
-        QUEUE_READ = new UtilQueueSocketChannel(null);
+        QUEUE_READ = new UtilQueueRead();
         QUEUE_WRITE = new UtilQueueWrite(null);
 
         // 开启解析线程
