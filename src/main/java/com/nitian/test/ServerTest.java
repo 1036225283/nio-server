@@ -15,6 +15,7 @@ import com.nitian.socket.util.protocol.read.ProtocolWebSocketReadHandler;
 import com.nitian.socket.util.protocol.read.ProtocolWebSocketUpgradeReadHandler;
 import com.nitian.socket.util.protocol.read.ProtocolXwsReadHandler;
 import com.nitian.socket.util.protocol.ssl.ProtocolHttpsReadHandler;
+import com.nitian.socket.util.protocol.ssl.ProtocolHttpsWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketWriteHandler;
@@ -64,7 +65,7 @@ public class ServerTest {
                     .regist(CoreProtocol.WEBSOCKETUPGRADE.toString(), new ProtocolWebSocketUpgradeWriteHandler())
                     .regist(CoreProtocol.XWS.toString(), new ProtocolXwsWriteHandler())
                     .regist(CoreProtocol.WEBSOCKET.toString(), new ProtocolWebSocketWriteHandler())
-                    .regist(CoreProtocol.HTTPS.toString(), new ProtocolHttpWriteHandler())
+                    .regist(CoreProtocol.HTTPS.toString(), new ProtocolHttpsWriteHandler())
             ;
 
             countMap.put("count", 0L);

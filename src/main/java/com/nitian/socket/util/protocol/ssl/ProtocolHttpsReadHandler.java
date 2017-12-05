@@ -82,21 +82,24 @@ public class ProtocolHttpsReadHandler extends ProtocolReadHandler {
 
 
                     String strSessionId = UtilSession.createSessionId();
-                    map = UtilSession.get(strSessionId);
-                    map.put("clientHello", hello);
+                    Map<String, Object> session = UtilSession.get(strSessionId);
+                    session.put("clientHello", hello);
                     UtilSession.updateTime(strSessionId);
-
-                    EngineSocketNIO.QUEUE_WRITE.push(map);
-
 
                     selectionKey = (SelectionKey) map.get("selectionKey");
                     //存放异步标识
                     applicationId = EngineSocketNIO.COUNT_STORE.put(selectionKey);
                     map.put(CoreType.applicationId.toString(),
                             String.valueOf(applicationId));
+
+                    map.put(CoreType.sessionId.toString(), strSessionId);
+
                     EngineSocketNIO.POOL_BYTE.repay(bs);
                     EngineSocketNIO.POOL_BUFFER.repay(buffer);
-                    EngineSocketNIO.engineHandle.push(map);
+
+                    map.put("action",action);
+
+                    EngineSocketNIO.QUEUE_WRITE.push(map);
 
 
                 } else if (nHandshakeType == SSL.SSHApplicationData) {
