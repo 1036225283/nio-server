@@ -145,4 +145,29 @@ public class SSLServerHello {
         return null;
     }
 
+    public byte[] createServerHelloDone() {
+        ByteList byteList = new ByteList();
+
+        //content type handshake(22)
+        byteList.add((byte) 22);
+
+        //version tls(0x0303)
+        byteList.add((byte) 3);
+        byteList.add((byte) 3);
+
+        //length
+        byteList.add((byte) 0);
+        byteList.add((byte) 4);
+
+        //Handshake Type: Server Hello Done (14)
+        byteList.add((byte) 14);
+
+
+        //length
+        byteList.add((byte) 0);
+        byteList.add((byte) 0);
+        byteList.add((byte) 0);
+
+        return byteList.getByte();
+    }
 }
