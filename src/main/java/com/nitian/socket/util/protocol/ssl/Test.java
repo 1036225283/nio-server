@@ -110,6 +110,8 @@ package com.nitian.socket.util.protocol.ssl;
  *      unwrap()        ...             Finished
  */
 
+import sun.security.ssl.SSLEngineImpl;
+
 import javax.net.ssl.*;
 import javax.net.ssl.SSLEngineResult.*;
 import java.io.*;
@@ -167,8 +169,11 @@ public class Test {
             System.setProperty("javax.net.debug", "all");
         }
 
+        SSLSocketFactory d = null;
+
         Test demo = new Test();
         demo.runDemo();
+        SSLEngineImpl SSLEngineImpl = null;
 
         System.out.println("Demo Completed.");
     }
@@ -181,7 +186,7 @@ public class Test {
         KeyStore ks = KeyStore.getInstance("JKS");
         KeyStore ts = KeyStore.getInstance("JKS");
 
-        char[] passphrase = "passphrase".toCharArray();
+        char[] passphrase = "890512".toCharArray();
 
         ks.load(new FileInputStream(keyStoreFile), passphrase);
         ts.load(new FileInputStream(trustStoreFile), passphrase);
