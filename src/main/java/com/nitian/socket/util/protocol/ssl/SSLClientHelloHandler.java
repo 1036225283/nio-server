@@ -91,13 +91,14 @@ public class SSLClientHelloHandler {
 
     //get client hello random time
     public static String getClientHelloRandomTime(byte[] bs) {
-        long bit1 = bs[10];
-        long bit2 = bs[11];
-        long bit3 = bs[12];
-        long bit4 = bs[13];
-        long time = (bit1 << 24) + (bit2 << 16) + (bit3 << 8) + bit4;
+//        long bit1 = bs[11]& 0xFF;
+//        long bit2 = bs[12]& 0xFF;
+//        long bit3 = bs[13]& 0xFF;
+//        long bit4 = bs[14]& 0xFF;
+//        long time = (bit1 << 24) | (bit2 << 16) | (bit3 << 8) | bit4;
+        long time = UtilByte.byte4ToLong(bs, 11);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strTime = simpleDateFormat.format(new Date(time));
+        String strTime = simpleDateFormat.format(new Date(time * 1000));
         System.out.println(strTime);
         return strTime;
     }

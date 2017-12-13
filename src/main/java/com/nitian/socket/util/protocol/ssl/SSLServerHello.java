@@ -5,6 +5,7 @@ import com.nitian.util.java.ByteList;
 import com.nitian.util.java.UtilByte;
 
 import java.security.cert.Certificate;
+import java.util.Date;
 
 /**
  * ssl server hello
@@ -16,24 +17,33 @@ public class SSLServerHello {
     private byte[] sessionId;
 //    private
 
-    //构造serverHello
-    public byte[] createServerHello() {
+    public static ByteList createHandshake(){
         ByteList byteList = new ByteList();
         byteList.add((byte) 22);//content type handshake(22)
         byteList.add((byte) 3);//version tls(0x0303)
         byteList.add((byte) 3);
         byteList.add((byte) 0);//length
         byteList.add((byte) 0);
-        byteList.add((byte) 2);//server hello
+        return byteList;
+    }
+    //构造serverHello
+    public byte[] createServerHello(ByteList byteList) {
+        int index = byteList.size();
+        //server hello
+        byteList.add((byte) 2);
 
-        byteList.add((byte) 0);//server hello length
+        //server hello length
         byteList.add((byte) 0);
         byteList.add((byte) 0);
+        byteList.add((byte) 0);
 
-        byteList.add((byte) 3);//version tls(0x0303)
+        //version tls(0x0303)
+        byteList.add((byte) 3);
         byteList.add((byte) 3);
 
-        byteList.add(new byte[4]);//random time
+        //random time
+        long lTime = new Date().getTime();
+        byteList.add(new byte[4]);
         byteList.add(new byte[28]);//random byte
 
         byteList.add((byte) 0);//session id length
@@ -170,4 +180,44 @@ public class SSLServerHello {
 
         return byteList.getByte();
     }
+
+    public byte[] createChangeCipherSpec() {
+        ByteList byteList = new ByteList();
+
+        //content type handshake(20)
+        byteList.add((byte) 20);
+
+        //version tls(0x0303)
+        byteList.add((byte) 3);
+        byteList.add((byte) 3);
+
+        //length
+        byteList.add((byte) 0);
+        byteList.add((byte) 1);
+
+        byteList.add((byte) 1);
+
+        return byteList.getByte();
+    }
+
+    public byte[] createHelloRequest(){
+        ByteList byteList = new ByteList();
+
+        //content type handshake(22)
+        byteList.add((byte) 22);
+
+        //version tls(0x0303)
+        byteList.add((byte) 3);
+        byteList.add((byte) 3);
+
+        //length
+        byteList.add((byte) 0);
+        byteList.add((byte) 40);
+
+        byteList.add((byte) 1);
+
+        return byteList.getByte();
+
+    }
+
 }
