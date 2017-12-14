@@ -3,6 +3,7 @@ package com.nitian.socket.util.protocol.ssl;
 import com.nitian.util.encrypt.UtilRSA;
 import com.nitian.util.java.ByteList;
 import com.nitian.util.java.UtilByte;
+import com.nitian.util.random.UtilRandom;
 
 import java.security.cert.Certificate;
 import java.util.Date;
@@ -17,7 +18,7 @@ public class SSLServerHello {
     private byte[] sessionId;
 //    private
 
-    public static ByteList createHandshake(){
+    public static ByteList createHandshake() {
         ByteList byteList = new ByteList();
         byteList.add((byte) 22);//content type handshake(22)
         byteList.add((byte) 3);//version tls(0x0303)
@@ -26,50 +27,76 @@ public class SSLServerHello {
         byteList.add((byte) 0);
         return byteList;
     }
+
     //构造serverHello
     public byte[] createServerHello(ByteList byteList) {
         int index = byteList.size();
+        System.out.println("serverHello.index = " + index);
         //server hello
         byteList.add((byte) 2);
 
         //server hello length
         byteList.add((byte) 0);
         byteList.add((byte) 0);
-        byteList.add((byte) 0);
+        byteList.add((byte) 0x4d);
 
         //version tls(0x0303)
         byteList.add((byte) 3);
         byteList.add((byte) 3);
 
         //random time
-        long lTime = new Date().getTime();
-        byteList.add(new byte[4]);
-        byteList.add(new byte[28]);//random byte
+        long lTime = new Date().getTime() / 1000;
+        byte[] bsTime = UtilByte.longToByte4(lTime);
+        byteList.add(bsTime);
 
-        byteList.add((byte) 0);//session id length
+        //random byte
+        byte[] random = UtilRandom.createRandomByte(28);
+        byteList.add(random);
 
-        byteList.add((byte) 0);//cipher suite
+        //session id length
+        byteList.add((byte) 32);
+
+        //session id
+        byte[] sessionId = UtilRandom.createRandomByte(32);
+        byteList.add(sessionId);
+
+        //Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xc02f)
+        byteList.add((byte) 0xc0);
+        byteList.add((byte) 0x2f);
+
+        //Compression Method: null (0)
         byteList.add((byte) 0);
 
-        byteList.add((byte) 0);//compression method
+        //Extensions Length: 5
+        byteList.add((byte) 5);
 
-        byteList.add((byte) 0);//extension length
-        byteList.add((byte) 0);
+        //Type: renegotiation_info (0xff01)
+        byteList.add((byte) 0xff);
+        byteList.add((byte) 0x01);
 
-        return null;
+        //length
+        byteList.add((byte) 0x00);
+        byteList.add((byte) 0x01);
+
+        //Renegotiation Info extension
+        byteList.add((byte) 0x00);
+
+
+        return byteList.getByte();
     }
 
     //TLSv1.2 Record Layer: Handshake Protocol: Certificate
-    public byte[] createCertificate() throws Exception {
+    public byte[] createCertificate(ByteList byteList) throws Exception {
+
+        int index = byteList.size();
+        System.out.println("certificate.index = " + index);
+
 
         UtilRSA utilRSA = new UtilRSA("/software/www.1036225283.com.jks", "890512", "www.1036225283.com", "890512");
         Certificate[] certificates = utilRSA.getCertificates();
 
 
-        ByteList byteList = new ByteList();
-
-        //1 Content Type: Handshake (22)
-        byteList.add((byte) 22);
+//        ByteList byteList = new ByteList();
 
         //2 Version: TLS 1.2 (0x0303)
         byteList.add((byte) 3);
@@ -200,7 +227,7 @@ public class SSLServerHello {
         return byteList.getByte();
     }
 
-    public byte[] createHelloRequest(){
+    public byte[] createHelloRequest() {
         ByteList byteList = new ByteList();
 
         //content type handshake(22)
