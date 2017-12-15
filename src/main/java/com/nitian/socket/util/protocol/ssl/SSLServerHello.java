@@ -96,17 +96,6 @@ public class SSLServerHello {
         Certificate[] certificates = utilRSA.getCertificates();
 
 
-//        ByteList byteList = new ByteList();
-
-        //2 Version: TLS 1.2 (0x0303)
-        byteList.add((byte) 3);
-        byteList.add((byte) 3);
-
-        //2 length
-        byteList.add((byte) 0);
-        byteList.add((byte) 0);
-
-        //Handshake Protocol: Certificate
         //1 Handshake Type: Certificate (11)
         byteList.add((byte) 11);
 
@@ -134,9 +123,9 @@ public class SSLServerHello {
         }
 
         byte[] bsTotal = UtilByte.intToBytes3(certificatesLength);
-        byteList.set(12, bsTotal);
+        byteList.set(index + 12, bsTotal);
         byte[] bsHandshake = UtilByte.intToBytes3(certificatesLength + 3);
-        byteList.set(9, bsHandshake);
+        byteList.set(index + 9, bsHandshake);
         byteList.add(cateList.getByte());
         return byteList.getByte();
     }
