@@ -1,5 +1,6 @@
 package com.nitian.socket.util.protocol.ssl;
 
+import com.nitian.util.encrypt.UtilDH;
 import com.nitian.util.encrypt.UtilRSA;
 import com.nitian.util.java.ByteList;
 import com.nitian.util.java.UtilByte;
@@ -62,7 +63,7 @@ public class SSLServerHello {
 
         //Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xc02f)
         byteList.add((byte) 0xc0);
-        byteList.add((byte) 0x2f);
+        byteList.add((byte) 0x39);
 
         //Compression Method: null (0)
         byteList.add((byte) 0);
@@ -130,18 +131,8 @@ public class SSLServerHello {
         return byteList.getByte();
     }
 
-    public byte[] createServerKeyExchange() {
+    public byte[] createDHE_RSAServerKeyExchange() {
         ByteList byteList = new ByteList();
-        //Content Type: Handshake (22)
-        byteList.add((byte) 22);
-
-        //Version: TLS 1.2 (0x0303)
-        byteList.add((byte) 3);
-        byteList.add((byte) 3);
-
-        //length
-        byteList.add((byte) 0);
-        byteList.add((byte) 0);
 
         //Handshake Type: Server Key Exchange (12)
         byteList.add((byte) 12);
@@ -150,6 +141,9 @@ public class SSLServerHello {
         byteList.add((byte) 0);
         byteList.add((byte) 0);
         byteList.add((byte) 0);
+
+        //create dh params
+        UtilDH.createServerPublicKey();
 
         byteList.add((byte) 3);//version tls(0x0303)
         byteList.add((byte) 3);
