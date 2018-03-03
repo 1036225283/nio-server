@@ -1,8 +1,8 @@
 package com.nitian.socket.util.protocol.ssl;
 
+import com._1036225283.util.self.java.ByteList;
+import com._1036225283.util.self.java.UtilByte;
 import com.nitian.util.encrypt.UtilBase64;
-import com.nitian.util.java.ByteList;
-import com.nitian.util.java.UtilByte;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyAgreement;
@@ -11,7 +11,6 @@ import javax.crypto.interfaces.DHPublicKey;
 import javax.crypto.spec.DHParameterSpec;
 import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -23,7 +22,10 @@ public class Test2 {
 
     public static void main(String[] args) throws Exception {
 //        test0();//测试 int to byte
+
         test2();//测试 java DH
+
+
 
     }
 

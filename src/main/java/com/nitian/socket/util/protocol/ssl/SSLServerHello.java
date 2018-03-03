@@ -1,10 +1,10 @@
 package com.nitian.socket.util.protocol.ssl;
 
-import com.nitian.util.encrypt.UtilDH;
-import com.nitian.util.encrypt.UtilRSA;
-import com.nitian.util.java.ByteList;
-import com.nitian.util.java.UtilByte;
-import com.nitian.util.random.UtilRandom;
+import com._1036225283.util.self.encrypt.UtilDH;
+import com._1036225283.util.self.encrypt.UtilRSA;
+import com._1036225283.util.self.java.ByteList;
+import com._1036225283.util.self.java.UtilByte;
+import com._1036225283.util.self.random.UtilRandom;
 
 import java.security.cert.Certificate;
 import java.util.Date;

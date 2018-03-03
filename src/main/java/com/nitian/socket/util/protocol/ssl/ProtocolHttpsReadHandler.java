@@ -6,7 +6,6 @@ import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.UtilSession;
 import com.nitian.socket.util.key.UtilSelectionKey;
 import com.nitian.socket.util.protocol.read.ProtocolReadHandler;
-import com.nitian.util.java.ByteList;
 import com.nitian.util.log.LogManager;
 
 import java.nio.ByteBuffer;
