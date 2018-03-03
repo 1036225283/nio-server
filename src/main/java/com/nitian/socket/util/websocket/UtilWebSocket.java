@@ -1,8 +1,9 @@
 package com.nitian.socket.util.websocket;
 
-import com.nitian.util.encrypt.UtilBase64;
-import com.nitian.util.encrypt.UtilMd5;
-import com.nitian.util.java.UtilByte;
+
+import com._1036225283.util.self.encrypt.UtilBase64;
+import com._1036225283.util.self.encrypt.UtilMd5;
+import com._1036225283.util.self.java.UtilByte;
 
 public class UtilWebSocket {
 

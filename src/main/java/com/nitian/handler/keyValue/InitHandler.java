@@ -2,7 +2,6 @@ package com.nitian.handler.keyValue;
 
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
-import com.nitian.util.keyvalue.KeyValue;
 
 import java.util.Map;
 

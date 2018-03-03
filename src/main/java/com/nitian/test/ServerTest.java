@@ -1,5 +1,7 @@
 package com.nitian.test;
 
+import com._1036225283.util.self.log.LogManager;
+import com._1036225283.util.self.log.LogType;
 import com.nitian.handler.ExitHandler;
 import com.nitian.handler.LoginHandler;
 import com.nitian.handler.TestHandler;
@@ -20,8 +22,6 @@ import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketUpgradeWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolWebSocketWriteHandler;
 import com.nitian.socket.util.protocol.write.ProtocolXwsWriteHandler;
-import com.nitian.util.log.LogManager;
-import com.nitian.util.log.LogType;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,10 +1,10 @@
 package com.nitian.handler.graph;
 
+import com._1036225283.util.self.column.graph.Edge;
+import com._1036225283.util.self.column.graph.Graph;
+import com._1036225283.util.self.sql.DBHelper;
+import com._1036225283.util.self.sql.UtilSql;
 import com.alibaba.fastjson.JSON;
-import com.nitian.util.column.graph.Edge;
-import com.nitian.util.column.graph.Graph;
-import com.nitian.util.sql.DBHelper;
-import com.nitian.util.sql.UtilSql;
 
 import java.util.List;
 import java.util.Map;

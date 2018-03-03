@@ -1,8 +1,8 @@
 package com.nitian.socket.util.protocol.ssl;
 
+import com._1036225283.util.self.encrypt.UtilBase64;
 import com._1036225283.util.self.java.ByteList;
 import com._1036225283.util.self.java.UtilByte;
-import com.nitian.util.encrypt.UtilBase64;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyAgreement;

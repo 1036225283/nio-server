@@ -1,7 +1,8 @@
 package com.nitian.socket.util.protocol.ssl;
 
-import com.nitian.util.java.UtilByte;
-import com.nitian.util.time.UtilTime;
+
+import com._1036225283.util.self.java.UtilByte;
+import com._1036225283.util.self.time.UtilTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

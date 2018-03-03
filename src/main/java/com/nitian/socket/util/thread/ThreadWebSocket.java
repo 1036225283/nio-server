@@ -1,11 +1,11 @@
 package com.nitian.socket.util.thread;
 
+import com._1036225283.util.self.log.LogManager;
+import com._1036225283.util.self.log.LogType;
 import com.nitian.socket.EngineHandle;
 import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.parse.UtilParseWebSocketData;
-import com.nitian.util.log.LogManager;
-import com.nitian.util.log.LogType;
 
 import java.io.IOException;
 import java.net.Socket;

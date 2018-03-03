@@ -1,11 +1,11 @@
 package com.nitian.socket.util.parse;
 
+import com._1036225283.util.self.java.UtilByte;
+import com._1036225283.util.self.log.LogManager;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import com.nitian.socket.util.websocket.UtilWebSocket;
-import com.nitian.util.java.UtilByte;
-import com.nitian.util.log.LogManager;
 
 /**
  * 接口定义

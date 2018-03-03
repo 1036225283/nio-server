@@ -1,8 +1,9 @@
 package com.nitian.test;
 
-import com.nitian.util.column.graph.Graph;
-import com.nitian.util.sql.DBHelper;
-import com.nitian.util.sql.UtilSql;
+
+import com._1036225283.util.self.column.graph.Graph;
+import com._1036225283.util.self.sql.DBHelper;
+import com._1036225283.util.self.sql.UtilSql;
 
 import java.util.List;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package com.nitian.socket.util.protocol.write;
 
+import com._1036225283.util.self.log.LogManager;
 import com.nitian.socket.core.CoreType;
-import com.nitian.util.log.LogManager;
 
 import java.util.Date;
 import java.util.Map;

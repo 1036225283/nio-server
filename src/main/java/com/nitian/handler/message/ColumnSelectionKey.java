@@ -1,6 +1,7 @@
 package com.nitian.handler.message;
 
-import com.nitian.util.column.array.Column;
+
+import com._1036225283.util.self.column.array.Column;
 
 import java.nio.channels.SelectionKey;
 

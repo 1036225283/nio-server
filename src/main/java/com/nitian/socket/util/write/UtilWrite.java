@@ -1,7 +1,7 @@
 package com.nitian.socket.util.write;
 
 import com.nitian.socket.EngineSocketNIO;
-import com.nitian.util.log.LogManager;
+import com._1036225283.util.self.log.LogManager;
 
 import java.util.Map;
 

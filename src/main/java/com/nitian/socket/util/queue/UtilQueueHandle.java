@@ -1,9 +1,9 @@
 package com.nitian.socket.util.queue;
 
+import com._1036225283.util.self.log.LogType;
 import com.nitian.socket.EngineHandle;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.core.Handler;
-import com.nitian.util.log.LogType;
 
 import java.util.Map;
 

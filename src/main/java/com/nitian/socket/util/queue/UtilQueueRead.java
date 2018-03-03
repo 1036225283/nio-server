@@ -1,11 +1,11 @@
 package com.nitian.socket.util.queue;
 
+import com._1036225283.util.self.log.LogManager;
+import com._1036225283.util.self.log.LogType;
 import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.util.key.UtilSelectionKey;
 import com.nitian.socket.util.protocol.ProtocolDispatcher;
 import com.nitian.socket.util.protocol.read.ProtocolReadHandler;
-import com.nitian.util.log.LogManager;
-import com.nitian.util.log.LogType;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;

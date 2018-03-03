@@ -1,6 +1,7 @@
 package com.nitian.socket.udp;
 
-import com.nitian.util.random.UtilRandom;
+
+import com._1036225283.util.self.random.UtilRandom;
 
 public class Test {
 

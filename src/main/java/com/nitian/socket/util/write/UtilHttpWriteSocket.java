@@ -3,7 +3,7 @@ package com.nitian.socket.util.write;
 import com.nitian.socket.EngineSocketNIO;
 import com.nitian.socket.core.CoreType;
 import com.nitian.socket.util.protocol.write.ProtocolHttpWriteHandler;
-import com.nitian.util.log.LogManager;
+import com._1036225283.util.self.log.LogManager;
 
 import java.io.IOException;
 import java.net.Socket;

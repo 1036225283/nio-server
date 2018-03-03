@@ -3,8 +3,8 @@ package com.nitian.socket.util.pool;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.nitian.util.log.LogManager;
-import com.nitian.util.log.LogType;
+import com._1036225283.util.self.log.LogManager;
+import com._1036225283.util.self.log.LogType;
 
 public abstract class UtilPool<T> {
 
